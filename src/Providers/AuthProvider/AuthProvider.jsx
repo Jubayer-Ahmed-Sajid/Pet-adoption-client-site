@@ -4,7 +4,7 @@ import auth from "../../Firebase.config";
 
 export const AuthContext = createContext()
 
-const AuthProvider = () => {
+const AuthProvider = ({children}) => {
     const [user, setUser] = useState(null)
     const [loading, setLoading] = useState(true)
     const googleProvider = new GoogleAuthProvider()
@@ -42,7 +42,7 @@ const AuthProvider = () => {
 
     return (
         <AuthContext.Provider value={authIfo}>
-            {Children}
+            {children}
         </AuthContext.Provider>
     );
 };

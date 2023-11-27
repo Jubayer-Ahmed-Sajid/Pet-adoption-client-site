@@ -15,7 +15,7 @@ const NavBar = () => {
             <NavLink to='/donationCampaign'>Donation Campaign</NavLink>
         </li>
         <li >
-            <NavLink to='/login'>Login</NavLink>
+            <NavLink to='/signUp'>SignUp</NavLink>
         </li>
     </>
     const handleChange =()=>{
@@ -23,7 +23,7 @@ const NavBar = () => {
     console.log(menu)
     }
     return (
-        <div className="w-full fixed z-10">
+        <div className="w-full  bg-black z-10">
             <div className="flex justify-between bg-slate-500 px-4 h-16 py-4 w-full">
                 <h2 className="text-red-500 flex justify-end lg:block w-full lg:w-1/2">Pet Adoption</h2>
                 <ul className="hidden lg:flex justify-between w-1/2 text-white font-semibold">
