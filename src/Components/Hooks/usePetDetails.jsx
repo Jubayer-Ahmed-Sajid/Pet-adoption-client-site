@@ -10,7 +10,7 @@ const usePetDetails = (id) => {
             return res.data
         }
     })
-    console.log(PetDetails)
+
     return { PetDetails }
 };
 
