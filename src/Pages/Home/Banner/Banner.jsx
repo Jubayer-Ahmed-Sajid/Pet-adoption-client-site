@@ -22,16 +22,16 @@ const Banner = () => {
       >
         <SwiperSlide className="relative">
             <h2 className="absolute left-24 text-4xl  text-white top-32 ">Hello world</h2>
-            <img className="w-full h-[80vh] object-cover" src="https://i.ibb.co/ck161bM/download-18.jpg" alt="" />
+            <img className="w-full h-[80vh] object-cover" src="https://i.ibb.co/10pq6F2/images-1.jpg" alt="" />
         </SwiperSlide>
         <SwiperSlide>
-            <img className="w-full h-[80vh] object-cover" src="https://i.ibb.co/ck161bM/download-18.jpg" alt="" />
+            <img className="w-full h-[80vh] object-cover" src="https://i.ibb.co/10pq6F2/images-1.jpg" alt="" />
         </SwiperSlide>
         <SwiperSlide>
-            <img className="w-full h-[80vh] object-cover" src="https://i.ibb.co/ck161bM/download-18.jpg" alt="" />
+            <img className="w-full h-[80vh] object-cover" src="https://i.ibb.co/10pq6F2/images-1.jpg" alt="" />
         </SwiperSlide>
         <SwiperSlide>
-            <img className="w-full h-[80vh] object-cover" src="https://i.ibb.co/ck161bM/download-18.jpg" alt="" />
+            <img className="w-full h-[80vh] object-cover" src="https://i.ibb.co/10pq6F2/images-1.jpg" alt="" />
         </SwiperSlide>
         
       </Swiper>

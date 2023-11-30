@@ -6,7 +6,7 @@ const PrivateRoutes = ({children}) => {
     const location = useLocation()
     const {user,loading} = useAuth()
     if(loading){
-        return <Spinner className="h-16 w-16 text-gray-900/50" />;
+        return <div className='h-screen flex items-center justify-center'><Spinner className="h-16 w-16 text-gray-900/50" />;</div>
     }
     if(user && !loading){
         return children

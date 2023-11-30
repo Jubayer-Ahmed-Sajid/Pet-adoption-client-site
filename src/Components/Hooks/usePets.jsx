@@ -1,13 +1,14 @@
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import useAxiosPublic from './useAxiosPublic';
+import useAxiosSecure from './useAxiosSecure';
 
 const usePets = () => {
-    const axiosPublic = useAxiosPublic()
+    const axiosSecure = useAxiosSecure()
     const {data: pets=[],refetch,fetchNextPage,hasNextPage} = useQuery(
         {
             queryKey:['all-pets'],
             queryFn: async()=>{
-               const res =await axiosPublic.get('/pets')
+               const res =await axiosSecure.get('/pets')
                return res.data
             }
             // getNextPageParam:(lastPage)=>{

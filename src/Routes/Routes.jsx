@@ -7,7 +7,7 @@ import SignIn from "../Pages/Auth/SignIn";
 import DonationCampaign from "../Pages/Donation/DonationCampaign";
 import PetDetails from "../Components/PetDetails/PetDetails";
 import DashBoard from "../Layout/Dashboard";
-import PrivateRoutes from "./PrivateRoutes";
+import PrivateRoutes from "./PrivateROutes";
 
 const router = createBrowserRouter([
  {
