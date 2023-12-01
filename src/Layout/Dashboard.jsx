@@ -3,7 +3,7 @@ import { NavLink, Outlet } from "react-router-dom";
 
 const DashBoard = () => {
 
-    const isAdmin = true;
+    const isAdmin = false;
 
 
     return (
@@ -46,7 +46,7 @@ const DashBoard = () => {
                             </li>
                             <li>
                                 <NavLink to="/dashboard/addedpets">
-                                    <FaShoppingCart></FaShoppingCart> My Added Pets({cart.length})
+                                    <FaShoppingCart></FaShoppingCart> My Added Pets
                                 </NavLink>
                             </li>
                             <li>

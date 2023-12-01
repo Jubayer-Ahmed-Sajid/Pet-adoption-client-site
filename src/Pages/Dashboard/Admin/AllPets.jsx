@@ -4,6 +4,7 @@ import BasicTable from '../../../Components/BasicTable';
 import usePets from '../../../Components/Hooks/usePets';
 import { FaEdit, FaTrashAlt, FaUsers } from 'react-icons/fa';
 import Swal from 'sweetalert2';
+import { Link } from 'react-router-dom';
 
 const AllPets = () => {
     const [pets, refetch] = usePets()
@@ -112,10 +113,11 @@ const AllPets = () => {
             accessorKey: 'Admin',
             cell: ({ row }) => (
 
-
-                <button onClick={() => handleEdit(row.original)}>
+                <Link to={`/dashboard/allpets/${row.original._id}`}>
+                <button>
                     <FaEdit></FaEdit>
                 </button>
+                </Link>
 
             ),
         },
