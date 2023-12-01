@@ -3,7 +3,7 @@ import { NavLink, Outlet } from "react-router-dom";
 
 const DashBoard = () => {
 
-    const isAdmin = data;
+    const isAdmin = true;
 
 
     return (
@@ -14,7 +14,7 @@ const DashBoard = () => {
                         isAdmin ? <>
                             <li>
                                 <NavLink to='/dashboard'>
-                                    <FaHome></FaHome> Admin Home
+                                  <span  className="flex items-center gap-2"> <h2> <FaHome></FaHome></h2> <p>Admin Home</p> </span>
                                 </NavLink>
                             </li>
                             <li>
