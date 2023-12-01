@@ -64,7 +64,7 @@ const AddDonationCampaign = () => {
                 start_date: addedDate
 
             }
-            const campaignRes = await axiosPublic.post('/pets', campaignInfo)
+            const campaignRes = await axiosPublic.post('/donations', campaignInfo)
             if (campaignRes.data.insertedId) {
                 Swal.fire({
                     position: "top-end",

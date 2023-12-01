@@ -13,6 +13,7 @@ import AllPets from "../Pages/Dashboard/Admin/AllPets";
 import PetUpdate from "../Components/PetUpdate/PetUpdate";
 import AddPet from "../Pages/Dashboard/User/AddPet";
 import AddDonationCampaign from "../Pages/Dashboard/User/AddDonationCampaign";
+import AddedPets from "../Pages/Dashboard/User/AddedPets";
 
 const router = createBrowserRouter([
  {
@@ -71,6 +72,10 @@ const router = createBrowserRouter([
         {
             path:'createdonation',
             element:<AddDonationCampaign></AddDonationCampaign>
+        },
+        {
+            path:'addedpets',
+            element:<AddedPets></AddedPets>
         }
     ]
  }
