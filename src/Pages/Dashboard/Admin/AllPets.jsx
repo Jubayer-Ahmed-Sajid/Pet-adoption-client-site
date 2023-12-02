@@ -109,8 +109,8 @@ const AllPets = () => {
 
 
         {
-            header: 'Make Admin',
-            accessorKey: 'Admin',
+            header: 'Update Pet',
+            accessorKey: 'update',
             cell: ({ row }) => (
 
                 <Link to={`/dashboard/allpets/${row.original._id}`}>
@@ -134,7 +134,7 @@ const AllPets = () => {
             ),
         },
         {
-            header: 'Delete User',
+            header: 'Delete Pet',
             accessorKey: 'Delete',
             cell: ({ row }) => (
 
