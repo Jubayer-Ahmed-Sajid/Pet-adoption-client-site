@@ -6,55 +6,56 @@ import { Textarea } from "@material-tailwind/react";
 import Swal from 'sweetalert2';
 import axios from 'axios';
 import { useLoaderData, useParams } from 'react-router-dom';
-import useAxiosPublic from '../Hooks/useAxiosPublic';
-import useAuth from '../Hooks/useAuth';
+import useAxiosPublic from '../../Hooks/useAxiosPublic';
+import useAuth from '../../Hooks/useAuth';
 
 
 const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`
 
-const options = [
-    { value: 'cat', label: 'Cat' },
-    { value: 'dog', label: 'Dog' },
-    { value: 'fish', label: 'Fish' },
-    { value: 'bird', label: 'Bird' },
-    { value: 'fox', label: 'Fox' }
-]
-const optionsAdopted = [
-    { value: false, label: 'False' },
-    { value: true, label: 'True' }
+// {
+//     "_id": "6569f7857602cc9339356301",
+//     "max_donation_amount": 232,
+//     "last_date": "Thu Dec 07 2023",
+//     "image": "https://i.ibb.co/QQ0PBv2/download.webp",
+//     "short_description": "To be added",
+//     "long_description": "Needs to be added",
+//     "email": "sajid661accds@gmail.com",
+//     "start_date": "Fri Dec 01 2023"
+//   }
+const statusOptions = [
+    { value: 'continue', label: 'Continue' },
+    { value: 'paused', label: 'Paused' },
 ]
 
-
-const PetUpdate = () => {
-    const donationCampaign = useLoaderData()
-    const { id } = useParams()
-    console.log(donationCampaign.adopted, donationCampaign)
+const DonationCampaignUpdate = () => {
+    const campaign = useLoaderData()
+    const {id} = useParams()
     const axiosPublic = useAxiosPublic()
     const { user } = useAuth()
     const formik = useFormik({
 
         initialValues: {
-            name: donationCampaign.name,
-            age: donationCampaign.age,
-            pet_location: donationCampaign.pet_location,
-            image: '',
-            short_description: donationCampaign.short_description,
-            long_description: donationCampaign.long_description,
-            category: donationCampaign.category,
-            adopted: donationCampaign.adopted
+            max_donation_amount: campaign.max_donation_amount,
+            last_date: campaign.last_date,
+            image: campaign.pet_image_url,
+            short_description: campaign.short_description,
+            long_description: campaign.long_description,
         },
         validationSchema: Yup.object({
-            name: Yup.string()
+            max_donation_amount: Yup.string()
                 .required('Required'),
-            age: Yup.number()
+            last_date: Yup.date()
                 .required('Required'),
-            pet_location: Yup.string()
+            short_description: Yup.string()
+                .required('No pet_location provided.'),
+            long_description: Yup.string()
                 .required('No pet_location provided.')
 
         }),
 
         onSubmit: async values => {
+            console.log(values)
             const image = values.image
             const formData = new FormData();
             formData.append('image', image)
@@ -62,21 +63,18 @@ const PetUpdate = () => {
                 headers: { 'Content-Type': 'multipart/form-data' }
             })
             const img_url = res.data.data.display_url
-            const UpdatedPetsInfo = {
-                name: values.name,
-                age: values.age,
-                pet_location: values.pet_location,
+            console.log(img_url)
+            const UpdatedCampaignInfo = {
+                max_donation_amount: values.max_donation,
+                last_date: new Date(values.last_date).toDateString(),
                 image: img_url,
                 short_description: values.short_description,
                 long_description: values.long_description,
-                category: values.category,
-                adopted: values.adopted,
                 email: user?.email,
                 AddedDate: new Date().toDateString()
 
             }
-            const petRes = await axiosPublic.patch(`/donations/${id}`, UpdatedPetsInfo)
-            console.log(petRes)
+            const petRes = await axiosPublic.patch(`/donations/${id}`, UpdatedCampaignInfo)
             if (petRes.data.modifiedCount) {
                 Swal.fire({
                     position: "top-end",
@@ -99,65 +97,57 @@ const PetUpdate = () => {
 
 
                     <div className='mx-auto w-full space-y-2'>
-                        <label htmlFor="pet_name" className='text-white font-semibold text-md'>Pet Name</label>
+                        <label htmlFor="max_donation_amount" className='text-white font-semibold text-md'>Maximum Donation Amount</label>
                         <br />
                         <input
-                            id="pet_name"
-                            name="pet_name"
-                            type="text"
+                            id="max_donation_amount"
+                            name="max_donation_amount"
+                            type="number"
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
-                            defaultValue={formik.values.name}
+                            defaultValue={formik.values.max_donation_amount}
 
                             className="text-green-400 w-full rounded-[7px] border border-blue-gray-200  bg-transparent px-3 py-2.5 text-sm  text-blue-gray-700 outline outline-0 transition-all  focus:border-pink-base-300  focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
                         />
                         <br />
-                        {formik.touched.name && formik.errors.name ? (
-                            <p className='text-red-400 text-md'>{formik.errors.name}</p>
+                        {formik.touched.max_donation_amount && formik.errors.max_donation_amount ? (
+                            <p className='text-red-400 text-md'>{formik.errors.max_donation_amount}</p>
                         ) : null}
                     </div>
 
 
                     <div className=' mx-auto w-full space-y-2'>
-                        <label htmlFor="age" className='text-white font-semibold text-md'>Age </label>
+                        <label htmlFor="last_date" className='text-white font-semibold text-md'>Last Date </label>
                         <br />
 
                         <input
-                            id="age"
-                            name="age"
-                            type="number"
+                            id="last_date"
+                            name="last_date"
+                            type="date"
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
-                            defaultValue={formik.values.age}
+                            defaultValue={formik.values.last_date}
                             className="text-green-400 w-full rounded-[7px] border border-blue-gray-200  bg-transparent px-3 py-2.5 text-sm  text-blue-gray-700 outline outline-0 transition-all  focus:border-pink-base-300  focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
                         />
-                        {formik.touched.age && formik.errors.age ? (
-                            <p className='text-red-400 text-md'>{formik.errors.age}</p>
+                        {formik.touched.last_date && formik.errors.last_date ? (
+                            <p className='text-red-400 text-md'>{formik.errors.last_date}</p>
                         ) : null}
                     </div>
                 </div>
-                <label htmlFor="category" className='text-white font-semibold text-md'>Categories</label>
-                <Select
-                    id="category"
-                    name="category"
-                    options={options}
-                    defaultValue={donationCampaign.category}
-                    onChange={(event) => {
-                        const category = event.defaultValue
-                        formik.setFieldValue('category', category)
-                    }
-                    }
-                    onBlur={formik.handleBlur} />
-                <label htmlFor="adopted" className=' text-white font-semibold text-md'>Adoption Status</label>
-                <Select id='adopted'
-                    name='adopted'
-                    defaultValue={donationCampaign.adopted ? 'True' : 'False'}
-                    options={optionsAdopted}
-                    onChange={(event) => {
-                        const adopted = event.value
-                        formik.setFieldValue('adopted', adopted)
-                    }}
-                    onBlur={formik.handleBlur} />
+                <div>
+                    <label htmlFor="status">Status</label>
+                    <Select options={statusOptions}
+                            id="status"
+                            name="status"
+                            defaultValue={campaign.status}
+                            onChange={(event) => {
+                                const status = event.defaultValue
+                                formik.setFieldValue('status', status)
+                            }
+                            }
+                            onBlur={formik.handleBlur} ></Select>
+                </div>
+
 
                 <div className="w-full mx-auto space-y-2">
                     <label className='text-white font-semibold text-md'>Image</label>
@@ -175,26 +165,10 @@ const PetUpdate = () => {
                     />
                 </div>
 
-                <div className='w-full lg:flex gap-4'>
-                    <div className="space-y-2 mx-auto w-2/4">
-                        <label htmlFor="locations" className='text-white font-semibold text-md'>Location</label>
-                        <br />
-                        <input
-                            id="pet_location"
-                            name="pet_location"
-                            type="text"
-                            onChange={formik.handleChange}
-                            onBlur={formik.handleBlur}
-                            defaultValue={formik.values.pet_location}
-                            className="text-green-400 w-full rounded-[7px] border border-blue-gray-200  bg-transparent px-3 py-2.5 text-sm  text-blue-gray-700 outline outline-0 transition-all  focus:border-pink-base-300  focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
-                            
-                        />
-                        {formik.touched.pet_location && formik.errors.pet_location ? (
-                            <p className='text-red-400 text-md'>{formik.errors.pet_location}</p>
-                        ) : null}
-                    </div>
+                <div className='w-full gap-4'>
+                   
 
-                    <div className="space-y-2 mx-auto w-2/4">
+                    <div className="space-y-2 mx-auto ">
                         <label htmlFor="short_description" className='text-white font-semibold text-md'>Short Description</label>
                         <br />
                         <input
@@ -228,11 +202,11 @@ const PetUpdate = () => {
                 <br />
                 <div className='w-1/2 mx-auto'>
 
-                    <button className='w-3/4 btn py-3 rounded-lg  px-3 bg-yellow-600 text-white' type="submit">Update Pet</button>
+                    <button className='w-3/4 btn py-3 rounded-lg  px-3 bg-yellow-600 text-white' type="submit">Update Campaign</button>
                 </div>
 
-            </form>
-        </div>
+            </form >
+        </div >
     );
 };
-export default PetUpdate
+export default DonationCampaignUpdate

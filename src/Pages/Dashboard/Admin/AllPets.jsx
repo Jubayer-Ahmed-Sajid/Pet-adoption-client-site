@@ -9,31 +9,7 @@ import { Link } from 'react-router-dom';
 const AllPets = () => {
     const [pets, refetch] = usePets()
     const axiosSecure = useAxiosSecure()
-    const handleEdit = (pet) => {
-
-        Swal.fire({
-            title: "Are you sure?",
-            text: "You won't be able to revert this!",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Yes, Make Admin!"
-        }).then((result) => {
-            if (result.isConfirmed) {
-                axiosSecure.patch(`/pets/admin/${user._id}`)
-                    .then((res) => {
-                        if (res.data.modifiedCount) {
-                            Swal.fire({
-                                title: `${pet.name} is Admin now`,
-                                icon: "success"
-                            });
-                            refetch()
-                        }
-                    })
-            }
-        });
-    }
+   
     const handleDelete = (pet) => {
 
         Swal.fire({

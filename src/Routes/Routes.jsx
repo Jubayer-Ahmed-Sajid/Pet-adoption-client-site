@@ -10,12 +10,13 @@ import DashBoard from "../Layout/Dashboard";
 import PrivateRoutes from "./PrivateROutes";
 import Users from "../Pages/Dashboard/Admin/Users";
 import AllPets from "../Pages/Dashboard/Admin/AllPets";
-import PetUpdate from "../Components/PetUpdate/PetUpdate";
 import AddPet from "../Pages/Dashboard/User/AddPet";
 import AddDonationCampaign from "../Pages/Dashboard/User/AddDonationCampaign";
 import AddedPets from "../Pages/Dashboard/User/AddedPets";
 import AddedDonations from "../Pages/Dashboard/User/AddedDonations";
 import AllDonations from "../Pages/Dashboard/Admin/AllDonations";
+import PetUpdate from "../Components/PetUpdate/PetUpdate";
+import DonationCampaignUpdate from "../Components/PetUpdate/DonationCampaignUpdate/DonationCampaignUpdate";
 
 const router = createBrowserRouter([
  {
@@ -68,6 +69,12 @@ const router = createBrowserRouter([
             element:<AllDonations></AllDonations>
 
         },
+        {
+            path:'alldonations/:id',
+            element:<DonationCampaignUpdate></DonationCampaignUpdate>,
+            loader:({params})=> fetch(`http://localhost:5000/donations/${params.id}`)
+        }
+        ,
         {
             path:'allpets/:id',
             element:<PetUpdate></PetUpdate>,
