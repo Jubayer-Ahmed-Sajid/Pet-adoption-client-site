@@ -2,19 +2,23 @@ import React from 'react';
 import useAuth from './useAuth';
 import useAxiosPublic from './useAxiosPublic';
 import { useQuery } from '@tanstack/react-query';
+import { space } from 'postcss/lib/list';
 
 const useAddedPets = () => {
-   const {user} = useAuth()
+   const {user,isLoading} = useAuth()
+   if(isLoading){
+      return <span>Loading...</span>
+   }
+   console.log(user)
    const axiosPublic = useAxiosPublic()
-   const {data,refetch} =useQuery({
+   const {data: addedPets=[],refetch} =useQuery({
       queryKey:['added-pets'],
       queryFn:async()=>{
-         const addedPets = await axiosPublic.get(`{/addedpets?email=${user?.email}}`)
-         console.log(addedPets.data)
+         const addedPets = await axiosPublic.get(`/addedpets?email=${user?.email}`);
          return addedPets.data
       }
    })
-   return [data,refetch]
+   return [addedPets,refetch]
 
 };
 
