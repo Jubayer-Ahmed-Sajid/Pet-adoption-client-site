@@ -45,6 +45,7 @@ const PetDetails = () => {
                 requester_name: name,
                 requester_email: email,
                 email: PetDetails.email,
+                pet_name:PetDetails.name,
                 phone: values.phone,
                 address: values.address,
                 image:PetDetails.image,

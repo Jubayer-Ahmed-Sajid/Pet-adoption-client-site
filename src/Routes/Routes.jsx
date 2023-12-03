@@ -17,6 +17,7 @@ import AddedDonations from "../Pages/Dashboard/User/AddedDonations";
 import AllDonations from "../Pages/Dashboard/Admin/AllDonations";
 import PetUpdate from "../Components/PetUpdate/PetUpdate";
 import DonationCampaignUpdate from "../Components/PetUpdate/DonationCampaignUpdate/DonationCampaignUpdate";
+import AdoptionRequest from "../Pages/Dashboard/User/AdoptionRequest";
 
 const router = createBrowserRouter([
  {
@@ -96,6 +97,10 @@ const router = createBrowserRouter([
         {
             path:'createddonation',
             element:<PrivateRoutes><AddedDonations></AddedDonations></PrivateRoutes>
+        },
+        {
+            path:'adoptionrequest',
+            element:<PrivateRoutes><AdoptionRequest></AdoptionRequest></PrivateRoutes>
         }
     ]
  }
