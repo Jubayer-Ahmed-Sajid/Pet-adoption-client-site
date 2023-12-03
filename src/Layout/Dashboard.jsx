@@ -1,9 +1,13 @@
 import { FaAd, FaBook, FaCalendar, FaHome, FaList, FaSearch, FaShoppingCart, FaUsers, FaUtensils } from "react-icons/fa";
 import { NavLink, Outlet } from "react-router-dom";
+import useAdmin from "../Components/Hooks/useAdmin";
 
 const DashBoard = () => {
+    const [data,refetch] = useAdmin()
+    console.log(data)
 
-    const isAdmin = false;
+    const isAdmin = data;
+    console.log(isAdmin)
 
 
     return (

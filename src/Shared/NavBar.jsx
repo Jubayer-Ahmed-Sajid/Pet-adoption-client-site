@@ -1,25 +1,32 @@
 import { Link, NavLink } from "react-router-dom";
-import {  useState } from 'react';
+import { useState } from 'react';
 import { CiMenuBurger } from 'react-icons/ci'
 import useAuth from "../Components/Hooks/useAuth";
 import Swal from "sweetalert2";
+import {
+    Menu,
+    MenuHandler,
+    MenuList,
+    MenuItem,
+    Button,
+} from "@material-tailwind/react";
 const NavBar = () => {
-    const {user,SignOutUser} = useAuth()
+    const { user, SignOutUser } = useAuth()
     console.log(user)
-    const handleSignOut=()=>{
+    const handleSignOut = () => {
         SignOutUser()
-        .then(()=>{
-            Swal.fire({
-                position: "top-end",
-                icon: "success",
-                title: "Successfully logged out",
-                showConfirmButton: false,
-                timer: 1500
-              });
-        })
-        .catch((error)=>{
-            console.log(error.message)
-        })
+            .then(() => {
+                Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: "Successfully logged out",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            })
+            .catch((error) => {
+                console.log(error.message)
+            })
 
     }
 
@@ -61,10 +68,23 @@ const NavBar = () => {
                 </div>
             </div>
             <div className="text-white gap-3 flex justify-center items-center">
-                        {
-                            user ?<> <button onClick={handleSignOut} className="bg-yellow-600 btn px-4 py-2 rounded-md">SignOut</button> <p>{user.displayName}</p>
-                            <img src={user.photoURL} className="w-12 rounded-full" alt="" /></> : <Link to='/signup' className="bg-yellow-600 btn px-4 py-2 rounded-md">Sign In</Link>
-                        }
+                {
+                    user ? <> <button onClick={handleSignOut} className="bg-yellow-600 btn px-4 py-2 rounded-md">SignOut</button> <p>{user.displayName}</p>
+                        <Menu>
+                            <MenuHandler>
+                                <Button className="shadow-none">
+                                    <img src={user.photoURL} className="w-12 h-12 rounded-[48px]" alt="" />
+                                </Button>
+                            </MenuHandler>
+                            <MenuList>
+                                <MenuItem className="mb-1 text-xl">
+                                <Link to='/dashboard'>Dashboard</Link>
+                                </MenuItem>
+                                <MenuItem className="text-xl" onClick={handleSignOut}>SignOut</MenuItem>
+                            </MenuList>
+                        </Menu>
+                    </> : <Link to='/signup' className="bg-yellow-600 btn px-4 py-2 rounded-md">Sign In</Link>
+                }
             </div>
 
         </div>

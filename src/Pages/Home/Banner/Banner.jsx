@@ -5,7 +5,7 @@ import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 const Banner = () => {
     return (
-        <div>
+        <div className="relative mt-20">
             <Swiper
         spaceBetween={30}
         centeredSlides={true}
