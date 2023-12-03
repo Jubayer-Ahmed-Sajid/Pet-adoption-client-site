@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import useDonations from "../../Components/Hooks/useDonations";
 
 const DonationCampaign = () => {
@@ -9,7 +10,7 @@ const DonationCampaign = () => {
             <div className='grid lg:grid-cols-3 gap-4'>
 
                 {
-                    donations.map(donation => <div key={donation._id} class="relative flex flex-col text-gray-700 bg-white shadow-md  rounded-xl bg-clip-border">
+                    donations.map(donation => <Link to={`/donationCampaign/${donation._id}`} key={donation._id} class="relative flex flex-col text-gray-700 bg-white shadow-md  rounded-xl bg-clip-border">
                         <div class="relative mx-4 mt-4 overflow-hidden text-gray-700 bg-white shadow-lg h-80 rounded-xl bg-clip-border">
                             <img src="https://docs.material-tailwind.com/img/team-3.jpg" alt="profile-picture" />
                         </div>
@@ -24,11 +25,11 @@ const DonationCampaign = () => {
                             </div>
                         </div>
                         <div className="flex w-full justify-center">
-                            <button className='bg-yellow-600 p-3 my-3 text-white font-semibold rounded-lg'>Donate Now</button>
+                            
 
                         </div>
 
-                    </div>)
+                    </Link>)
                 }
             </div>
 

@@ -24,12 +24,15 @@ const AddDonationCampaign = () => {
 
         initialValues: {
             max_donation_amount:'',
+            pet_name:'',
             last_date:'',
             image:'',
             short_description:'',
             long_description:''
         },
         validationSchema: Yup.object({
+            pet_name: Yup.string()
+                .required('Required'),
             max_donation_amount: Yup.string()
                 .required('Required'),
             last_date: Yup.date()
@@ -50,15 +53,16 @@ const AddDonationCampaign = () => {
                 headers: { 'Content-Type': 'multipart/form-data' }
             })
             const img_url = res.data.data.display_url
-            console.log(img_url)
             const CampaignInfo = {
                 max_donation_amount: values.max_donation_amount,
+                pet_name:values.pet_name,
                 last_date: new Date(values.last_date).toDateString(),
                 image: img_url,
                 short_description: values.short_description,
                 long_description: values.long_description,
                 email: user?.email,
-                AddedDate: new Date().toDateString()
+                AddedDate: new Date().toDateString(),
+                status:'continue'
 
             }
             const campaignRes = await axiosPublic.post('/donations', CampaignInfo)
@@ -81,6 +85,26 @@ const AddDonationCampaign = () => {
                 <h2 className='text-center text-4xl text-yellow-600 my-6'>Add Donation Campaign </h2>
 
                 <div className="w-full lg:flex gap-4">
+                <div className='w-full gap-4'>
+                   
+
+                   <div className="space-y-2 mx-auto ">
+                       <label htmlFor="pet_name" className='text-white font-semibold text-md'>Pet Name</label>
+                       <br />
+                       <input
+                           id="pet_name"
+                           name="pet_name"
+                           type="text"
+                           onChange={formik.handleChange}
+                           onBlur={formik.handleBlur}
+                           value={formik.values.pet_name}
+                           className="text-green-400 w-full rounded-[7px] border border-blue-gray-200  bg-transparent px-3 py-2.5 text-sm  text-blue-gray-700 outline outline-0 transition-all  focus:border-pink-base-300  focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
+                       />
+                       {formik.touched.pet_name && formik.errors.pet_name ? (
+                           <p className='text-red-400 text-md'>{formik.errors.pet_name}</p>
+                       ) : null}
+                   </div>
+               </div>
 
 
                     <div className='mx-auto w-full space-y-2'>

@@ -26,6 +26,7 @@ const DonationCampaignUpdate = () => {
     const formik = useFormik({
 
         initialValues: {
+            pet_name: campaign.pet_name,
             max_donation_amount: campaign.max_donation_amount,
             last_date: campaign.last_date,
             image: campaign.pet_image_url,
@@ -33,6 +34,8 @@ const DonationCampaignUpdate = () => {
             long_description: campaign.long_description,
         },
         validationSchema: Yup.object({
+            pet_name: Yup.string()
+                .required('Required'),
             max_donation_amount: Yup.string()
                 .required('Required'),
             last_date: Yup.date()
@@ -86,6 +89,24 @@ const DonationCampaignUpdate = () => {
                 <div className="w-full lg:flex gap-4">
 
 
+                    <div className='mx-auto w-full space-y-2'>
+                        <label htmlFor="pet_name" className='text-white font-semibold text-md'>Maximum Donation Amount</label>
+                        <br />
+                        <input
+                            id="pet_name"
+                            name="pet_name"
+                            type="number"
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            defaultValue={formik.values.pet_name}
+
+                            className="text-green-400 w-full rounded-[7px] border border-blue-gray-200  bg-transparent px-3 py-2.5 text-sm  text-blue-gray-700 outline outline-0 transition-all  focus:border-pink-base-300  focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
+                        />
+                        <br />
+                        {formik.touched.pet_name && formik.errors.pet_name ? (
+                            <p className='text-red-400 text-md'>{formik.errors.pet_name}</p>
+                        ) : null}
+                    </div>
                     <div className='mx-auto w-full space-y-2'>
                         <label htmlFor="max_donation_amount" className='text-white font-semibold text-md'>Maximum Donation Amount</label>
                         <br />

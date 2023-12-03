@@ -19,6 +19,8 @@ import PetUpdate from "../Components/PetUpdate/PetUpdate";
 import DonationCampaignUpdate from "../Components/PetUpdate/DonationCampaignUpdate/DonationCampaignUpdate";
 import AdoptionRequest from "../Pages/Dashboard/User/AdoptionRequest";
 import CategoryPets from "../Pages/Home/Categories/CategoryPets";
+import { MdPriceChange } from "react-icons/md";
+import DonationDetails from "../Pages/Donation/DonationDetails";
 
 const router = createBrowserRouter([
  {
@@ -44,6 +46,12 @@ const router = createBrowserRouter([
         {
             path:'donationCampaign',
             element:<DonationCampaign></DonationCampaign>
+        },
+        {
+            path:'donationCampaign/:id',
+            element:<PrivateRoutes><DonationDetails></DonationDetails></PrivateRoutes>,
+            loader:({params})=>fetch(`http://localhost:5000/donations/${params.id}`)
+
         },
         {
             path:'petlisting/:id',
