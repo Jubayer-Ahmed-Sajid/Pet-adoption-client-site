@@ -5,42 +5,63 @@ import * as Yup from 'yup'
 import {
     Button,
     Dialog,
-    DialogHeader,
     DialogBody,
     DialogFooter,
 } from "@material-tailwind/react";
 import React from "react";
 import { useFormik } from "formik";
 import useAuth from "../Hooks/useAuth";
+import { MdFavorite, MdLocationPin } from "react-icons/md";
+import useAxiosPublic from "../Hooks/useAxiosPublic";
+import Swal from "sweetalert2";
 const PetDetails = () => {
     const { user } = useAuth()
-    const name = user.displayName
-    const email = user.email
+    const axiosPublic = useAxiosPublic()
+    const name = user?.displayName
+    const email = user?.email
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(!open);
     const { id } = useParams()
     const { PetDetails } = usePetDetails(id)
+
     const formik = useFormik({
 
         initialValues: {
-            name:name,
-            email:email,
-            phone:'',
-            address:''
+            requester_name: name,
+            requester_email: email,
+            phone: '',
+            address: '',
+            email: PetDetails.email
+
 
         },
         validationSchema: Yup.object({
-           
+
         }),
 
         onSubmit: async values => {
+
             const adopterInfo = {
-                name:user && user?.displayName,
-                email: user && user?.email,
-                phone:values.phone,
-                address:values.address
+                requester_name: name,
+                requester_email: email,
+                email: PetDetails.email,
+                phone: values.phone,
+                address: values.address,
+                image:PetDetails.image,
+                id:PetDetails._id
             }
             console.log(adopterInfo)
+           const reqInfo = await axiosPublic.post('/adoption/request', adopterInfo)
+           console.log(reqInfo)
+           if(reqInfo.data.insertedId){
+            Swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: "Adoption Request has been saved",
+                showConfirmButton: false,
+                timer: 1500
+              });
+           }
 
 
 
@@ -51,11 +72,32 @@ const PetDetails = () => {
 
     return (
         <div className="w-full">
-            <h2>{PetDetails.name}</h2>
-            <h2>{PetDetails.age}</h2>
-            <Button onClick={handleOpen} variant="gradient" className="text-black">
-                Open Dialog
-            </Button>
+            <div className="space-y-2 my-4 mx-6">
+                <h2 className='text-xl  py-2 text-[#aea4af] rounded-2xl w-fit px-6 font-semibold bg-[#eaecf0]'>{PetDetails.category}</h2>
+                <h4 class="block mb-2 font-sans text-2xl antialiased font-semibold leading-snug tracking-normal text-blue-gray-900">
+                    {PetDetails.name}
+                </h4>
+                <h2 className='flex text-xl items-center'><span className='text-3xl mr-2 my-2  rounded-lg'><MdLocationPin></MdLocationPin></span> {PetDetails.pet_location}</h2>
+                <div className="flex items-center justify-between text-xl font-semibold">
+                    <h2 className="xl ml-4">Details</h2>
+                    <h2 className="flex items-center gap-2"><MdFavorite className="text-3xl"></MdFavorite> Add to Favorite</h2>
+
+                </div>
+                <hr />
+                <div className="flex gap-4 my-4">
+                    <img src={PetDetails.image} className="w-2/4 h-[70vh]  object-cover" alt="" />
+                    <div>
+                        <h2 className="text-xl font-semibold">{PetDetails.short_description}</h2><br />
+                        <h2 className="text-md  ">{PetDetails.long_description}</h2>
+                    </div>
+                </div>
+            </div>
+            <div className="w-1/2 mx-auto">
+
+                <Button onClick={handleOpen} variant="gradient" className="mb-8 text-center bg-yellow-600 text-white">
+                    Adopt Pet
+                </Button>
+            </div>
             <Dialog open={open} handler={handleOpen} className=" w-3/4">
                 <div className="text-center w-full mt-6">
                     <p>Please Fill up The Form</p>
@@ -68,7 +110,7 @@ const PetDetails = () => {
                             <input
                                 name="name"
                                 type="text"
-                                defaultValue={user?.displayName}
+                                defaultValue={name}
                                 disabled
                                 className="w-3/4 rounded-[7px]   bg-transparent px-3 py-2.5 text-sm  text-blue-gray-700 outline disabled:outline-transparent"
                             />
@@ -82,10 +124,10 @@ const PetDetails = () => {
                                 id="email"
                                 name="email"
                                 type="email"
-                                defaultValue={user?.email}
+                                defaultValue={email}
                                 disabled
                                 className="w-3/4 rounded-[7px]   bg-transparent px-3 py-2.5 text-sm  text-blue-gray-700 outline disabled:outline-transparent"
-                               
+
                             />
                         </div>
 

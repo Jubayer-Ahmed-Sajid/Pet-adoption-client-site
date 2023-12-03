@@ -13,16 +13,6 @@ import useAuth from '../../Hooks/useAuth';
 const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`
 
-// {
-//     "_id": "6569f7857602cc9339356301",
-//     "max_donation_amount": 232,
-//     "last_date": "Thu Dec 07 2023",
-//     "image": "https://i.ibb.co/QQ0PBv2/download.webp",
-//     "short_description": "To be added",
-//     "long_description": "Needs to be added",
-//     "email": "sajid661accds@gmail.com",
-//     "start_date": "Fri Dec 01 2023"
-//   }
 const statusOptions = [
     { value: 'continue', label: 'Continue' },
     { value: 'paused', label: 'Paused' },

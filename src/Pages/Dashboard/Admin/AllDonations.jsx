@@ -74,6 +74,7 @@ const AllDonations = () => {
 
             )
         },
+        
         {
             header: 'Delete Campaign',
             accessorKey: 'Delete',
