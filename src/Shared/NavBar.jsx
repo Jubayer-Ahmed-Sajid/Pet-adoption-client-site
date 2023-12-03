@@ -34,16 +34,24 @@ const NavBar = () => {
 
     const navLinks = <>
         <li>
-            <NavLink className='active:bg-black text-center hover:text-blue-600 text-red-400' to='/'>Home</NavLink>
+            <NavLink className={({ isActive, isPending }) =>
+                isPending ? "pending" : isActive ? "bg-black py-2 px-3 rounded-md" : "hover:text-blue-700  hover:bg-slate-400 py-2 px-3 hover:rounded-md"
+            } to='/'>Home</NavLink>
         </li>
         <li>
-            <NavLink to='/petlisting'>Pet Listing</NavLink>
+            <NavLink className={({ isActive, isPending }) =>
+                isPending ? "pending" : isActive ? "bg-black py-2 px-3 rounded-md" : "hover:text-blue-700  hover:bg-slate-400 py-2 px-3 hover:rounded-md"
+            } to='/petlisting'>Pet Listing</NavLink>
         </li>
         <li>
-            <NavLink to='/donationCampaign'>Donation Campaign</NavLink>
+            <NavLink className={({ isActive, isPending }) =>
+                isPending ? "pending" : isActive ? "bg-black py-2 px-3 rounded-md" : "hover:text-blue-700  hover:bg-slate-400 py-2 px-3 hover:rounded-md"
+            } to='/donationCampaign'>Donation Campaign</NavLink>
         </li>
         <li >
-            <NavLink to='/signUp'>SignUp</NavLink>
+            <NavLink className={({ isActive, isPending }) =>
+                isPending ? "pending" : isActive ? "bg-black py-2 px-3 rounded-md" : "hover:text-blue-700  hover:bg-slate-400 py-2 px-3 hover:rounded-md"
+            } to='/signUp'>SignUp</NavLink>
         </li>
     </>
     const handleChange = () => {
@@ -51,7 +59,7 @@ const NavBar = () => {
         console.log(menu)
     }
     return (
-        <div className="w-full flex items-center justify-between px-4 bg-slate-500 z-10">
+        <div className="z-10 w-full sticky flex h-full items-center justify-between px-4 bg-slate-500 ">
             <h2 className="text-red-500 flex justify-end lg:block">Pet Adoption</h2>
             <div className="flex justify-between bg-slate-500 px-4 h-16 py-4">
                 <ul className="hidden gap-6 lg:flex justify-between text-white font-semibold">
@@ -59,17 +67,17 @@ const NavBar = () => {
                 </ul>
                 <div className="lg:hidden fixed">
 
-                    <button className={`lg:hidden btn ml-10 text-3xl font-bold text-white text-center transform ${menu ? 'rotate-90 transition-transform duration-300 ease-in-out' : 'rotate-0 transition-transform duration-300 ease-in-out'} rounded-lg flex justify-end pb-4`} onClick={handleChange}> <CiMenuBurger></CiMenuBurger> </button>
-                    <ul className={`lg:hidden space-y-3 flex-col text-white font-semibold bg-slate-400 text-center  transform ${menu ? 'translate-x-0' : '-translate-x-full'} transition-transform ease-in-out duration-900`}>
+                    <button className={`lg:hidden btn text-3xl font-bold text-white text-center transform ${menu ? 'rotate-90  transition-transform duration-300 ease-in-out' : 'rotate-0 transition-transform duration-300 ease-in-out'} rounded-lg flex pb-4`} onClick={handleChange}> <CiMenuBurger></CiMenuBurger> </button>
+                    <ul className={`lg:hidden flex-col text-emerald-400 bg-white font-semibold  text-center  transform ${menu ? 'translate-x-0' : '-translate-x-full'} transition-transform ease-in-out duration-900`}>
                         {
-                            menu ? navLinks : ''
+                            menu ? <div className="space-y-4 h-full pb-4">{navLinks}</div> : ''
                         }
                     </ul>
                 </div>
             </div>
             <div className="text-white gap-3 flex justify-center items-center">
                 {
-                    user ? <> <button onClick={handleSignOut} className="bg-yellow-600 btn px-4 py-2 rounded-md">SignOut</button> <p>{user.displayName}</p>
+                    user ? <> <p>{user.displayName}</p>
                         <Menu>
                             <MenuHandler>
                                 <Button className="shadow-none">
@@ -78,7 +86,7 @@ const NavBar = () => {
                             </MenuHandler>
                             <MenuList>
                                 <MenuItem className="mb-1 text-xl">
-                                <Link to='/dashboard'>Dashboard</Link>
+                                    <Link to='/dashboard'>Dashboard</Link>
                                 </MenuItem>
                                 <MenuItem className="text-xl" onClick={handleSignOut}>SignOut</MenuItem>
                             </MenuList>

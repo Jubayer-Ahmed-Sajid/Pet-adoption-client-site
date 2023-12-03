@@ -66,6 +66,7 @@ const SignUp = () => {
                                     timer: 1500
                                 });
                                 navigate('/')
+                                location.reload()
 
                             }
                         })

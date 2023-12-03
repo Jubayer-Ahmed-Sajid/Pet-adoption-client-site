@@ -18,6 +18,7 @@ import AllDonations from "../Pages/Dashboard/Admin/AllDonations";
 import PetUpdate from "../Components/PetUpdate/PetUpdate";
 import DonationCampaignUpdate from "../Components/PetUpdate/DonationCampaignUpdate/DonationCampaignUpdate";
 import AdoptionRequest from "../Pages/Dashboard/User/AdoptionRequest";
+import CategoryPets from "../Pages/Home/Categories/CategoryPets";
 
 const router = createBrowserRouter([
  {
@@ -47,9 +48,12 @@ const router = createBrowserRouter([
         {
             path:'petlisting/:id',
             element:<PetDetails></PetDetails>,
-            
-            
         },
+        {
+            path:'categoryPets/:category',
+            element:<CategoryPets></CategoryPets>,
+            loader:({params})=> fetch(`http://localhost:5000/pets/category/${params.category}`)
+        }
        
     ],
  },
