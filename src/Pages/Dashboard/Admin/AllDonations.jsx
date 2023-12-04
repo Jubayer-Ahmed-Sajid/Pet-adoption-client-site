@@ -1,13 +1,14 @@
 import { FaEdit, FaTrashAlt } from "react-icons/fa";
 import BasicTable from "../../../Components/BasicTable";
-import useDonations from "../../../Components/Hooks/useDonations";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../../Components/Hooks/useAxiosSecure";
-import useAddedDonations from "../../../Components/Hooks/useAddedDonations";
+import useAllDonations from '../../../Components/Hooks/useAllDonations'
+
 
 const AllDonations = () => {
-    const [donations, refetch] = useAddedDonations()
+    const [allDonations, refetch] = useAllDonations()
+    console.log(allDonations)
     const axiosSecure = useAxiosSecure()
     const handleDelete = (campaign) => {
 
@@ -98,7 +99,7 @@ const AllDonations = () => {
     ]
     return (
         <div>
-            <BasicTable data={donations} columns={AllDonationsCol}></BasicTable>
+            <BasicTable data={allDonations} columns={AllDonationsCol}></BasicTable>
         </div>
     );
 };

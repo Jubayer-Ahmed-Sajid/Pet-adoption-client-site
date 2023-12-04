@@ -21,7 +21,7 @@ const statusOptions = [
 const DonationCampaignUpdate = () => {
     const [campaign,setCampaign] = useState({})
     const {id} = useParams()
-    
+    console.log(id)
     const axiosSecure = useAxiosSecure()
     const { user } = useAuth()
     useEffect(()=>{

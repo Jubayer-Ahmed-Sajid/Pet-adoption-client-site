@@ -84,8 +84,7 @@ const router = createBrowserRouter([
         },
         {
             path:'alldonations/:id',
-            element:<AdminRoutes><DonationCampaignUpdate></DonationCampaignUpdate></AdminRoutes>,
-            loader:({params})=> fetch(`http://localhost:5000/donations/${params.id}`)
+            element:<AdminRoutes><DonationCampaignUpdate></DonationCampaignUpdate></AdminRoutes>
         }
         ,
         {

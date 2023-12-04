@@ -1,7 +1,6 @@
 import React from 'react';
 import { MdCalendarMonth, MdFavorite } from 'react-icons/md';
-import { useLoaderData, useParams } from 'react-router-dom';
-import {loadStripe} from '@stripe/stripe-js';
+import {  useParams } from 'react-router-dom';
 
 import {
     Button,
@@ -10,9 +9,7 @@ import {
     DialogFooter,
 } from "@material-tailwind/react";
 import { Elements } from '@stripe/react-stripe-js';
-import CheckOutForm from './CheckOutForm';
 import useDonationDetails from '../../Components/Hooks/useDonationDetails';
-const stripePromise = loadStripe(import.meta.env.VITE_PAYMENT_KEY)
 
 const DonationDetails = () => {
     const {id} = useParams()
@@ -48,9 +45,7 @@ const DonationDetails = () => {
                 </Button>
                 <Dialog open={open} handler={handleOpen} className=" w-3/4">
                     <DialogBody className=" mx-auto">
-                        <Elements stripe={stripePromise}>
-                            <CheckOutForm></CheckOutForm>
-                        </Elements>
+                       
                     </DialogBody>
                 <DialogFooter>
                     <Button

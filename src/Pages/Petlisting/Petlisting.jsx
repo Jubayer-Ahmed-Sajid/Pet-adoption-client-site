@@ -15,8 +15,11 @@ const Petlisting = () => {
     useEffect(() => {
         const petToDisplay = pets.filter(pet => !pet.status)
         setDisplayPets(petToDisplay)
-    }, [setDisplayPets,pets])
-    console.log(displayPets,)
+        console.log('re render')
+    }, [pets,setDisplayPets])
+
+
+    console.log(displayPets)
 
 
     const handleSearch = async () => {
