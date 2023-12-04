@@ -4,24 +4,23 @@ import { Link } from 'react-router-dom';
 import { MdLocationPin, MdSearch } from "react-icons/md";
 import { Input, Option, Select } from '@material-tailwind/react';
 import axios from 'axios';
-import useAxiosPublic from '../../Components/Hooks/useAxiosPublic';
+import useAxiosSecure from '../../Components/Hooks/useAxiosSecure';
 
 const Petlisting = () => {
     const [pets, refetch] = usePets()
-    const axiosPublic = useAxiosPublic()
+    const axiosSecure = useAxiosSecure()
     const [query, setQuery] = useState('')
     const [displayPets, setDisplayPets] = useState([])
 
     useEffect(() => {
         const petToDisplay = pets.filter(pet => !pet.status)
         setDisplayPets(petToDisplay)
-
-    }, [setDisplayPets])
-    console.log(displayPets)
+    }, [setDisplayPets,pets])
+    console.log(displayPets,)
 
 
     const handleSearch = async () => {
-        const response = await axiosPublic.get(`/pets/search?name=${query}`);
+        const response = await axiosSecure.get(`/pets/search?name=${query}`);
         console.log(response)
 
         setDisplayPets(response.data);
@@ -37,7 +36,7 @@ const Petlisting = () => {
                     placeholder='search pet here' className='border-black pl-4 p-2 bg-base-300 flex' name="" id="" />
                 <button onClick={handleSearch} className='text-xl font-semibold bg-black text-white px-3 py-2  rounded-lg '>Search</button>
                 <div className="w-72 mb-6">
-                    <Select  className='mb-2 border-none text-center text-xl text-blue-500 font-semibold' label='See by Category'>
+                    <Select  className='mb-2 border-none text-center  bg-green-600 text-xl text-blue-500 font-semibold' label='See by Category'>
                         <Option><Link to='/categoryPets/cat'>Cat</Link></Option>
                         <Option><Link to='/categoryPets/dog'>Dog</Link></Option>
                         <Option><Link to='/categoryPets/fish'>Fish</Link></Option>

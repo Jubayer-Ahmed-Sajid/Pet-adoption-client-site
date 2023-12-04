@@ -1,13 +1,13 @@
 import {useQuery } from "@tanstack/react-query";
-import useAxiosPublic from "./useAxiosPublic";
+import useAxiosSecure from "./useAxiosSecure";
 
 
 const useDonations = () => {
-   const axiosPublic = useAxiosPublic()
+   const axiosSecure = useAxiosSecure()
    const {data: donations=[],refetch} = useQuery({
     queryKey:['donations'],
     queryFn:async()=>{
-      const donationsRes =await  axiosPublic.get('/donations')
+      const donationsRes =await  axiosSecure.get('/donations')
       return donationsRes.data
     }
    })

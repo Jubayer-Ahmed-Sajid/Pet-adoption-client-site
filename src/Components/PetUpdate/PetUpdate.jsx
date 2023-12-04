@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup'
 import Select from 'react-select'
@@ -6,8 +6,8 @@ import { Textarea } from "@material-tailwind/react";
 import Swal from 'sweetalert2';
 import axios from 'axios';
 import { useLoaderData, useParams } from 'react-router-dom';
-import useAxiosPublic from '../Hooks/useAxiosPublic';
 import useAuth from '../Hooks/useAuth';
+import useAxiosSecure from '../Hooks/useAxiosSecure';
 
 
 const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY
@@ -27,11 +27,20 @@ const optionsAdopted = [
 
 
 const PetUpdate = () => {
-    const donationCampaign = useLoaderData()
+    const [donationCampaign,setDonationCampaign] = useState({})
     const { id } = useParams()
-    console.log(donationCampaign.adopted, donationCampaign)
-    const axiosPublic = useAxiosPublic()
+    console.log(id)
+    const axiosSecure = useAxiosSecure()
     const { user } = useAuth()
+    useEffect(()=>{
+        axiosSecure.get(`/pets/${id}`)
+        .then(res =>{
+            console.log(res)
+            setDonationCampaign(res.data)
+
+        })
+    },[axiosSecure,id])
+    console.log(donationCampaign)
     const formik = useFormik({
 
         initialValues: {
@@ -75,7 +84,7 @@ const PetUpdate = () => {
                 AddedDate: new Date().toDateString()
 
             }
-            const petRes = await axiosPublic.patch(`/pets/${id}`, UpdatedPetsInfo)
+            const petRes = await axiosSecure.patch(`/pets/${id}`, UpdatedPetsInfo)
             console.log(petRes)
             if (petRes.data.modifiedCount) {
                 Swal.fire({

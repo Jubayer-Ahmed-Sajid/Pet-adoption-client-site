@@ -1,12 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
-import useAxiosPublic from "./useAxiosPublic";
+import useAxiosSecure from "./useAxiosSecure";
 
 const usePetDetails = (id) => {
-    const axiosPublic = useAxiosPublic()
+    const axiosSecure = useAxiosSecure()
     const { data: PetDetails = {} } = useQuery({
         queryKey: ['pet-details'],
         queryFn: async () => {
-            const res = await axiosPublic.get(`pets/${id}`)
+            const res = await axiosSecure.get(`pets/${id}`)
             return res.data
         }
     })

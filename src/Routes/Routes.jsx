@@ -19,8 +19,8 @@ import PetUpdate from "../Components/PetUpdate/PetUpdate";
 import DonationCampaignUpdate from "../Components/PetUpdate/DonationCampaignUpdate/DonationCampaignUpdate";
 import AdoptionRequest from "../Pages/Dashboard/User/AdoptionRequest";
 import CategoryPets from "../Pages/Home/Categories/CategoryPets";
-import { MdPriceChange } from "react-icons/md";
 import DonationDetails from "../Pages/Donation/DonationDetails";
+import AdminRoutes from "./AdminRoutes";
 
 const router = createBrowserRouter([
  {
@@ -45,7 +45,7 @@ const router = createBrowserRouter([
         },
         {
             path:'donationCampaign',
-            element:<DonationCampaign></DonationCampaign>
+            element:<PrivateRoutes><DonationCampaign></DonationCampaign></PrivateRoutes>
         },
         {
             path:'donationCampaign/:id',
@@ -55,11 +55,11 @@ const router = createBrowserRouter([
         },
         {
             path:'petlisting/:id',
-            element:<PetDetails></PetDetails>,
+            element:<PrivateRoutes><PetDetails></PetDetails></PrivateRoutes>,
         },
         {
             path:'categoryPets/:category',
-            element:<CategoryPets></CategoryPets>,
+            element:<PrivateRoutes><CategoryPets></CategoryPets></PrivateRoutes>,
             loader:({params})=> fetch(`http://localhost:5000/pets/category/${params.category}`)
         }
        
@@ -75,32 +75,32 @@ const router = createBrowserRouter([
         },
         {
             path:'allpets',
-            element:<PrivateRoutes><AllPets></AllPets></PrivateRoutes>
+            element:<AdminRoutes><AllPets></AllPets></AdminRoutes>
         },
         {
             path:'alldonations',
-            element:<AllDonations></AllDonations>
+            element:<AdminRoutes><AllDonations></AllDonations></AdminRoutes>
 
         },
         {
             path:'alldonations/:id',
-            element:<DonationCampaignUpdate></DonationCampaignUpdate>,
+            element:<AdminRoutes><DonationCampaignUpdate></DonationCampaignUpdate></AdminRoutes>,
             loader:({params})=> fetch(`http://localhost:5000/donations/${params.id}`)
         }
         ,
         {
             path:'allpets/:id',
-            element:<PetUpdate></PetUpdate>,
-            loader:({params})=> fetch(`http://localhost:5000/pets/${params.id}`)
+            element:<PrivateRoutes><PetUpdate></PetUpdate></PrivateRoutes>
+           
             
         },
         {
             path:'addpet',
-            element:<AddPet></AddPet>
+            element:<PrivateRoutes><AddPet></AddPet></PrivateRoutes>
         },
         {
             path:'createdonation',
-            element:<AddDonationCampaign></AddDonationCampaign>
+            element:<PrivateRoutes><AddDonationCampaign></AddDonationCampaign></PrivateRoutes>
         },
         {
             path:'addedpets',

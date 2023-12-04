@@ -3,9 +3,35 @@ import BasicTable from '../../../Components/BasicTable';
 import useAddedDonations from '../../../Components/Hooks/useAddedDonations';
 import { FaEdit, FaTrashAlt } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 const AddedDonations = () => {
     const [addedDonations] = useAddedDonations()
+    const handleDelete = (donation) => {
+
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, Delete pet!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                axiosSecure.delete(`/donations/${donation._id}`)
+                    .then((res) => {
+                        if (res.data.deletedCount) {
+                            Swal.fire({
+                                title: `campaign is Deleted`,
+                                icon: "success"
+                            });
+                            refetch()
+                        }
+                    })
+            }
+        });
+    }
     const addeddonationsColumns =[
         {
             header: 'Serial Number',
