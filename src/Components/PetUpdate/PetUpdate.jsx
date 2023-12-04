@@ -75,7 +75,7 @@ const PetUpdate = () => {
                 AddedDate: new Date().toDateString()
 
             }
-            const petRes = await axiosPublic.patch(`/donations/${id}`, UpdatedPetsInfo)
+            const petRes = await axiosPublic.patch(`/pets/${id}`, UpdatedPetsInfo)
             console.log(petRes)
             if (petRes.data.modifiedCount) {
                 Swal.fire({
@@ -93,7 +93,7 @@ const PetUpdate = () => {
     return (
         <div className='w-screen'>
             <form onSubmit={formik.handleSubmit} className=' bg-gray-600 p-4 space-y-2 mx-auto '>
-                <h2 className='text-center text-4xl text-yellow-600 my-6'>Add a Pet </h2>
+                <h2 className='text-center text-4xl text-yellow-600 my-6'>Update a Pet </h2>
 
                 <div className="w-full lg:flex gap-4">
 

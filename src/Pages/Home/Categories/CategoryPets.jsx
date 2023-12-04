@@ -1,16 +1,54 @@
 import { MdLocationPin } from "react-icons/md";
 import { Link, useLoaderData } from "react-router-dom";
+import useAxiosPublic from "../../../Components/Hooks/useAxiosPublic";
+import { useEffect, useState } from "react";
+import { Option, Select,Input } from "@material-tailwind/react";
 
 const CategoryPets = () => {
-    const categoryPet = useLoaderData()
-    console.log(categoryPet)
+    const pets = useLoaderData()
+    const axiosPublic = useAxiosPublic()
+    const [query, setQuery] = useState('')
+    const [displayPets, setDisplayPets] = useState([])
+
+    useEffect(() => {
+        const petToDisplay = pets.filter(pet => !pet.status)
+        setDisplayPets(petToDisplay)
+
+    }, [setDisplayPets])
+    console.log(displayPets)
+
+
+    const handleSearch = async () => {
+        const response = await axiosPublic.get(`/pets/search?name=${query}`);
+        console.log(response)
+
+        setDisplayPets(response.data);
+
+    };
 
     return (
         <div>
-            <div className='grid lg:grid-cols-3 gap-4'>
+                <div className='lg:flex items-center flex-row justify-start w-1/2'>
+                    <Input type="text"
+                        value={query}
+                        onChange={(e) => setQuery(e.target.value)}
+                        placeholder='search pet here' className='border-black pl-4 p-2 bg-base-300 flex' name="" id="" />
+                    <button onClick={handleSearch} className='text-xl font-semibold bg-black text-white px-3 py-2  rounded-lg '>Search</button>
+                    <div className="w-72 mb-6">
+                        <label htmlFor=""> Select category</label>
+                        <Select className='mb-2 border-none text-center h-24 text-xl bg-green-600 font-semibold' defaultValue={'See by Category'}>
+                            
+                            <Option><Link to='/categoryPets/cat'>Cat</Link></Option>
+                            <Option><Link to='/categoryPets/dog'>Dog</Link></Option>
+                            <Option><Link to='/categoryPets/fish'>Fish</Link></Option>
+                            <Option><Link to='/categoryPets/bird'>Bird</Link></Option>
+                        </Select>
+                    </div>
+                </div>
 
+            <div className='grid lg:grid-cols-3 gap-4'>
                 {
-                    categoryPet.map(pet => <Link to={`/petlisting/${pet._id}`} key={pet._id} class="relative flex flex-col text-gray-700 bg-white shadow-md  rounded-xl bg-clip-border">
+                    displayPets.map(pet => <Link to={`/petlisting/${pet._id}`} key={pet._id} class="relative flex flex-col text-gray-700 bg-white shadow-md  rounded-xl bg-clip-border">
                         <div class="relative mx-4 mt-4 overflow-hidden text-gray-700 bg-white  h-80 rounded-xl bg-clip-border">
 
                             <img src={pet.image} className='w-3/4 mx-auto h-60 object-cover' alt="profile-picture" />

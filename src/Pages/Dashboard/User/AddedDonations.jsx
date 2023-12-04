@@ -7,6 +7,13 @@ import { Link } from 'react-router-dom';
 const AddedDonations = () => {
     const [addedDonations] = useAddedDonations()
     const addeddonationsColumns =[
+        {
+            header: 'Serial Number',
+            accessorKey: 'serialNumber',
+            cell: ({ row }) => (
+                <span>{row.index + 1}</span>
+            ),
+        },
        {
         header: 'Image',
         accessorKey: 'image',

@@ -71,6 +71,13 @@ const Users = () => {
 
     const columns = [
         {
+            header: 'Serial Number',
+            accessorKey: 'serialNumber',
+            cell: ({ row }) => (
+                <span>{row.index + 1}</span>
+            ),
+        },
+        {
             header: 'name',
             accessorKey: 'name'
 

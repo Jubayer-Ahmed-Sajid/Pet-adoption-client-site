@@ -1,4 +1,4 @@
-import { GoogleAuthProvider, createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile } from "firebase/auth";
+import { GithubAuthProvider, GoogleAuthProvider, createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile } from "firebase/auth";
 import { createContext, useEffect, useState } from "react";
 import auth from "../../Firebase.config";
 import useAxiosPublic from "../../Components/Hooks/useAxiosPublic";
@@ -9,6 +9,7 @@ const AuthProvider = ({children}) => {
     const [user, setUser] = useState(null)
     const [loading, setLoading] = useState(true)
     const googleProvider = new GoogleAuthProvider()
+    const gitHubProvider = new GithubAuthProvider()
     const createUser = (email, password) => {
         setLoading(true)
         return createUserWithEmailAndPassword(auth, email, password)
@@ -24,6 +25,14 @@ const AuthProvider = ({children}) => {
         })
 
 
+    }
+    const googleSignin = ()=>{
+        setLoading(true)
+        return signInWithPopup(auth,googleProvider)
+    }
+    const gitHubSignin =()=>{
+        setLoading(true)
+        return signInWithPopup(auth,gitHubProvider)
     }
     const SignOutUser = () => {
         setLoading(true)
@@ -60,7 +69,7 @@ const AuthProvider = ({children}) => {
         }
     }, [auth,axiosPublic])
 
-    const authIfo = { createUser, Signin, SignOutUser, signinWithGoogle, user, loading,updateUser }
+    const authIfo = { createUser, Signin, SignOutUser, signinWithGoogle, user, loading,updateUser,googleSignin,gitHubSignin }
 
     return (
         <AuthContext.Provider value={authIfo}>

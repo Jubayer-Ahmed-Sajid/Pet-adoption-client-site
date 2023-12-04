@@ -1,9 +1,22 @@
 import React from 'react';
 import { MdCalendarMonth, MdFavorite } from 'react-icons/md';
 import { useLoaderData } from 'react-router-dom';
+import {loadStripe} from '@stripe/stripe-js';
+
+import {
+    Button,
+    Dialog,
+    DialogBody,
+    DialogFooter,
+} from "@material-tailwind/react";
+import { Elements } from '@stripe/react-stripe-js';
+import CheckOutForm from './CheckOutForm';
+const stripePromise = loadStripe(import.meta.env.VITE_PAYMENT_KEY)
 
 const DonationDetails = () => {
     const donationDetails = useLoaderData()
+    const [open, setOpen] = React.useState(false);
+    const handleOpen = () => setOpen(!open);
     console.log(donationDetails)
     return (
         <div>
@@ -26,6 +39,31 @@ const DonationDetails = () => {
                         <h2 className="text-md  ">{donationDetails.long_description}</h2>
                     </div>
                 </div>
+            </div>
+            <div>
+            <Button disabled={donationDetails.status !=='continue' || donationDetails.max_donation_amount <=  donationDetails.donated_Amount}  onClick={handleOpen} variant="gradient" className="mb-8 text-center bg-yellow-600 text-white">
+                    Adopt Pet
+                </Button>
+                <Dialog open={open} handler={handleOpen} className=" w-3/4">
+                    <DialogBody className=" mx-auto">
+                        <Elements stripe={stripePromise}>
+                            <CheckOutForm></CheckOutForm>
+                        </Elements>
+                    </DialogBody>
+                <DialogFooter>
+                    <Button
+                        variant="text"
+                        color="red"
+                        onClick={handleOpen}
+                        className="mr-1"
+                    >
+                        <span>Cancel</span>
+                    </Button>
+                    <Button variant="gradient" className="mr-1 text-green-500" onClick={handleOpen}>
+                        <span>Confirm</span>
+                    </Button>
+                </DialogFooter>
+                </Dialog>
             </div>
         </div>
     );

@@ -61,7 +61,7 @@ const NavBar = () => {
     return (
         <div className="z-10 w-full sticky flex h-full items-center justify-between px-4 bg-slate-500 ">
             <h2 className="text-red-500 flex justify-end lg:block">Pet Adoption</h2>
-            <div className="flex justify-between bg-slate-500 px-4 h-16 py-4">
+            <div className="flex justify-between bg-slate-500 px-4  py-4">
                 <ul className="hidden gap-6 lg:flex justify-between text-white font-semibold">
                     {navLinks}
                 </ul>
@@ -70,7 +70,7 @@ const NavBar = () => {
                     <button className={`lg:hidden btn text-3xl font-bold text-white text-center transform ${menu ? 'rotate-90  transition-transform duration-300 ease-in-out' : 'rotate-0 transition-transform duration-300 ease-in-out'} rounded-lg flex pb-4`} onClick={handleChange}> <CiMenuBurger></CiMenuBurger> </button>
                     <ul className={`lg:hidden flex-col text-emerald-400 bg-white font-semibold  text-center  transform ${menu ? 'translate-x-0' : '-translate-x-full'} transition-transform ease-in-out duration-900`}>
                         {
-                            menu ? <div className="space-y-4 h-full pb-4">{navLinks}</div> : ''
+                            menu ? <div className="space-y-4  pb-4">{navLinks}</div> : ''
                         }
                     </ul>
                 </div>
@@ -80,7 +80,7 @@ const NavBar = () => {
                     user ? <> <p>{user.displayName}</p>
                         <Menu>
                             <MenuHandler>
-                                <Button className="shadow-none">
+                                <Button className="shadow-none bg-transparent hover:shadow-none">
                                     <img src={user.photoURL} className="w-12 h-12 rounded-[48px]" alt="" />
                                 </Button>
                             </MenuHandler>

@@ -62,7 +62,7 @@ const AddDonationCampaign = () => {
                 long_description: values.long_description,
                 email: user?.email,
                 AddedDate: new Date().toDateString(),
-                status:'continue'
+                status:'Continue'
 
             }
             const campaignRes = await axiosPublic.post('/donations', CampaignInfo)

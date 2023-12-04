@@ -35,6 +35,13 @@ const AllDonations = () => {
     }
     const AllDonationsCol = [
         {
+            header: 'Serial Number',
+            accessorKey: 'serialNumber',
+            cell: ({ row }) => (
+                <span>{row.index + 1}</span>
+            ),
+        },
+        {
             header: 'Image',
             accessorKey: 'image',
             cell: ({ row }) => (

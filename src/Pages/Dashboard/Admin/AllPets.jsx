@@ -63,10 +63,18 @@ const AllPets = () => {
 
     const petColumns = [
         {
-            header: 'Image',
-            accessorKey: 'image_url',
+            header: 'Serial Number',
+            accessorKey: 'serialNumber',
             cell: ({ row }) => (
-                <img src={row.original.image_url} alt="pet" style={{ width: '50px', height: '50px', borderRadius: '50%' }} />
+                <span>{row.index + 1}</span>
+            ),
+        },
+        
+        {
+            header: 'Image',
+            accessorKey: ' image',
+            cell: ({ row }) => (
+                <img src={row.original.image} alt="pet" style={{ width: '50px', height: '50px', borderRadius: '50%' }} />
             ),
         },
         {
