@@ -50,7 +50,7 @@ const router = createBrowserRouter([
         {
             path:'donationCampaign/:id',
             element:<PrivateRoutes><DonationDetails></DonationDetails></PrivateRoutes>,
-            loader:({params})=>fetch(`http://localhost:5000/donations/${params.id}`)
+            
 
         },
         {
@@ -60,7 +60,7 @@ const router = createBrowserRouter([
         {
             path:'categoryPets/:category',
             element:<PrivateRoutes><CategoryPets></CategoryPets></PrivateRoutes>,
-            loader:({params})=> fetch(`http://localhost:5000/pets/category/${params.category}`)
+           
         }
        
     ],

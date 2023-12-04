@@ -4,9 +4,11 @@ import useAddedDonations from '../../../Components/Hooks/useAddedDonations';
 import { FaEdit, FaTrashAlt } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import useAxiosSecure from '../../../Components/Hooks/useAxiosSecure';
 
 const AddedDonations = () => {
-    const [addedDonations] = useAddedDonations()
+    const [addedDonations,refetch] = useAddedDonations()
+    const axiosSecure = useAxiosSecure()
     const handleDelete = (donation) => {
 
         Swal.fire({

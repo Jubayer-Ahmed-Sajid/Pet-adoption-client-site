@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup'
 import Select from 'react-select'
@@ -6,8 +6,8 @@ import { Textarea } from "@material-tailwind/react";
 import Swal from 'sweetalert2';
 import axios from 'axios';
 import { useLoaderData, useParams } from 'react-router-dom';
-import useAxiosPublic from '../../Hooks/useAxiosPublic';
 import useAuth from '../../Hooks/useAuth';
+import useAxiosSecure from '../../Hooks/useAxiosSecure';
 
 
 const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY
@@ -19,10 +19,18 @@ const statusOptions = [
 ]
 
 const DonationCampaignUpdate = () => {
-    const campaign = useLoaderData()
+    const [campaign,setCampaign] = useState({})
     const {id} = useParams()
-    const axiosPublic = useAxiosPublic()
+    
+    const axiosSecure = useAxiosSecure()
     const { user } = useAuth()
+    useEffect(()=>{
+        axiosSecure.get(`/donations/${id}`)
+        .then(res =>{
+            setCampaign(res.data)
+        })
+
+    },[axiosSecure,id])
     const formik = useFormik({
 
         initialValues: {
@@ -67,7 +75,7 @@ const DonationCampaignUpdate = () => {
                 AddedDate: new Date().toDateString()
 
             }
-            const petRes = await axiosPublic.patch(`/donations/${id}`, UpdatedCampaignInfo)
+            const petRes = await axiosSecure.patch(`/donations/${id}`, UpdatedCampaignInfo)
             if (petRes.data.modifiedCount) {
                 Swal.fire({
                     position: "top-end",

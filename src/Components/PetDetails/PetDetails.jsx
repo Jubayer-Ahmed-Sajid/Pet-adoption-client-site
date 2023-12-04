@@ -12,11 +12,11 @@ import React from "react";
 import { useFormik } from "formik";
 import useAuth from "../Hooks/useAuth";
 import { MdFavorite, MdLocationPin } from "react-icons/md";
-import useAxiosPublic from "../Hooks/useAxiosPublic";
 import Swal from "sweetalert2";
+import useAxiosSecure from "../Hooks/useAxiosSecure";
 const PetDetails = () => {
     const { user } = useAuth()
-    const axiosPublic = useAxiosPublic()
+    const axiosSecure = useAxiosSecure()
     const name = user?.displayName
     const email = user?.email
     const [open, setOpen] = React.useState(false);
@@ -52,7 +52,7 @@ const PetDetails = () => {
                 id:PetDetails._id
             }
             console.log(adopterInfo)
-           const reqInfo = await axiosPublic.post('/adoption/request', adopterInfo)
+           const reqInfo = await axiosSecure.post('/adoption/request', adopterInfo)
            console.log(reqInfo)
            if(reqInfo.data.insertedId){
             Swal.fire({

@@ -11,6 +11,7 @@ const useDonations = () => {
       return donationsRes.data
     }
    })
+   console.log(donations)
    return [donations,refetch]
 };
 

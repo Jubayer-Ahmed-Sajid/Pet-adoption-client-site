@@ -3,7 +3,7 @@ import { NavLink, Outlet } from "react-router-dom";
 import useAdmin from "../Components/Hooks/useAdmin";
 
 const DashBoard = () => {
-    const [data,refetch] = useAdmin()
+    const [data,isLoading] = useAdmin()
     console.log(data)
 
     const isAdmin = data;

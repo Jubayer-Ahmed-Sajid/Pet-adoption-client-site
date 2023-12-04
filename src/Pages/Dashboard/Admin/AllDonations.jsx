@@ -4,9 +4,10 @@ import useDonations from "../../../Components/Hooks/useDonations";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../../Components/Hooks/useAxiosSecure";
+import useAddedDonations from "../../../Components/Hooks/useAddedDonations";
 
 const AllDonations = () => {
-    const [donations, refetch] = useDonations()
+    const [donations, refetch] = useAddedDonations()
     const axiosSecure = useAxiosSecure()
     const handleDelete = (campaign) => {
 

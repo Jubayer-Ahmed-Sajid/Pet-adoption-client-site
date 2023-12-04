@@ -1,17 +1,17 @@
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "./useAxiosSecure";
 
-const usePetDetails = (id) => {
+const useDonationDetails = (id) => {
     const axiosSecure = useAxiosSecure()
-    const { data: PetDetails = {} } = useQuery({
+    const { data: donationDetails = {} } = useQuery({
         queryKey: ['pet-details'],
         queryFn: async () => {
-            const res = await axiosSecure.get(`pets/id/${id}`)
+            const res = await axiosSecure.get(`donations/${id}`)
             return res.data
         }
     })
 
-    return { PetDetails }
+    return { donationDetails }
 };
 
-export default usePetDetails;
+export default useDonationDetails;

@@ -33,14 +33,12 @@ const PetUpdate = () => {
     const axiosSecure = useAxiosSecure()
     const { user } = useAuth()
     useEffect(()=>{
-        axiosSecure.get(`/pets/${id}`)
+        axiosSecure.get(`/pets/id/${id}`)
         .then(res =>{
-            console.log(res)
             setDonationCampaign(res.data)
 
         })
     },[axiosSecure,id])
-    console.log(donationCampaign)
     const formik = useFormik({
 
         initialValues: {
@@ -84,6 +82,7 @@ const PetUpdate = () => {
                 AddedDate: new Date().toDateString()
 
             }
+            console.log('info',UpdatedPetsInfo)
             const petRes = await axiosSecure.patch(`/pets/${id}`, UpdatedPetsInfo)
             console.log(petRes)
             if (petRes.data.modifiedCount) {
@@ -108,11 +107,11 @@ const PetUpdate = () => {
 
 
                     <div className='mx-auto w-full space-y-2'>
-                        <label htmlFor="pet_name" className='text-white font-semibold text-md'>Pet Name</label>
+                        <label htmlFor="name" className='text-white font-semibold text-md'>Pet Name</label>
                         <br />
                         <input
                             id="pet_name"
-                            name="pet_name"
+                            name="name"
                             type="text"
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
