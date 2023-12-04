@@ -13,10 +13,10 @@ const Petlisting = () => {
     const [displayPets, setDisplayPets] = useState([])
 
     useEffect(() => {
-        const petToDisplay = pets.filter(pet => !pet.status)
+        const petToDisplay = pets.filter(pet => !pet.adopted)
         setDisplayPets(petToDisplay)
-        console.log('re render')
     }, [pets,setDisplayPets])
+    console.log('Unadopted',displayPets)
 
 
     console.log(displayPets)
