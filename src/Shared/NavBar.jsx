@@ -60,7 +60,7 @@ const NavBar = () => {
     }
     return (
         <div className="z-10 w-full sticky flex h-full items-center justify-between px-4 bg-slate-500 ">
-            <h2 className="text-red-500 flex justify-end lg:block">Pet Adoption</h2>
+           <img src="https://i.ibb.co/RgXFFJW/2c791441-ac9f-411f-85a8-9fb6e8b834f0.jpg" className="h-20  w-28 object-cover" alt="" />
             <div className="flex justify-between bg-slate-500 px-4  py-4">
                 <ul className="hidden gap-6 lg:flex justify-between text-white font-semibold">
                     {navLinks}

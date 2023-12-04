@@ -1,4 +1,5 @@
-import { FaAd, FaBook, FaCalendar, FaHome, FaList, FaSearch, FaShoppingCart, FaUsers, FaUtensils } from "react-icons/fa";
+import { FaAd, FaDollarSign, FaDonate, FaHome, FaList, FaPaw, FaUsers} from "react-icons/fa";
+import { MdPets,MdPlaylistAddCheck } from "react-icons/md";
 import { NavLink, Outlet } from "react-router-dom";
 import useAdmin from "../Components/Hooks/useAdmin";
 
@@ -17,23 +18,23 @@ const DashBoard = () => {
                     {
                         isAdmin ? <>
                             <li>
-                                <NavLink to='/dashboard' className='flex items-center gap-2'>
+                                <NavLink to='/dashboard/allusers' className='flex items-center gap-2'>
                                   <span  className="flex items-center gap-2"> <h2> <FaHome className="text-2xl"></FaHome></h2> <p>Admin Home</p> </span>
                                 </NavLink>
                             </li>
                             <li>
                                 <NavLink to='/dashboard/allusers' className='flex items-center gap-2'>
-                                    <FaUtensils className="text-2xl"></FaUtensils> All Users
+                                    <FaUsers className="text-2xl"></FaUsers> All Users
                                 </NavLink>
                             </li>
                             <li>
                                 <NavLink to="/dashboard/allpets" className='flex items-center gap-2'>
-                                    <FaBook className="text-2xl"></FaBook> All Pets
+                                    <FaPaw className="text-2xl"></FaPaw> All Pets
                                 </NavLink>
                             </li>
                             <li>
                                 <NavLink to="/dashboard/alldonations" className='flex items-center gap-2'>
-                                    <FaUsers className="text-2xl"></FaUsers>All Donations
+                                    <FaDollarSign className="text-2xl"></FaDollarSign>All Donations
                                 </NavLink>
                             </li>
 
@@ -45,12 +46,12 @@ const DashBoard = () => {
                             </li>
                             <li>
                                 <NavLink to='/dashboard/addpet' className='flex items-center gap-2'>
-                                    <FaCalendar className="text-2xl"></FaCalendar> Add a Pet
+                                    <FaAd className="text-2xl"></FaAd> Add a Pet
                                 </NavLink>
                             </li>
                             <li>
                                 <NavLink to="/dashboard/addedpets" className='flex items-center gap-2'>
-                                    <FaShoppingCart className="text-2xl"></FaShoppingCart> My Added Pets
+                                    <MdPets className="text-2xl"></MdPets> My Added Pets
                                 </NavLink>
                             </li>
                             <li>
@@ -60,17 +61,17 @@ const DashBoard = () => {
                             </li>
                             <li>
                                 <NavLink to="/dashboard/createdonation" className='flex items-center gap-2'>
-                                    <FaList className="text-2xl"></FaList> Create Donation Campaign
+                                    <FaDonate className="text-2xl"></FaDonate> Create Donation Campaign
                                 </NavLink>
                             </li>
                             <li>
                                 <NavLink to="/dashboard/createddonation" className='flex items-center gap-2'>
-                                    <FaList className="text-2xl"></FaList>My Created Donation Campaign
+                                    <MdPlaylistAddCheck className="text-2xl"></MdPlaylistAddCheck>My Created Donation Campaign
                                 </NavLink>
                             </li>
                             <li>
                                 <NavLink to="/dashboard/mydonation" className='flex items-center gap-2'>
-                                    <FaList className="text-2xl"></FaList> My Donation
+                                    <FaDollarSign className="text-2xl"></FaDollarSign> My Donation
                                 </NavLink>
                             </li>
                         </>
@@ -84,8 +85,8 @@ const DashBoard = () => {
                         </NavLink>
                     </li>
                     <li>
-                        <NavLink to='/pets' className='flex items-center gap-2'>
-                            <FaSearch className="text-2xl"></FaSearch>  Pets
+                        <NavLink to='/petlisting' className='flex items-center gap-2'>
+                            <FaList className="text-2xl"></FaList>  Pets
                         </NavLink>
                     </li>
                 </ul>

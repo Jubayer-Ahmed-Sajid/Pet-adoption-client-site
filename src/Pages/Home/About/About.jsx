@@ -4,7 +4,7 @@ const About = () => {
         <div>
             <h2 className="text-4xl text-center mt-20 mb-8 ">About Us</h2>
             <hr />
-            <div className="lg:flex gap-6 items-center justify-center ">
+            <div className="lg:flex gap-6 items-center lg:mx-12 mx-8 justify-center ">
                 <div className="shadow-lg rounded-lg bg-white px-4 py-12 w-1/2">
                     <h2 className="text-3xl font-bold text-[#001F3F]">About Pet Adoption</h2>
                     <h3 className="text-2xl font-semibold my-6">

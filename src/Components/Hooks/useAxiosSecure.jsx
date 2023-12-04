@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import useAuth from './useAuth';
 
 const axiosSecure = axios.create({
- baseURL:'https://pet-adaption-server-side-fgi0jtdj5-jubayer-ahmed-sajid.vercel.app'
+ baseURL:'https://pet-adaption-server-side-1w2fswoam-jubayer-ahmed-sajid.vercel.app'
 });
 const useAxiosSecure = () => {
     const navigate = useNavigate()
@@ -18,8 +18,7 @@ const useAxiosSecure = () => {
         return Promise.reject(error)
     });
     axiosSecure.interceptors.response.use(function (response) {
-        // Any status code that lie within the range of 2xx cause this function to trigger
-        // Do something with response data
+       
         return response;
       }, async (error)=> {
         const status = error?.response?.status

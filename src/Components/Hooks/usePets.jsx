@@ -1,5 +1,4 @@
-import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
-import useAxiosPublic from './useAxiosPublic';
+import {  useQuery } from '@tanstack/react-query';
 import useAxiosSecure from './useAxiosSecure';
 
 const usePets = () => {
