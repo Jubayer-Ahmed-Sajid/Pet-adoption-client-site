@@ -26,6 +26,9 @@ Check out the live demo of the Pet Adoption Website: [Live Demo](your-live-demo-
 - **Admin Dashboard:**
   - Admins have special privileges to manage all user-added content.
   - Admins can edit, update, or delete pets, donation campaigns, and user accounts.
+  - Admin can make any normal use to admin
+  - Admin can See the all users logged in the website
+  - Admin can delete any user any time
 
 ## Technologies Used
 
