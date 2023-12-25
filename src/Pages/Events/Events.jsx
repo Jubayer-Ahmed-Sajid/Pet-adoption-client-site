@@ -12,7 +12,7 @@ const EventCard = () => {
 
         <div className='grid lg:grid-cols-3 gap-4'>
             {
-                events.map(event => <div className="bg-white border rounded-lg overflow-hidden shadow-md transition-transform hover:scale-105">
+                events.map(event => <div key={event._id} className="bg-white border rounded-lg overflow-hidden shadow-md transition-transform hover:scale-105">
                     <img src={event.image} alt={event.name} className="w-full h-40 object-cover" />
                     <div className="p-4">
                         <h3 className="text-xl font-semibold mb-2">{event.name}</h3>
