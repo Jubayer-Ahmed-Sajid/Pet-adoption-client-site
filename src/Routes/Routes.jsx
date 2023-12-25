@@ -21,6 +21,7 @@ import AdoptionRequest from "../Pages/Dashboard/User/AdoptionRequest";
 import CategoryPets from "../Pages/Home/Categories/CategoryPets";
 import DonationDetails from "../Pages/Donation/DonationDetails";
 import AdminRoutes from "./AdminRoutes";
+import Favorites from "../Pages/Favorites/Favorites";
 
 const router = createBrowserRouter([
  {
@@ -61,7 +62,13 @@ const router = createBrowserRouter([
             path:'categoryPets/:category',
             element:<PrivateRoutes><CategoryPets></CategoryPets></PrivateRoutes>,
            
-        }
+        },
+        
+            {
+                path:'favorites',
+                element:<PrivateRoutes><Favorites></Favorites></PrivateRoutes>
+            }
+        
        
     ],
  },
@@ -112,7 +119,8 @@ const router = createBrowserRouter([
         {
             path:'adoptionrequest',
             element:<PrivateRoutes><AdoptionRequest></AdoptionRequest></PrivateRoutes>
-        }
+        },
+       
     ]
  }
 ])

@@ -14,8 +14,10 @@ import useAuth from "../Hooks/useAuth";
 import { MdFavorite, MdLocationPin } from "react-icons/md";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../Hooks/useAxiosSecure";
+import useFavorites from "../Hooks/useFavorites";
 const PetDetails = () => {
     const { user } = useAuth()
+    const [favorites,refetch] = useFavorites()
     const axiosSecure = useAxiosSecure()
     const name = user?.displayName
     const email = user?.email
@@ -55,6 +57,7 @@ const PetDetails = () => {
             console.log(adopterInfo)
             const reqInfo = await axiosSecure.post('/adoption/request', adopterInfo)
             console.log(reqInfo)
+            
             if (reqInfo.data.insertedId) {
                 Swal.fire({
                     position: "top-end",
@@ -69,20 +72,40 @@ const PetDetails = () => {
 
         },
     });
-    const handleFavorites = async() => {
-        const favPet = { ...PetDetails, email: email }
-        console.log(favPet)
-        const favInfo = await axiosSecure.post('/pets/favorites')
-        console.log(favInfo)
-        if(favInfo.data.insertedId){
+    const handleFavorites = async () => {
+        const { _id, ...restOfPetDetails } = PetDetails;
+        const favPet = { ...restOfPetDetails, email: email }
+        console.log(favorites)
+
+        const existingPet = favorites.find(favorite => favorite.name === favPet.name)
+        if (existingPet) {
             Swal.fire({
-                position: "top-end",
-                icon: "success",
-                title: `${favPet.name} has been added to the favorites`,
-                showConfirmButton: false,
-                timer: 1500
+                icon: "error",
+                title: "Oops...",
+                text: "Something went wrong!",
+                footer: '<a href="#">Why do I have this issue?</a>'
             });
         }
+
+        else {
+            console.log(favPet)
+            const favInfo = await axiosSecure.post('/pets/favorites', favPet)
+            console.log(favInfo)
+            if (favInfo.data.insertedId) {
+                Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: `${favPet.name} has been added to the favorites`,
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                refetch()
+            }
+
+        }
+
+
+
     }
 
 

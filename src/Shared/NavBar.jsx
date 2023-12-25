@@ -10,6 +10,7 @@ import {
     MenuItem,
     Button,
 } from "@material-tailwind/react";
+import { FaHeart } from "react-icons/fa";
 const NavBar = () => {
     const { user, SignOutUser } = useAuth()
     console.log(user)
@@ -52,6 +53,9 @@ const NavBar = () => {
             <NavLink className={({ isActive, isPending }) =>
                 isPending ? "pending" : isActive ? "bg-black py-2 px-3 rounded-md" : "hover:text-blue-700  hover:bg-slate-400 py-2 px-3 hover:rounded-md"
             } to='/signUp'>SignUp</NavLink>
+        </li>
+        <li>
+            <NavLink to='favorites'>Favorites</NavLink>
         </li>
     </>
     const handleChange = () => {
