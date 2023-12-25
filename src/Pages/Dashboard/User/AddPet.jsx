@@ -5,7 +5,7 @@ import Select from 'react-select'
 import { Textarea } from "@material-tailwind/react";
 import Swal from 'sweetalert2';
 import axios from 'axios';
-import useAxiosSecure from '../../../Components/Hooks/useAxiosSecure';
+import useAxiosPublic from '../../../Components/Hooks/useAxiosPublic';
 import useAuth from '../../../Components/Hooks/useAuth';
 
 const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY
@@ -21,7 +21,7 @@ const options = [
 
 
 const AddPet = () => {
-    const axiosSecure = useAxiosSecure()
+    const axiosPublic = useAxiosPublic()
     const {user} = useAuth()
     const formik = useFormik({
 
@@ -65,7 +65,7 @@ const AddPet = () => {
                 AddedDate: new Date().toDateString()
 
             }
-            const petRes = await axiosSecure.post('/pets', petsInfo)
+            const petRes = await axiosPublic.post('/pets', petsInfo)
             if(petRes.data.insertedId){
                 Swal.fire({
                     position: "top-end",

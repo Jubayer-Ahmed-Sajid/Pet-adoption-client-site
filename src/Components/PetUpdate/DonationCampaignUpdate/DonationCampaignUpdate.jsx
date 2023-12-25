@@ -7,7 +7,7 @@ import Swal from 'sweetalert2';
 import axios from 'axios';
 import { useLoaderData, useParams } from 'react-router-dom';
 import useAuth from '../../Hooks/useAuth';
-import useAxiosSecure from '../../Hooks/useAxiosSecure';
+import useAxiosPublic from '../../Hooks/useAxiosPublic';
 
 
 const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY
@@ -22,15 +22,15 @@ const DonationCampaignUpdate = () => {
     const [campaign,setCampaign] = useState({})
     const {id} = useParams()
     console.log(id)
-    const axiosSecure = useAxiosSecure()
+    const axiosPublic = useAxiosPublic()
     const { user } = useAuth()
     useEffect(()=>{
-        axiosSecure.get(`/donations/${id}`)
+        axiosPublic.get(`/donations/${id}`)
         .then(res =>{
             setCampaign(res.data)
         })
 
-    },[axiosSecure,id])
+    },[axiosPublic,id])
     const formik = useFormik({
 
         initialValues: {
@@ -75,7 +75,7 @@ const DonationCampaignUpdate = () => {
                 AddedDate: new Date().toDateString()
 
             }
-            const petRes = await axiosSecure.patch(`/donations/${id}`, UpdatedCampaignInfo)
+            const petRes = await axiosPublic.patch(`/donations/${id}`, UpdatedCampaignInfo)
             if (petRes.data.modifiedCount) {
                 Swal.fire({
                     position: "top-end",

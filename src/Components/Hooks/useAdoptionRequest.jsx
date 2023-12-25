@@ -1,14 +1,14 @@
 import { useQuery } from '@tanstack/react-query';
 import useAuth from './useAuth';
-import useAxiosSecure from './useAxiosSecure';
+import useAxiosPublic from './useAxiosPublic';
 
 const useAdoptionRequest = () => {
-    const axiosSecure = useAxiosSecure()
+    const axiosPublic = useAxiosPublic()
     const {user} = useAuth()
    const {data: adoptionRequests = [], refetch} = useQuery({
     queryKey:['adoption-request'],
     queryFn:async()=>{
-     const RequestInfo =await   axiosSecure.get(`/adoption/request?email=${user?.email}`)
+     const RequestInfo =await   axiosPublic.get(`/adoption/request?email=${user?.email}`)
      console.log(RequestInfo)
      return RequestInfo.data
     }

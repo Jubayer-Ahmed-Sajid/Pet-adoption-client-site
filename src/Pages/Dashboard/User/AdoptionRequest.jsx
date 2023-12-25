@@ -2,15 +2,15 @@ import React from 'react';
 import BasicTable from '../../../Components/BasicTable';
 import useAdoptionRequest from '../../../Components/Hooks/useAdoptionRequest';
 import { MdCancel, MdCheckCircle } from 'react-icons/md';
-import useAxiosSecure from '../../../Components/Hooks/useAxiosSecure';
+import useAxiosPublic from '../../../Components/Hooks/useAxiosPublic';
 import Swal from 'sweetalert2';
 const AdoptionRequest = () => {
     const [adoptionRequests, refetch] = useAdoptionRequest()
     console.log(adoptionRequests)
-    const axiosSecure = useAxiosSecure()
+    const axiosPublic = useAxiosPublic()
 
     const handleReject = async (info) => {
-        const rejectInfo = await axiosSecure.delete(`/adoption/request/${info._id}`)
+        const rejectInfo = await axiosPublic.delete(`/adoption/request/${info._id}`)
         if (rejectInfo.data.deletedCount) {
             Swal.fire({
                 position: "top-end",
@@ -25,11 +25,11 @@ const AdoptionRequest = () => {
 
     }
     const handleAccept = async (id) => {
-        const acceptInfo = await axiosSecure.put(`/adoption/request/${id._id}`)
+        const acceptInfo = await axiosPublic.put(`/adoption/request/${id._id}`)
         refetch()
     }
     const handleStatus = async (id) => {
-        const statusInfo = await axiosSecure.patch(`/adoption/request?id=${id}`)
+        const statusInfo = await axiosPublic.patch(`/adoption/request?id=${id}`)
         if (statusInfo.data.modifiedCount) {
 
             Swal.fire({

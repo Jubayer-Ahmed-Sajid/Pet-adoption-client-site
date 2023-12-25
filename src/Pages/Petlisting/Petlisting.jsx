@@ -4,11 +4,11 @@ import { Link } from 'react-router-dom';
 import { MdLocationPin, MdSearch } from "react-icons/md";
 import { Input, Option, Select } from '@material-tailwind/react';
 import axios from 'axios';
-import useAxiosSecure from '../../Components/Hooks/useAxiosSecure';
+import useAxiosPublic from '../../Components/Hooks/useAxiosPublic';
 
 const Petlisting = () => {
     const [pets, refetch] = usePets()
-    const axiosSecure = useAxiosSecure()
+    const axiosPublic = useAxiosPublic()
     const [query, setQuery] = useState('')
     const [displayPets, setDisplayPets] = useState([])
 
@@ -23,7 +23,7 @@ const Petlisting = () => {
 
 
     const handleSearch = async () => {
-        const response = await axiosSecure.get(`/pets/search?name=${query}`);
+        const response = await axiosPublic.get(`/pets/search?name=${query}`);
         console.log(response)
 
         setDisplayPets(response.data);

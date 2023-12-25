@@ -1,15 +1,15 @@
 import { useQuery } from "@tanstack/react-query";
-import useAxiosSecure from "./useAxiosSecure";
+import useAxiosPublic from "./useAxiosPublic";
 import useAuth from "./useAuth";
 
 const useFavorites = () => {
-    const axiosSecure = useAxiosSecure()
+    const axiosPublic = useAxiosPublic()
     const { user } = useAuth()
     
     const { data: favorites = [], refetch } = useQuery({
         queryKey: ['favorites', user?.email],  
         queryFn: async () => {
-            const favPets = await axiosSecure.get(`/pets/favorites/email?email=${user?.email}`)
+            const favPets = await axiosPublic.get(`/pets/favorites/email?email=${user?.email}`)
             return favPets.data
         }
     })

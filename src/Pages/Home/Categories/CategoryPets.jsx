@@ -2,18 +2,18 @@ import { MdLocationPin } from "react-icons/md";
 import { Link, useLoaderData, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Option, Select,Input } from "@material-tailwind/react";
-import useAxiosSecure from "../../../Components/Hooks/useAxiosSecure";
+import useAxiosPublic from "../../../Components/Hooks/useAxiosPublic";
 
 const CategoryPets = () => {
     const {category} = useParams()
     console.log(category)
-    const axiosSecure = useAxiosSecure()
+    const axiosPublic = useAxiosPublic()
     const [query, setQuery] = useState('')
     const [displayPets, setDisplayPets] = useState([])
 
 
     useEffect(() => {
-        axiosSecure.get(`/pets/${category}`)
+        axiosPublic.get(`/pets/${category}`)
         .then(res =>{
            const pets = res.data
            const display_data = pets.filter(pet => !pet.status)
@@ -21,11 +21,11 @@ const CategoryPets = () => {
             console.log()
         })
 
-    }, [setDisplayPets,category,axiosSecure])
+    }, [setDisplayPets,category,axiosPublic])
 
 
     const handleSearch = async () => {
-        const response = await axiosSecure.get(`/pets/search?name=${query}`);
+        const response = await axiosPublic.get(`/pets/search?name=${query}`);
         console.log(response)
         setDisplayPets(response.data);
 

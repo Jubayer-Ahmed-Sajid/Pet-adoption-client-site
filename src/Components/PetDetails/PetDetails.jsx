@@ -13,12 +13,12 @@ import { useFormik } from "formik";
 import useAuth from "../Hooks/useAuth";
 import { MdFavorite, MdLocationPin } from "react-icons/md";
 import Swal from "sweetalert2";
-import useAxiosSecure from "../Hooks/useAxiosSecure";
+import useAxiosPublic from "../Hooks/useAxiosPublic";
 import useFavorites from "../Hooks/useFavorites";
 const PetDetails = () => {
     const { user } = useAuth()
     const [favorites,refetch] = useFavorites()
-    const axiosSecure = useAxiosSecure()
+    const axiosPublic = useAxiosPublic()
     const name = user?.displayName
     const email = user?.email
     const [open, setOpen] = React.useState(false);
@@ -55,7 +55,7 @@ const PetDetails = () => {
                 id: PetDetails._id
             }
             console.log(adopterInfo)
-            const reqInfo = await axiosSecure.post('/adoption/request', adopterInfo)
+            const reqInfo = await axiosPublic.post('/adoption/request', adopterInfo)
             console.log(reqInfo)
             
             if (reqInfo.data.insertedId) {
@@ -89,7 +89,7 @@ const PetDetails = () => {
 
         else {
             console.log(favPet)
-            const favInfo = await axiosSecure.post('/pets/favorites', favPet)
+            const favInfo = await axiosPublic.post('/pets/favorites', favPet)
             console.log(favInfo)
             if (favInfo.data.insertedId) {
                 Swal.fire({

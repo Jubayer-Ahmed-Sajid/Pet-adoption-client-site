@@ -6,7 +6,7 @@ import { Textarea } from "@material-tailwind/react";
 import Swal from 'sweetalert2';
 import axios from 'axios';
 import useAuth from '../../../Components/Hooks/useAuth';
-import useAxiosSecure from '../../../Components/Hooks/useAxiosSecure';
+import useAxiosPublic from '../../../Components/Hooks/useAxiosPublic';
 
 
 const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY
@@ -18,7 +18,7 @@ const statusOptions = [
 ]
 
 const AddDonationCampaign = () => {
-    const axiosSecure = useAxiosSecure()
+    const axiosPublic = useAxiosPublic()
     const { user } = useAuth()
     const formik = useFormik({
 
@@ -65,7 +65,7 @@ const AddDonationCampaign = () => {
                 status:'Continue'
 
             }
-            const campaignRes = await axiosSecure.post('/donations', CampaignInfo)
+            const campaignRes = await axiosPublic.post('/donations', CampaignInfo)
             if (campaignRes.data.insertedId) {
                 Swal.fire({
                     position: "top-end",

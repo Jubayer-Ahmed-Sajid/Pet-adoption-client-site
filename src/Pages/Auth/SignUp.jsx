@@ -48,7 +48,7 @@ const SignUp = () => {
             const createdUser = await createUser(email, password)
             console.log(createdUser)
             updateUser(name, photo_url)
-                .then(() => {
+                .then(async() => {
                     Swal.fire({
                         position: "top-end",
                         icon: "success",
@@ -56,17 +56,19 @@ const SignUp = () => {
                         showConfirmButton: false,
                         timer: 1500
                     });
-                    navigate('/')
-                    location.reload()
 
                     const isAdmin = false;
                     const userInfo = {
                         name, email, photo_url, isAdmin
                     }
-                    axiosPublic.post('/users', userInfo)
+                   await axiosPublic.post('/users', userInfo)
                         .then(res => {
                             console.log(res.data)
                         })
+                    location.reload()
+                    navigate('/')
+
+
                 })
                 .catch(err => {
                     console.log(err)

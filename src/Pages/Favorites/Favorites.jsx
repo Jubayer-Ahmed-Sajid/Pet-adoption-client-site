@@ -3,13 +3,13 @@ import useFavorites from "../../Components/Hooks/useFavorites";
 import { MdLocationPin } from "react-icons/md";
 import { FaMinus } from "react-icons/fa";
 import { Tooltip as ReactTooltip } from 'react-tooltip'
-import useAxiosSecure from "../../Components/Hooks/useAxiosSecure";
+import useAxiosPublic from "../../Components/Hooks/useAxiosPublic";
 import Swal from "sweetalert2";
 const Favorites = () => {
     const [favorites, refetch] = useFavorites()
-    const axiosSecure = useAxiosSecure()
+    const axiosPublic = useAxiosPublic()
     const handleRemove =async(id)=>{
-        const deleteFav = await axiosSecure.delete(`/pets/favorites/${id}`)
+        const deleteFav = await axiosPublic.delete(`/pets/favorites/${id}`)
         console.log(deleteFav.data)
         if(deleteFav.data.deletedCount){
             Swal.fire({

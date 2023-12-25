@@ -4,10 +4,10 @@ import useAddedPets from '../../../Components/Hooks/useAddedPets';
 import { FaEdit, FaTrashAlt } from 'react-icons/fa'
 import { Link } from 'react-router-dom';
 import Swal from 'sweetalert2';
-import useAxiosSecure from '../../../Components/Hooks/useAxiosSecure';
+import useAxiosPublic from '../../../Components/Hooks/useAxiosPublic';
 const AddedPets = () => {
     const [addedPets, refetch] = useAddedPets()
-    const axiosSecure = useAxiosSecure()
+    const axiosPublic = useAxiosPublic()
     console.log(addedPets)
     const handleDelete = (pet) => {
 
@@ -21,7 +21,7 @@ const AddedPets = () => {
             confirmButtonText: "Yes, Delete pet!"
         }).then((result) => {
             if (result.isConfirmed) {
-                axiosSecure.delete(`/pets/${pet._id}`)
+                axiosPublic.delete(`/pets/${pet._id}`)
                     .then((res) => {
                         if (res.data.deletedCount) {
                             Swal.fire({
@@ -45,7 +45,7 @@ const AddedPets = () => {
             confirmButtonText: "Yes, Change status!"
         }).then((result) => {
             if (result.isConfirmed) {
-                axiosSecure.patch(`/pets/admin/${pet._id}`)
+                axiosPublic.patch(`/pets/admin/${pet._id}`)
                     .then((res) => {
                         console.log(res.data)
                         if (res.data.modifiedCount) {

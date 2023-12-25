@@ -1,5 +1,5 @@
 import React from 'react';
-import useAxiosSecure from '../../../Components/Hooks/useAxiosSecure';
+import useAxiosPublic from '../../../Components/Hooks/useAxiosPublic';
 import BasicTable from '../../../Components/BasicTable';
 import usePets from '../../../Components/Hooks/usePets';
 import { FaEdit, FaTrashAlt, FaUsers } from 'react-icons/fa';
@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 
 const AllPets = () => {
     const [pets, refetch] = usePets()
-    const axiosSecure = useAxiosSecure()
+    const axiosPublic = useAxiosPublic()
    
     const handleDelete = (pet) => {
 
@@ -22,7 +22,7 @@ const AllPets = () => {
             confirmButtonText: "Yes, Delete pet!"
         }).then((result) => {
             if (result.isConfirmed) {
-                axiosSecure.delete(`/pets/${pet._id}`)
+                axiosPublic.delete(`/pets/${pet._id}`)
                     .then((res) => {
                         if (res.data.deletedCount) {
                             Swal.fire({
@@ -46,7 +46,7 @@ const AllPets = () => {
             confirmButtonText: "Yes, Change status!"
         }).then((result) => {
             if (result.isConfirmed) {
-                axiosSecure.patch(`/pets/admin/${pet._id}`)
+                axiosPublic.patch(`/pets/admin/${pet._id}`)
                     .then((res) => {
                         console.log(res.data)
                         if (res.data.modifiedCount) {

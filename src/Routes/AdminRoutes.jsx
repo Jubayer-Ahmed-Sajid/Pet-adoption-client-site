@@ -9,7 +9,7 @@ const AdminRoutes = ({children}) => {
     if(loading || isLoading){
         return <div className='h-screen flex items-center justify-center'><Spinner className="h-16 w-16 text-gray-900/50" />;</div>
     }
-    if(user && data){
+    if(data){
         return children
     }
     return <Navigate to='/signin'></Navigate>

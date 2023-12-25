@@ -4,11 +4,11 @@ import useAddedDonations from '../../../Components/Hooks/useAddedDonations';
 import { FaEdit, FaTrashAlt } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import Swal from 'sweetalert2';
-import useAxiosSecure from '../../../Components/Hooks/useAxiosSecure';
+import useAxiosPublic from '../../../Components/Hooks/useAxiosPublic';
 
 const AddedDonations = () => {
     const [addedDonations,refetch] = useAddedDonations()
-    const axiosSecure = useAxiosSecure()
+    const axiosPublic = useAxiosPublic()
     const handleDelete = (donation) => {
 
         Swal.fire({
@@ -21,7 +21,7 @@ const AddedDonations = () => {
             confirmButtonText: "Yes, Delete pet!"
         }).then((result) => {
             if (result.isConfirmed) {
-                axiosSecure.delete(`/donations/${donation._id}`)
+                axiosPublic.delete(`/donations/${donation._id}`)
                     .then((res) => {
                         if (res.data.deletedCount) {
                             Swal.fire({

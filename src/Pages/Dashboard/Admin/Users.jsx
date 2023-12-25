@@ -1,5 +1,5 @@
 import Swal from "sweetalert2";
-import useAxiosSecure from "../../../Components/Hooks/useAxiosSecure";
+import useAxiosPublic from "../../../Components/Hooks/useAxiosPublic";
 import BasicTable from "../../../Components/BasicTable";
 import { FaTrashAlt, FaUsers } from "react-icons/fa";
 import useUsers from "../../../Components/Hooks/useUsers";
@@ -7,7 +7,7 @@ import useUsers from "../../../Components/Hooks/useUsers";
 
 const Users = () => {
     const [users, refetch] = useUsers()
-    const axiosSecure = useAxiosSecure()
+    const axiosPublic = useAxiosPublic()
     const handleAdmin = (user) => {
         console.log(user)
 
@@ -22,7 +22,7 @@ const Users = () => {
             confirmButtonText: "Yes, Make Admin!"
         }).then((result) => {
             if (result.isConfirmed) {
-                axiosSecure.patch(`/users/admin/${user._id}`)
+                axiosPublic.patch(`/users/admin/${user._id}`)
                     .then((res) => {
                         if (res.data.modifiedCount) {
                             Swal.fire({
@@ -50,16 +50,16 @@ const Users = () => {
             confirmButtonText: "Yes, Delete User!"
         }).then((result) => {
             if (result.isConfirmed) {
-                axiosSecure.delete(`/users/${user._id}`)
+                axiosPublic.delete(`/users/${user._id}`)
                     .then((res) => {
                         if (res.data.modifiedCount) {
                             Swal.fire({
                                 title: `${user.name} is Deleted`,
                                 icon: "success"
                             });
-                            refetch()
                         }
                     })
+                    refetch();
             }
         });
     }
