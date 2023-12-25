@@ -7,7 +7,7 @@ const useFavorites = () => {
     const { user } = useAuth()
     
     const { data: favorites = [], refetch } = useQuery({
-        queryKey: ['favorites', user?.email],  // Include user email in the queryKey
+        queryKey: ['favorites', user?.email],  
         queryFn: async () => {
             const favPets = await axiosSecure.get(`/pets/favorites/email?email=${user?.email}`)
             return favPets.data

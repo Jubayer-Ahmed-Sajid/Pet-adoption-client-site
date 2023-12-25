@@ -22,6 +22,7 @@ import CategoryPets from "../Pages/Home/Categories/CategoryPets";
 import DonationDetails from "../Pages/Donation/DonationDetails";
 import AdminRoutes from "./AdminRoutes";
 import Favorites from "../Pages/Favorites/Favorites";
+import EventCard from "../Pages/Events/Events";
 
 const router = createBrowserRouter([
  {
@@ -67,6 +68,10 @@ const router = createBrowserRouter([
             {
                 path:'favorites',
                 element:<PrivateRoutes><Favorites></Favorites></PrivateRoutes>
+            },
+            {
+                path:'events',
+                element:<PrivateRoutes><EventCard></EventCard></PrivateRoutes>
             }
         
        
