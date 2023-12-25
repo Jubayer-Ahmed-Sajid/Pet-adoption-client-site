@@ -23,6 +23,7 @@ const PetDetails = () => {
     const handleOpen = () => setOpen(!open);
     const { id } = useParams()
     const { PetDetails } = usePetDetails(id)
+    console.log(PetDetails)
 
     const formik = useFormik({
 
@@ -45,29 +46,44 @@ const PetDetails = () => {
                 requester_name: name,
                 requester_email: email,
                 email: PetDetails.email,
-                pet_name:PetDetails.name,
+                pet_name: PetDetails.name,
                 phone: values.phone,
                 address: values.address,
-                image:PetDetails.image,
-                id:PetDetails._id
+                image: PetDetails.image,
+                id: PetDetails._id
             }
             console.log(adopterInfo)
-           const reqInfo = await axiosSecure.post('/adoption/request', adopterInfo)
-           console.log(reqInfo)
-           if(reqInfo.data.insertedId){
-            Swal.fire({
-                position: "top-end",
-                icon: "success",
-                title: "Adoption Request has been saved",
-                showConfirmButton: false,
-                timer: 1500
-              });
-           }
+            const reqInfo = await axiosSecure.post('/adoption/request', adopterInfo)
+            console.log(reqInfo)
+            if (reqInfo.data.insertedId) {
+                Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: "Adoption Request has been saved",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            }
 
 
 
         },
     });
+    const handleFavorites = async() => {
+        const favPet = { ...PetDetails, email: email }
+        console.log(favPet)
+        const favInfo = await axiosSecure.post('/pets/favorites')
+        console.log(favInfo)
+        if(favInfo.data.insertedId){
+            Swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: `${favPet.name} has been added to the favorites`,
+                showConfirmButton: false,
+                timer: 1500
+            });
+        }
+    }
 
 
 
@@ -81,7 +97,7 @@ const PetDetails = () => {
                 <h2 className='flex text-xl items-center'><span className='text-3xl mr-2 my-2  rounded-lg'><MdLocationPin></MdLocationPin></span> {PetDetails.pet_location}</h2>
                 <div className="flex items-center justify-between text-xl font-semibold">
                     <h2 className="xl ml-4">Details</h2>
-                    <h2 className="flex items-center gap-2"><MdFavorite className="text-3xl"></MdFavorite> Add to Favorite</h2>
+                    <button className="flex btn items-center gap-2" onClick={handleFavorites}><MdFavorite className="text-3xl"></MdFavorite> Add to Favorite</button>
 
                 </div>
                 <hr />
