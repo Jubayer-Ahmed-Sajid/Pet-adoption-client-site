@@ -15,7 +15,7 @@ const Favorites = () => {
             Swal.fire({
                 position: "top-end",
                 icon: "success",
-                title: `This pet has been removed from favorites`,
+                title: `This pet has been removed from favoritesgit`,
                 showConfirmButton: false,
                 timer: 1500
             });

@@ -36,26 +36,33 @@ const NavBar = () => {
     const navLinks = <>
         <li>
             <NavLink className={({ isActive, isPending }) =>
-                isPending ? "pending" : isActive ? "bg-black py-2 px-3 rounded-md" : "hover:text-blue-700  hover:bg-slate-400 py-2 px-3 hover:rounded-md"
+                isPending ? "pending" : isActive ? "bg-black py-2 px-3 rounded-md" : "hover:text-blue-700  hover:bg-slate-400 py-2 px-2 hover:rounded-md"
             } to='/'>Home</NavLink>
         </li>
         <li>
             <NavLink className={({ isActive, isPending }) =>
-                isPending ? "pending" : isActive ? "bg-black py-2 px-3 rounded-md" : "hover:text-blue-700  hover:bg-slate-400 py-2 px-3 hover:rounded-md"
+                isPending ? "pending" : isActive ? "bg-black py-2 px-2 rounded-md" : "hover:text-blue-700  hover:bg-slate-400 py-2 px-2 hover:rounded-md"
             } to='/petlisting'>Pet Listing</NavLink>
         </li>
         <li>
             <NavLink className={({ isActive, isPending }) =>
-                isPending ? "pending" : isActive ? "bg-black py-2 px-3 rounded-md" : "hover:text-blue-700  hover:bg-slate-400 py-2 px-3 hover:rounded-md"
-            } to='/donationCampaign'>Donation Campaign</NavLink>
+                isPending ? "pending" : isActive ? "bg-black py-2 px-2 rounded-md" : "hover:text-blue-700  hover:bg-slate-400 py-2 px-2 hover:rounded-md"
+            } to='/donationCampaign'>Campaigns</NavLink>
         </li>
         <li >
             <NavLink className={({ isActive, isPending }) =>
-                isPending ? "pending" : isActive ? "bg-black py-2 px-3 rounded-md" : "hover:text-blue-700  hover:bg-slate-400 py-2 px-3 hover:rounded-md"
+                isPending ? "pending" : isActive ? "bg-black py-2 px-2 rounded-md" : "hover:text-blue-700  hover:bg-slate-400 py-2 px-2 hover:rounded-md"
             } to='/signUp'>SignUp</NavLink>
         </li>
         <li>
-            <NavLink to='favorites'>Favorites</NavLink>
+            <NavLink className={({ isActive, isPending }) =>
+                isPending ? "pending" : isActive ? "bg-black py-2 px-2 rounded-md" : "hover:text-blue-700  hover:bg-slate-400 py-2 px-2 hover:rounded-md"
+            } to='/favorites'>Favorites</NavLink>
+        </li>
+        <li>
+            <NavLink className={({ isActive, isPending }) =>
+                isPending ? "pending" : isActive ? "bg-black py-2 px-2 rounded-md" : "hover:text-blue-700  hover:bg-slate-400 py-2 px-2 hover:rounded-md"
+            } to='/events'>Events</NavLink>
         </li>
     </>
     const handleChange = () => {
@@ -79,7 +86,7 @@ const NavBar = () => {
                     </ul>
                 </div>
             </div>
-            <div className="text-white gap-3 flex justify-center items-center">
+            <div className="text-white gap-2 flex justify-center items-center">
                 {
                     user ? <> <p>{user.displayName}</p>
                         <Menu>
