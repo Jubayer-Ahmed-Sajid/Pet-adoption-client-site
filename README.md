@@ -4,6 +4,9 @@ Welcome to the Pet Adoption Website, a platform where users can add pets for ado
 
 ## Live Demo
 
+# Admin Email: sajid661azxcca@gmail.com
+# Admin Password: 1234aA!
+
 Check out the live demo of the Pet Adoption Website: [Live Demo](https://pet-adaption-11a4b.web.app)
 
 ## Features
