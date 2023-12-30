@@ -24,6 +24,7 @@ const AddDonationCampaign = () => {
 
         initialValues: {
             max_donation_amount:'',
+            donated_amount: 0,
             pet_name:'',
             last_date:'',
             image:'',
@@ -62,7 +63,8 @@ const AddDonationCampaign = () => {
                 long_description: values.long_description,
                 email: user?.email,
                 AddedDate: new Date().toDateString(),
-                status:'Continue'
+                status:'Continue',
+                donated_amount:0
 
             }
             const campaignRes = await axiosPublic.post('/donations', CampaignInfo)

@@ -51,10 +51,7 @@ const Footer = () =>{
             ))}
           </div>
         </div>
-        <div className="mt-12 flex w-full flex-col items-center justify-center border-t border-blue-gray-50 py-4 md:flex-row md:justify-between">
-         
         
-        </div>
       </div>
     </footer>
   );

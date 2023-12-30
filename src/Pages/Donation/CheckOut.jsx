@@ -1,28 +1,37 @@
-import { Button } from '@material-tailwind/react';
+import { Button } from "@material-tailwind/react";
 import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
 import React, { useEffect, useState } from 'react';
 import useAuth from '../../Components/Hooks/useAuth';
 import useAxiosPublic from '../../Components/Hooks/useAxiosPublic';
-import Swal from 'sweetalert2';
+import useDonationDetails from '../../Components/Hooks/useDonationDetails';
 
 
-const CheckOut = () => {
+const CheckOut = ({id}) => {
     const axiosPublic = useAxiosPublic()
-    const stripe = useStripe('')
+    const stripe = useStripe()
+    const [error,setError] = useState('');
     const { user } = useAuth()
-    const [clientSecret, setClientSecret] = useState('')
+    const [donationDetails,refetch] = useDonationDetails(id)
+    const [clientSecret, setClientSecret] = useState()
     const [totalAmount, setTotalAmount] = useState('')
+    const [transactionId,setTransactionId] = useState()
     const elements = useElements()
-    const [error, setError] = useState('')
+   
     const handleAmount = (e) => {
         e.preventDefault()
         const amount = e.target.value
         const intAmount = parseInt(amount)
-        setTotalAmount(intAmount)
-        console.log(intAmount)
+        if((intAmount + donationDetails.donated_amount) > donationDetails.max_donation_amount){
+            const limitedAmount = donationDetails.max_donation_amount - donationDetails.donated_amount
+            setError (<p className='text-red-500'>Donation Amount must be under {limitedAmount}</p>)
+
+        }
+        else{
+            setError('')
+            setTotalAmount(intAmount)
+        }
 
     }
-    console.log(totalAmount)
     useEffect(() => {
         if (totalAmount > 0) {
 
@@ -44,20 +53,18 @@ const CheckOut = () => {
         if (card == null) {
             return;
         }
-        const { methodError, paymentMethod } = await stripe.createPaymentMethod({
+        const { error, paymentMethod } = await stripe.createPaymentMethod({
             type: 'card',
             card
         })
 
-        if (methodError) {
-            setError(methodError.message)
-            console.log(methodError)
-            setError
+        if (error) {
+            setError(error.message)
         } else {
             console.log('Payment Method is', paymentMethod);
             setError('')
         }
-        const { paymentIntent, confirmError } = await stripe.confirmCardPayment(
+        const {error: confirmError, paymentIntent  } = await stripe.confirmCardPayment(
             clientSecret, {
             payment_method: {
                 card: card,
@@ -70,34 +77,29 @@ const CheckOut = () => {
             }
         }
         )
-        if (confirmError) {
-            setError(confirmError.message)
-            console.log(confirmError)
-            Swal.fire({
-                icon: "error",
-                title: "Oops...",
-                text: `${error}`,
-                footer: '<a href="#">Why do I have this issue?</a>'
-            })
+        if (error) {
+            console.log(error)
+            setError(error.message)
+            
+           
         }
-        if (paymentIntent) {
+       else if (paymentIntent.status === 'succeeded') {
+            console.log('payment intent is', paymentIntent)
             setError('')
-            console.log(paymentIntent)
-            if (paymentIntent.status === 'succeeded') {
-                
-                    
-                        Swal.fire({
-                            
-                            position: "top-end",
-                            icon: "success",
-                            title: "Your work has been saved",
-                            showConfirmButton: false,
-                            timer: 1500
-                        })
-
-              
+            setTransactionId(paymentIntent.id)
+            const donationInfo = {
+                email: user.email,
+                name: user.displayName,
+                amount: paymentIntent.amount,
+                petName: donationDetails.name
             }
-
+            const donationRes = await axiosPublic.post('/payments',  donationInfo)
+            console.log(donationRes.data)
+            console.log(totalAmount)
+            const donationUpdate = await axiosPublic.patch(`/donations/update/${donationDetails._id}`,{donatedAmount: totalAmount})
+            console.log(donationUpdate.res)
+            refetch()
+            
         }
 
     }
@@ -132,9 +134,13 @@ const CheckOut = () => {
             }}>
 
             </CardElement>
-            <Button size='sm' color="blue" className='text-black' type="submit" disabled={!stripe}>
+            <Button size='sm'  className='my-4 text-black bg-blue-600' color="red" type="submit" disabled={!stripe}>
+        
                 Pay
             </Button>
+            <p className='text-red-500'>{error}</p>
+            {transactionId && <p className='text-green-500'>Payment Successful!! Your transactionId is: {transactionId}</p>}
+            
         </form>
     );
 };

@@ -14,7 +14,7 @@ import CheckOut from './CheckOut';
 
 const DonationDetails = () => {
     const { id } = useParams()
-    const { donationDetails } = useDonationDetails(id)
+    const [ donationDetails,refetch]  = useDonationDetails(id)
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(!open);
     console.log(donationDetails)
@@ -53,7 +53,7 @@ const DonationDetails = () => {
 
                             <Elements stripe={stripePromise}>
 
-                                <CheckOut> </CheckOut>
+                                <CheckOut id ={donationDetails._id}> </CheckOut>
 
                                 
                             </Elements>

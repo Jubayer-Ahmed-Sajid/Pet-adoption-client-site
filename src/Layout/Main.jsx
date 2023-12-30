@@ -4,10 +4,12 @@ import Footer from "../Shared/Footer";
 
 const Main = () => {
     return (
-        <div>
+        <div className="flex flex-col justify-end">
             <NavBar></NavBar>
             <Outlet></Outlet>
-            <Footer></Footer>
+           <div className="">
+           <Footer></Footer>
+           </div>
         </div>
     );
 };

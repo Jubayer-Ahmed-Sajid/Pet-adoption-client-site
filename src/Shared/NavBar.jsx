@@ -13,7 +13,6 @@ import {
 import { FaHeart } from "react-icons/fa";
 const NavBar = () => {
     const { user, SignOutUser } = useAuth()
-    console.log(user)
     const handleSignOut = () => {
         SignOutUser()
             .then(() => {
