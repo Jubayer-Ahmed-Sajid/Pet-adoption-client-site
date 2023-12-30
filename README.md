@@ -38,5 +38,6 @@ Check out the live demo of the Pet Adoption Website: [Live Demo](https://pet-ada
 - Firebase (Authentication, Realtime Database)
 - Material Tailwind
 - Tailwind CSS
+- React Tooltip
 
 

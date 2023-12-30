@@ -83,7 +83,7 @@ const router = createBrowserRouter([
     children:[
         {
             path:'allusers',
-            element:<Users></Users>
+            element:<AdminRoutes><Users></Users></AdminRoutes>
         },
         {
             path:'allpets',

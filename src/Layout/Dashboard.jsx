@@ -7,7 +7,7 @@ const DashBoard = () => {
     const [data,isLoading] = useAdmin()
     console.log(data)
 
-    const isAdmin = true;
+    const isAdmin = data;
     console.log(isAdmin)
 
 
