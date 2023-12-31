@@ -3,13 +3,15 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup'
 import useAuth from '../../Components/Hooks/useAuth';
 import Swal from 'sweetalert2';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { FaGithub, FaGoogle } from 'react-icons/fa'
 
 
 const SignIn = () => {
     const navigate = useNavigate()
     const { Signin, googleSignin, gitHubSignin } = useAuth()
+    const location = useLocation()
+    console.log(location)
     const formik = useFormik({
 
         initialValues: {
@@ -40,7 +42,7 @@ const SignIn = () => {
                         showConfirmButton: false,
                         timer: 1500
                     });
-                    navigate('/')
+                    navigate(location?.state? location?.state : '/')
                 })
                 .catch((error) => {
                     Swal.fire({
@@ -65,7 +67,8 @@ const SignIn = () => {
                     showConfirmButton: false,
                     timer: 1500
                 });
-                navigate('/')
+                navigate(location?.state? location?.state : '/')
+
             })
             .catch(error => {
                 console.log(error.message)
@@ -75,6 +78,8 @@ const SignIn = () => {
         gitHubSignin()
             .then(res => {
                 console.log(res.user)
+                navigate(location?.state? location?.state : '/')
+
             })
             .catch(error => {
                 Swal.fire({
@@ -84,6 +89,7 @@ const SignIn = () => {
                     showConfirmButton: false,
                     timer: 1500
                 });
+
             })
     }
     return (

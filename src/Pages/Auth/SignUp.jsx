@@ -3,7 +3,7 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup'
 import useAuth from '../../Components/Hooks/useAuth';
 import Swal from 'sweetalert2';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { FaGithub, FaGoogle } from 'react-icons/fa'
 import useAxiosPublic from '../../Components/Hooks/useAxiosPublic';
 import axios from 'axios';
@@ -13,6 +13,7 @@ const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_ke
 const SignUp = () => {
     const axiosPublic = useAxiosPublic()
     const navigate = useNavigate()
+    const location = useLocation()
     const { createUser, updateUser, googleSignin, gitHubSignin } = useAuth()
     const formik = useFormik({
 
@@ -65,8 +66,9 @@ const SignUp = () => {
                         .then(res => {
                             console.log(res.data)
                         })
-                    location.reload()
-                    navigate('/')
+                        navigate(location?.state? location?.state : '/')
+                        location.reload()
+
 
 
                 })
@@ -105,7 +107,8 @@ const SignUp = () => {
                                 timer: 1500
 
                             });
-                            navigate('/')
+                            navigate(location?.state? location?.state : '/')
+
                         }
 
 
@@ -145,7 +148,8 @@ const SignUp = () => {
                                 timer: 1500
 
                             });
-                            navigate('/')
+                            navigate(location?.state? location?.state : '/')
+
                         }
                     })
                     .catch(error => {
