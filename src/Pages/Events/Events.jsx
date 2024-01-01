@@ -7,7 +7,7 @@ import useEvents from '../../Components/Hooks/useEvents';
 const EventCard = () => {
     const [events] = useEvents()
     return (
-        <div>
+        <div className='mt-20'>
             <h2 className="text-3xl text-center my-8">Upcoming Events</h2>
 
         <div className='grid lg:grid-cols-3 gap-4'>

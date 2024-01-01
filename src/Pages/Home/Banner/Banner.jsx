@@ -29,7 +29,7 @@ const Banner = () => {
             <button className="hidden lg:block mt-6 py-2 px-3 rounded-lg bg-slate-400 text-xl font-semibold "><Link to='/petlisting '>Adopt Now</Link></button>
             </div>
           </div>
-          <img className="w-full lg:h-[80vh] lg:object-cover" src="https://i.ibb.co/kqK4b72/wepik-export-20231203105027z-BHe.jpg
+          <img className="w-full lg:h-[80vh] max-h-[500px] lg:object-cover" src="https://i.ibb.co/kqK4b72/wepik-export-20231203105027z-BHe.jpg
 
 " alt="" />
         </SwiperSlide>
@@ -41,7 +41,7 @@ const Banner = () => {
               <button className="hidden lg:block mt-6 py-2 px-3 rounded-lg bg-slate-400 text-xl font-semibold "><Link to='/petlisting'>Adopt Now</Link></button>
             </div>
           </div>
-          <img className="w-full h-[80vh] object-cover" src="https://i.ibb.co/MB6NjfP/wepik-export-20231203105207-Yd-RP.jpg" alt="" />
+          <img className="w-full h-[80vh] max-h-[500px] object-cover" src="https://i.ibb.co/MB6NjfP/wepik-export-20231203105207-Yd-RP.jpg" alt="" />
         </SwiperSlide>
         <SwiperSlide className="relative">
           <div className="absolute lg:left-24 text-center lg:top-32  ">
@@ -51,7 +51,7 @@ const Banner = () => {
             <button className="hidden lg:flex justify-center mt-6 py-2 px-3 rounded-lg bg-slate-400 text-xl font-semibold "><Link to='/donationCampaign'>Donate Now</Link></button>
             </div>
           </div>
-          <img className="w-full h-[80vh] object-cover" src="https://i.ibb.co/sVgj3XD/wepik-export-20231203104401-Ln-IK.jpg" alt="" />
+          <img className="w-full h-[80vh] max-h-[500px] object-cover" src="https://i.ibb.co/sVgj3XD/wepik-export-20231203104401-Ln-IK.jpg" alt="" />
         </SwiperSlide>
 
 
