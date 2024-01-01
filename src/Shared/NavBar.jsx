@@ -3,14 +3,8 @@ import { useState } from 'react';
 import { CiMenuBurger } from 'react-icons/ci'
 import useAuth from "../Components/Hooks/useAuth";
 import Swal from "sweetalert2";
-import {
-    Menu,
-    MenuHandler,
-    MenuList,
-    MenuItem,
-    Button,
-} from "@material-tailwind/react";
-import { FaHeart } from "react-icons/fa";
+
+import { MdClose, MdMenu } from "react-icons/md";
 const NavBar = () => {
     const { user, SignOutUser } = useAuth()
     const handleSignOut = () => {
@@ -31,80 +25,112 @@ const NavBar = () => {
     }
 
     const [menu, setMenuItem] = useState(false)
+    const [isDropdownOpen, setDropdownOpen] = useState(false);
 
-    const navLinks = <>
-        <li>
-            <NavLink className={({ isActive, isPending }) =>
-                isPending ? "pending" : isActive ? "bg-black py-2 px-3 rounded-md" : "hover:text-blue-700  hover:bg-slate-400 py-2 px-2 hover:rounded-md"
-            } to='/'>Home</NavLink>
-        </li>
-        <li>
-            <NavLink className={({ isActive, isPending }) =>
-                isPending ? "pending" : isActive ? "bg-black py-2 px-2 rounded-md" : "hover:text-blue-700  hover:bg-slate-400 py-2 px-2 hover:rounded-md"
-            } to='/petlisting'>Pet Listing</NavLink>
-        </li>
-        <li>
-            <NavLink className={({ isActive, isPending }) =>
-                isPending ? "pending" : isActive ? "bg-black py-2 px-2 rounded-md" : "hover:text-blue-700  hover:bg-slate-400 py-2 px-2 hover:rounded-md"
-            } to='/donationCampaign'>Campaigns</NavLink>
-        </li>
-        <li >
-            <NavLink className={({ isActive, isPending }) =>
-                isPending ? "pending" : isActive ? "bg-black py-2 px-2 rounded-md" : "hover:text-blue-700  hover:bg-slate-400 py-2 px-2 hover:rounded-md"
-            } to='/signUp'>SignUp</NavLink>
-        </li>
-        <li>
-            <NavLink className={({ isActive, isPending }) =>
-                isPending ? "pending" : isActive ? "bg-black py-2 px-2 rounded-md" : "hover:text-blue-700  hover:bg-slate-400 py-2 px-2 hover:rounded-md"
-            } to='/favorites'>Favorites</NavLink>
-        </li>
-        <li>
-            <NavLink className={({ isActive, isPending }) =>
-                isPending ? "pending" : isActive ? "bg-black py-2 px-2 rounded-md" : "hover:text-blue-700  hover:bg-slate-400 py-2 px-2 hover:rounded-md"
-            } to='/events'>Events</NavLink>
-        </li>
-    </>
+    const toggleDropdown = () => {
+        setDropdownOpen(!isDropdownOpen);
+    };
+
+    const navLinks =
+        <>
+            <li>
+                <NavLink className= {({ isActive, isPending }) =>
+                    isPending ? "pending" : isActive ? "bg-black py-2 px-3  rounded-md" : "hover:text-blue-700  hover:bg-slate-400 py-2 px-2 hover:rounded-md"
+                } to='/'>Home</NavLink>
+            </li>
+            <li>
+                <NavLink className={({ isActive, isPending }) =>
+                    isPending ? "pending" : isActive ? "bg-black md:ml-4 py-2 px-2 rounded-md" : "hover:text-blue-700 md:ml-4 hover:bg-slate-400 py-2 px-2 hover:rounded-md"
+                } to='/petlisting'>Pet Listing</NavLink>
+            </li>
+            <li>
+                <NavLink className={({ isActive, isPending }) =>
+                    isPending ? "pending" : isActive ? "bg-black md:ml-4 py-2 px-2 rounded-md" : "hover:text-blue-700 md:ml-4 hover:bg-slate-400 py-2 px-2 hover:rounded-md"
+                } to='/donationCampaign'>Campaigns</NavLink>
+            </li>
+            <li >
+                <NavLink className={({ isActive, isPending }) =>
+                    isPending ? "pending" : isActive ? "bg-black md:ml-4 py-2 px-2 rounded-md" : "hover:text-blue-700 md:ml-4 hover:bg-slate-400 py-2 px-2 hover:rounded-md"
+                } to='/signUp'>SignUp</NavLink>
+            </li>
+            <li>
+                <NavLink className={({ isActive, isPending }) =>
+                    isPending ? "pending" : isActive ? "bg-black py-2 md:ml-4 px-2 rounded-md" : "hover:text-blue-700 md:ml-4 hover:bg-slate-400 py-2 px-2 hover:rounded-md"
+                } to='/favorites'>Favorites</NavLink>
+            </li>
+            <li>
+                <NavLink className={({ isActive, isPending }) =>
+                    isPending ? "pending" : isActive ? "bg-black py-2 md:ml-4 px-2 rounded-md" : "hover:text-blue-700 md:ml-4 hover:bg-slate-400 py-2 px-2 hover:rounded-md" 
+                } to='/events'>Events</NavLink>
+            </li>
+        </>
+    let [open, setOpen] = useState(false)
     const handleChange = () => {
         setMenuItem(!menu)
         console.log(menu)
     }
     return (
-        <div className="z-10 w-full sticky flex h-full items-center justify-between px-4 bg-slate-500 ">
-           <img src="https://i.ibb.co/RgXFFJW/2c791441-ac9f-411f-85a8-9fb6e8b834f0.jpg" className="h-20  w-28 object-cover" alt="" />
-            <div className="flex justify-between bg-slate-500 px-4  py-4">
-                <ul className="hidden gap-6 lg:flex justify-between text-white font-semibold">
-                    {navLinks}
-                </ul>
-                <div className="lg:hidden fixed">
+        <div className="text-white fixed z-10 w-full left-0 top-0 ">
 
-                    <button className={`lg:hidden btn text-3xl font-bold text-white text-center transform ${menu ? 'rotate-90  transition-transform duration-300 ease-in-out' : 'rotate-0 transition-transform duration-300 ease-in-out'} rounded-lg flex pb-4`} onClick={handleChange}> <CiMenuBurger></CiMenuBurger> </button>
-                    <ul className={`lg:hidden flex-col text-emerald-400 bg-white font-semibold  text-center  transform ${menu ? 'translate-x-0' : '-translate-x-full'} transition-transform ease-in-out duration-900`}>
-                        {
-                            menu ? <div className="space-y-4  pb-4">{navLinks}</div> : ''
-                        }
-                    </ul>
+            <nav className=" md:flex items-center shadow-md  max-w-7xl rounded-sm mx-auto justify-between md:px-8 px-5  bg-[#1e534e] ">
+                <img src="https://i.ibb.co/1YV2bW0/cover-removebg-preview.png" className="h-16 w-28 object-cover" alt="" />
+                {/* <div className="flex justify-between items-center px-4  py-4">
+                
+            </div> */}
+                <div onClick={() => setOpen(!open)} className="text-3xl md:hidden absolute right-12 top-4 cursor-pointer">
+                    {
+                        open ? <MdClose></MdClose> : <MdMenu></MdMenu>
+                    }
+
+
                 </div>
-            </div>
-            <div className="text-white gap-2 flex justify-center items-center">
-                {
-                    user ? <> <p>{user.displayName}</p>
-                        <Menu>
-                            <MenuHandler>
-                                <Button className="shadow-none bg-transparent hover:shadow-none">
-                                    <img src={user.photoURL} className="w-12 h-12 rounded-[48px]" alt="" />
-                                </Button>
-                            </MenuHandler>
-                            <MenuList>
-                                <MenuItem className="mb-1 text-xl">
-                                    <Link to='/dashboard'>Dashboard</Link>
-                                </MenuItem>
-                                <MenuItem className="text-xl" onClick={handleSignOut}>SignOut</MenuItem>
-                            </MenuList>
-                        </Menu>
-                    </> : <Link to='/signup' className="bg-yellow-600 btn px-4 py-2 rounded-md">Sign In</Link>
-                }
-            </div>
+                <ul className={`md:flex space-y-6 pt-3 md:pt-0 md:items-center md:space-y-0 absolute md:static md:z-auto z-[-1] left-0 w-full md:w-auto md:pl-0 pl-9 bg-[#1e534e]   md:pb-0 pb-12 h-auto transition-all duration-500 ease-in ${open ? 'top-16' : 'top-[-450px]'} `}>
+                   
+                    {navLinks}
 
+                    
+
+
+                <div className={`text-white gap-2 flex flex-row-reverse  md:static justify-between mr-4 md:flex-row md:pb-0 pb-8 md:items-center `}>
+                    {
+                        user ? <> <p className="md:ml-16">{user.displayName}</p>
+                            <div className="relative inline-block text-left">
+                                <button
+                                    type="button"
+                                    className="inline-flex items-center justify-center p-2 text-gray-400 hover:text-gray-700 focus:outline-none  "
+                                    onClick={toggleDropdown}
+                                >
+                                    <img
+                                        src={user.photoURL}
+                                        className="w-12 h-12 rounded-full"
+                                        alt=""
+                                    />
+                                </button>
+
+                                {isDropdownOpen && (
+                                    <div className="absolute  left-0 mt-2 space-y-2 bg-white border border-gray-200 rounded-md shadow-lg">
+                                        <Link
+                                            to="/dashboard"
+                                            className="block px-4 py-2 text-xl text-gray-800 hover:bg-blue-500 hover:text-white"
+                                        >
+                                            Dashboard
+                                        </Link>
+                                        <button
+                                            type="button"
+                                            className="block px-4 py-2 text-xl text-gray-800 hover:bg-red-500 hover:text-white"
+                                            onClick={handleSignOut}
+                                        >
+                                            Sign Out
+                                        </button>
+                                    </div>
+                                )}
+                            </div>
+                        </> : <Link to='/signup' className="bg-yellow-600 btn px-4 py-2 rounded-md">Sign In</Link>
+                    }
+                </div>
+                </ul>
+
+            </nav>
         </div>
     );
 };

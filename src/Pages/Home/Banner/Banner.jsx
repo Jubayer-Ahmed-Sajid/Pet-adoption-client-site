@@ -6,7 +6,7 @@ import 'swiper/css/navigation';
 import { Link } from "react-router-dom";
 const Banner = () => {
   return (
-    <div className="relative my-20">
+    <div className="relative mb-20">
       <Swiper
         spaceBetween={30}
         centeredSlides={true}
