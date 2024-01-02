@@ -7,7 +7,7 @@ const Categories = () => {
             <h2 className=" text-3xl text-center font-bold text my-8">Categories</h2>
          <div className="grid mx-12 lg:grid-cols-4 text-center gap-4 lg:mx-4 my-2 lg:text-center">
          <Link to='categoryPets/cat' className="shadow-lg rounded-md  px-6 py-8">
-                <div className="text-[#6504b5] flex justify-center text-8xl text lg:w-20 mb-4">
+                <div className="text-[#6504b5] flex justify-center mx-auto text-8xl text lg:w-20 mb-4">
                 <FaCat></FaCat>
                 </div>
                 <h2 className="text-2xl font-bold ">Cat</h2>
