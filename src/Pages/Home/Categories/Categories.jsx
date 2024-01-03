@@ -12,7 +12,7 @@ const Categories = () => {
                 </div>
                 <h2 className="text-2xl font-bold ">Cat</h2>
             </Link>
-         <Link to='categoryPets/dog' className="shadow-lg rounded-md py-4 px-6 py-8 ">
+         <Link to='categoryPets/dog' className="shadow-lg rounded-md py-4 px-6 lg:py-8 ">
                 <div className="text-[#6504b5] text-8xl flex justify-center lg:w-20 mb-4 mx-auto ">
                 <FaDog></FaDog>
                 </div>

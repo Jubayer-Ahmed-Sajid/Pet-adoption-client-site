@@ -93,7 +93,7 @@ const NavBar = () => {
 
                 <div className={`text-white gap-2 flex flex-row-reverse  md:static justify-between mr-4 md:flex-row md:pb-0 pb-8 md:items-center `}>
                     {
-                        user ? <> <p className="md:ml-16">{user.displayName}</p>
+                        user ? < > <p className="md:ml-12 text-gray-300 font-semibold">{user.displayName}</p>
                             <div className="relative inline-block text-left">
                                 <button
                                     type="button"
