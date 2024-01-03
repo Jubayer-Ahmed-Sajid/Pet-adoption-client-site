@@ -44,7 +44,7 @@ const DonationDetails = () => {
                 </div>
             </div>
             <div>
-                <Button disabled={donationDetails.status !== 'Continue' || donationDetails.max_donation_amount <= donationDetails.donated_Amount} onClick={handleOpen} variant="gradient" className="mb-8 text-center bg-yellow-600 text-white">
+                <Button disabled={donationDetails.status !== 'Continue' || donationDetails.max_donation_amount <= donationDetails.donated_Amount} onClick={handleOpen} className="mb-8 text-center ml-4 hover:bg-[#4CAF8d] bg-[#4CAF41] text-white">
                     Donate Now
                 </Button>
                 <Dialog open={open} handler={handleOpen} className=" w-3/4">
