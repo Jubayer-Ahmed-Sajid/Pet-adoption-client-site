@@ -222,7 +222,7 @@ const PetDetails = () => {
                     >
                         <span>Cancel</span>
                     </Button>
-                    <Button variant="gradient" className="mr-1 text-green-500" onClick={handleOpen}>
+                    <Button variant="gradient" className="mr-1 bg-[#4CAF41] text-white" onClick={handleOpen}>
                         <span>Confirm</span>
                     </Button>
                 </DialogFooter>
