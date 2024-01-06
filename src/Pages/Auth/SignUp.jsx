@@ -165,8 +165,8 @@ const SignUp = () => {
             })
     }
     return (
-        <div className='flex flex-col-reverse lg:flex-row'>
-            <form onSubmit={formik.handleSubmit} className='mt-12 bg-[#058472] py-6 space-y-2 mx-auto lg:w-2/4 '>
+        <div className='flex my-8  mx-12 flex-col-reverse lg:flex-row'>
+            <form onSubmit={formik.handleSubmit} className='rounded-lg mt-12 bg-[#058472] py-6 space-y-2 mx-auto lg:w-2/4 '>
             <h2 className='text-center text-2xl lg:text-4xl text-[#d9f9a5] my-6'>Please Sign Up </h2>
                 <div className='mx-auto w-3/4 lg:w-2/4 space-y-2'>
                     <label htmlFor="fullName">Full Name</label>
