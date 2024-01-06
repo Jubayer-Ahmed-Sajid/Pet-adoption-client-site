@@ -5,6 +5,7 @@ import useAuth from '../../Components/Hooks/useAuth';
 import Swal from 'sweetalert2';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { FaGithub, FaGoogle } from 'react-icons/fa'
+import google from '../../assets/google-logo-history-png-2603.png'
 
 
 const SignIn = () => {
@@ -93,11 +94,11 @@ const SignIn = () => {
             })
     }
     return (
-        <div>
-            <h2 className='text-center text-4xl text-yellow-600 my-6'>Please Sign In</h2>
-            <form onSubmit={formik.handleSubmit} className='mt-12 bg-gray-600 p-6 space-y-2 mx-auto w-3/4 '>
+        <div className='flex flex-col-reverse lg:flex-row'>
+            <form onSubmit={formik.handleSubmit} className='mt-12 bg-[#058472] py-6 w-full space-y-2 mx-auto lg:w-2/4 '>
+            <h2 className='text-center text-2xl lg:text-4xl text-[#d9f9a5] my-6'>Please Sign In</h2>
 
-                <div className='w-2/4 mx-auto space-y-2'>
+                <div className='lg:w-2/4 w-3/4 mx-auto space-y-2'>
                     <label htmlFor="email"> Email Address </label>
                     <br />
 
@@ -108,14 +109,14 @@ const SignIn = () => {
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                         value={formik.values.email}
-                        className=" w-3/4 rounded-[7px] border border-blue-gray-200  bg-transparent px-3 py-2.5 text-sm  text-blue-gray-700 outline outline-0 transition-all  focus:border-pink-base-300  focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
+                        className="w-full lg:w-3/4 rounded-[7px] border border-blue-gray-200  bg-transparent px-3 py-2.5 text-sm  text-blue-gray-700 outline outline-0 transition-all  focus:border-pink-base-300  focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
                         placeholder='Email Address'
                     />
                     {formik.touched.email && formik.errors.email ? (
                         <p className='text-red-400 text-md'>{formik.errors.email}</p>
                     ) : null}
                 </div>
-                <div className="space-y-2 mx-auto w-2/4">
+                <div className="space-y-2 mx-auto w-3/4 lg:w-2/4">
                     <label htmlFor="password">Password</label>
                     <br />
                     <input
@@ -125,7 +126,7 @@ const SignIn = () => {
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                         value={formik.values.password}
-                        className=" w-3/4 rounded-[7px] border border-blue-gray-200  bg-transparent px-3 py-2.5 text-sm  text-blue-gray-700 outline outline-0 transition-all  focus:border-pink-base-300  focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
+                        className="w-full lg:w-3/4 rounded-[7px] border border-blue-gray-200  bg-transparent px-3 py-2.5 text-sm  text-blue-gray-700 outline outline-0 transition-all  focus:border-pink-base-300  focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
                         placeholder='password Address'
                     />
                     {formik.touched.password && formik.errors.password ? (
@@ -136,9 +137,9 @@ const SignIn = () => {
                 <br />
                 <div className='w-1/2 mx-auto'>
 
-                    <button className='w-3/4 btn py-3 rounded-lg  px-3 bg-yellow-600 text-white' type="submit">Submit</button>
+                    <button className='w-3/4 btn py-3 rounded-lg  px-3 bg-[#4CAF41] text-white' type="submit">SignIn</button>
                 </div>
-                <div className='flex w-1/2 mx-auto items-center gap-2'>
+                <div className='flex w-3/4 lg:w-1/2 mx-auto items-center gap-2'>
                     <div className=' w-5/12'>
                         <hr />
                     </div>
@@ -147,20 +148,22 @@ const SignIn = () => {
                         <hr />
                     </div>
                 </div>
-                <div className='w-1/2 mx-auto'>
-                    <button onClick={handleGoogleSigin} className='btn text-white rounded-lg text-center w-3/4 bg-yellow-600 py-3'>
-                        <h2 className='flex  justify-center items-center gap-4'>Login by Google  <FaGoogle></FaGoogle></h2>
+                <div className='lg:w-1/2 flex justify-center lg:block mx-auto'>
+                    <button onClick={handleGoogleSigin} className='btn mb-4 text-white rounded-lg text-center w-3/4 bg-[#4CAF41] py-3'>
+                        <h2 className='flex  justify-center items-center gap-4'>Login by Google <img src={google} className='w-6' alt="" /> </h2>
                     </button>
                 </div>
-                <div className='w-1/2 mx-auto'>
-                    <button onClick={handleGitHubSignin} className='btn text-white rounded-lg text-center w-3/4 bg-yellow-600 py-3'>
+                <div className='lg:w-1/2 flex justify-center lg:block mx-auto'>
+                    <button onClick={handleGitHubSignin} className='btn mb-4 text-white rounded-lg text-center w-3/4 bg-[#4CAF41] py-3'>
                         <h2 className='flex  justify-center items-center gap-4'>Login by Github  <FaGithub></FaGithub></h2>
                     </button>
                 </div>
-                <div className='my-6 text-white px-4 w-1/2 mx-auto'>
+                <div className='my-6 text-white px-4 lg:w-1/2 mx-auto'>
                     <h2>New to the site?<Link className='text-blue-400 ml-2' to='/signup'>Sing Up Now</Link></h2>
+                   
                 </div>
             </form>
+            <img src='https://i.ibb.co/p4dFF1B/4957412-Mobile-login-Cristina.jpg' className='w-1/2 hidden lg:block' alt="" />
         </div>
     );
 };
