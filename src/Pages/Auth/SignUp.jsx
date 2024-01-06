@@ -7,6 +7,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { FaGithub, FaGoogle } from 'react-icons/fa'
 import useAxiosPublic from '../../Components/Hooks/useAxiosPublic';
 import axios from 'axios';
+import google from '../../assets/google-logo-history-png-2603.png';
 
 const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`
@@ -164,10 +165,10 @@ const SignUp = () => {
             })
     }
     return (
-        <div className=' '>
-            <h2 className='text-center text-4xl text-yellow-600 my-6'>Please Sign Up </h2>
-            <form onSubmit={formik.handleSubmit} className='mt-12 bg-gray-600 py-6 space-y-2 mx-auto w-3/4 '>
-                <div className='mx-auto w-2/4 space-y-2'>
+        <div className='flex flex-col-reverse lg:flex-row'>
+            <form onSubmit={formik.handleSubmit} className='mt-12 bg-[#058472] py-6 space-y-2 mx-auto lg:w-2/4 '>
+            <h2 className='text-center text-4xl text-[#d9f9a5] my-6'>Please Sign Up </h2>
+                <div className='mx-auto w-3/4 lg:w-2/4 space-y-2'>
                     <label htmlFor="fullName">Full Name</label>
                     <br />
                     <input
@@ -177,7 +178,7 @@ const SignUp = () => {
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                         value={formik.values.fullName}
-                        className="w-3/4 rounded-[7px] border border-blue-gray-200  bg-transparent px-3 py-2.5 text-sm  text-blue-gray-700 outline outline-0 transition-all  focus:border-pink-base-300  focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
+                        className="lg:w-3/4 w-full rounded-[7px] border border-blue-gray-200  bg-transparent px-3 py-2.5 text-sm  text-blue-gray-700 outline outline-0 transition-all  focus:border-pink-base-300  focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
                         placeholder=' Your full Name'
                     />
                     <br />
@@ -185,7 +186,7 @@ const SignUp = () => {
                         <p className='text-red-400 text-md'>{formik.errors.fullName}</p>
                     ) : null}
                 </div>
-                <div className='w-2/4 mx-auto space-y-2'>
+                <div className='w-3/4 lg:w-2/4 mx-auto space-y-2'>
                     <label htmlFor="email"> Email Address </label>
                     <br />
 
@@ -196,7 +197,7 @@ const SignUp = () => {
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                         value={formik.values.email}
-                        className=" w-3/4 rounded-[7px] border border-blue-gray-200  bg-transparent px-3 py-2.5 text-sm  text-blue-gray-700 outline outline-0 transition-all  focus:border-pink-base-300  focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
+                        className="w-full lg:w-3/4 rounded-[7px] border border-blue-gray-200  bg-transparent px-3 py-2.5 text-sm  text-blue-gray-700 outline outline-0 transition-all  focus:border-pink-base-300  focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
                         placeholder='Email Address'
                     />
                     {formik.touched.email && formik.errors.email ? (
@@ -204,7 +205,7 @@ const SignUp = () => {
                     ) : null}
                 </div>
 
-                <div className="w-2/4 mx-auto space-y-2">
+                <div className="w-3/4 lg:w-2/4 mx-auto space-y-2">
                     <label >Image</label>
                     <br />
 
@@ -220,7 +221,7 @@ const SignUp = () => {
                     />
                 </div>
                 <br />
-                <div className="space-y-2 mx-auto w-2/4">
+                <div className="space-y-2 mx-auto w-3/4 lg:w-2/4">
                     <label htmlFor="password">Password</label>
                     <br />
                     <input
@@ -230,7 +231,7 @@ const SignUp = () => {
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                         value={formik.values.password}
-                        className=" w-3/4 rounded-[7px] border border-blue-gray-200  bg-transparent px-3 py-2.5 text-sm  text-blue-gray-700 outline outline-0 transition-all  focus:border-pink-base-300  focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
+                        className="w-full lg:w-3/4 rounded-[7px] border border-blue-gray-200  bg-transparent px-3 py-2.5 text-sm  text-blue-gray-700 outline outline-0 transition-all  focus:border-pink-base-300  focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
                         placeholder='password Address'
                     />
                     {formik.touched.password && formik.errors.password ? (
@@ -241,9 +242,9 @@ const SignUp = () => {
                 <br />
                 <div className='w-1/2 mx-auto'>
 
-                    <button className='w-3/4 btn py-3 rounded-lg  px-3 bg-yellow-600 text-white' type="submit">Submit</button>
+                    <button className='w-3/4 btn py-3 rounded-lg  px-3 bg-[#4CAF41] text-white' type="submit">Sign up</button>
                 </div>
-                <div className='flex w-1/2 mx-auto items-center gap-2'>
+                <div className='flex w-3/4 lg:w-1/2 mx-auto items-center gap-2'>
                     <div className=' w-5/12'>
                         <hr />
                     </div>
@@ -252,20 +253,21 @@ const SignUp = () => {
                         <hr />
                     </div>
                 </div>
-                <div className='w-1/2 mx-auto'>
-                    <button onClick={handleGoogleSigin} className='btn mb-4 text-white rounded-lg text-center w-3/4 bg-yellow-600 py-3'>
-                        <h2 className='flex justify-center items-center gap-4'>Login by Google  <FaGoogle></FaGoogle></h2>
+                <div className='lg:w-1/2 flex justify-center lg:block mx-auto'>
+                    <button onClick={handleGoogleSigin} className='btn mb-4 text-white rounded-lg text-center w-3/4 bg-[#4CAF41] py-3'>
+                        <h2 className='flex justify-center items-center gap-4'>Login by Google  <img src={google} className='h-6' alt="" /></h2>
                     </button>
                 </div>
-                <div className='w-1/2 mx-auto'>
-                    <button onClick={handleGitHubSignin} className='btn text-white rounded-lg text-center w-3/4 bg-yellow-600 py-3'>
+                <div className='lg:w-1/2 lg:block flex justify-center mx-auto'>
+                    <button onClick={handleGitHubSignin} className='btn text-white rounded-lg text-center w-3/4 bg-[#4CAF41] py-3'>
                         <h2 className='flex  justify-center items-center gap-4'>Login by Github  <FaGithub></FaGithub></h2>
                     </button>
                 </div>
-                <div className='my-6 text-white px-4 w-1/2 mx-auto'>
+                <div className='my-6 lg:w-1/2 lg:mx-auto text-white px-4'>
                     <h2>Already have an account ?<Link className='text-blue-400 ml-2' to='/signin'>Sing In Now</Link></h2>
                 </div>
             </form>
+            <img className='w-1/2 hidden lg:block' src="https://i.ibb.co/p4dFF1B/4957412-Mobile-login-Cristina.jpg" alt="" />
         </div>
     );
 };

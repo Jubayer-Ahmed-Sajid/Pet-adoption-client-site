@@ -23,6 +23,7 @@ import DonationDetails from "../Pages/Donation/DonationDetails";
 import AdminRoutes from "./AdminRoutes";
 import Favorites from "../Pages/Favorites/Favorites";
 import EventCard from "../Pages/Events/Events";
+import ConditionalRender from "../Components/PetDetails/conditionalRender";
 
 const router = createBrowserRouter([
  {
@@ -32,6 +33,11 @@ const router = createBrowserRouter([
         {
             path:'/',
             element:<Home></Home>
+        },
+        {
+            path:'render',
+            element:<ConditionalRender></ConditionalRender>
+
         },
         {
             path:'signUp',
