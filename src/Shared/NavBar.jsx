@@ -3,10 +3,21 @@ import { useState } from 'react';
 import { CiMenuBurger } from 'react-icons/ci'
 import useAuth from "../Components/Hooks/useAuth";
 import Swal from "sweetalert2";
+import logo from '../assets/Gemini_Generated_Image (3).jpg'
 
 import { MdClose, MdMenu } from "react-icons/md";
 const NavBar = () => {
     const { user, SignOutUser } = useAuth()
+    const [isScrolled, setIsScrolled] = useState(false);
+   const handleScroll=()=>{
+        if(window.scrollY >= 64){
+            setIsScrolled(true)
+
+        }
+        else setIsScrolled(false)
+    }
+        window.addEventListener('scroll', handleScroll)
+    
     const handleSignOut = () => {
         SignOutUser()
             .then(() => {
@@ -35,32 +46,28 @@ const NavBar = () => {
         <>
             <li>
                 <NavLink className= {({ isActive, isPending }) =>
-                    isPending ? "pending" : isActive ? "bg-black py-2 px-3  rounded-md" : "hover:text-blue-700  hover:bg-slate-400 py-2 px-2 hover:rounded-md"
+                    isPending ? "pending" : isActive ? "bg-primary py-2 px-3  rounded-md" : "hover:text-blue-700  hover:bg-slate-400 py-2 px-2 hover:rounded-md"
                 } to='/'>Home</NavLink>
             </li>
             <li>
                 <NavLink className={({ isActive, isPending }) =>
-                    isPending ? "pending" : isActive ? "bg-black md:ml-4 py-2 px-2 rounded-md" : "hover:text-blue-700 md:ml-4 hover:bg-slate-400 py-2 px-2 hover:rounded-md"
+                    isPending ? "pending" : isActive ? "bg-primary md:ml-4 py-2 px-2 rounded-md" : "hover:text-blue-700 md:ml-4 hover:bg-slate-400 py-2 px-2 hover:rounded-md"
                 } to='/petlisting'>Pet Listing</NavLink>
             </li>
             <li>
                 <NavLink className={({ isActive, isPending }) =>
-                    isPending ? "pending" : isActive ? "bg-black md:ml-4 py-2 px-2 rounded-md" : "hover:text-blue-700 md:ml-4 hover:bg-slate-400 py-2 px-2 hover:rounded-md"
+                    isPending ? "pending" : isActive ? "bg-primary md:ml-4 py-2 px-2 rounded-md" : "hover:text-blue-700 md:ml-4 hover:bg-slate-400 py-2 px-2 hover:rounded-md"
                 } to='/donationCampaign'>Campaigns</NavLink>
             </li>
-            <li >
-                <NavLink className={({ isActive, isPending }) =>
-                    isPending ? "pending" : isActive ? "bg-black md:ml-4 py-2 px-2 rounded-md" : "hover:text-blue-700 md:ml-4 hover:bg-slate-400 py-2 px-2 hover:rounded-md"
-                } to='/signUp'>SignUp</NavLink>
-            </li>
+           
             <li>
                 <NavLink className={({ isActive, isPending }) =>
-                    isPending ? "pending" : isActive ? "bg-black py-2 md:ml-4 px-2 rounded-md" : "hover:text-blue-700 md:ml-4 hover:bg-slate-400 py-2 px-2 hover:rounded-md"
+                    isPending ? "pending" : isActive ? "bg-primary py-2 md:ml-4 px-2 rounded-md" : "hover:text-blue-700 md:ml-4 hover:bg-slate-400 py-2 px-2 hover:rounded-md"
                 } to='/favorites'>Favorites</NavLink>
             </li>
             <li>
                 <NavLink className={({ isActive, isPending }) =>
-                    isPending ? "pending" : isActive ? "bg-black py-2 md:ml-4 px-2 rounded-md" : "hover:text-blue-700 md:ml-4 hover:bg-slate-400 py-2 px-2 hover:rounded-md" 
+                    isPending ? "pending" : isActive ? "bg-primary py-2 md:ml-4 px-2 rounded-md" : "hover:text-blue-700 md:ml-4 hover:bg-slate-400 py-2 px-2 hover:rounded-md" 
                 } to='/events'>Events</NavLink>
             </li>
         </>
@@ -70,13 +77,18 @@ const NavBar = () => {
         console.log(menu)
     }
     return (
-        <div className="text-white fixed z-10 w-full left-0 top-0 ">
+        <div className ={`h-16  z-10 fixed text-white top-0 left-0 w-full transition-all
+              ${isScrolled ? "bg-black/70" : "bg-black"}`
+          } 
+          >
 
-            <nav className=" md:flex items-center shadow-md  max-w-7xl rounded-sm mx-auto justify-between md:px-8 px-5  bg-[#1e534e] ">
-                <img src="https://i.ibb.co/1YV2bW0/cover-removebg-preview.png" className="h-16 w-28 object-cover" alt="" />
-                {/* <div className="flex justify-between items-center px-4  py-4">
+            <nav className=" md:flex items-center shadow-md  max-w-7xl rounded-sm mx-auto justify-between md:px-8 px-5">
+            <div className="flex justify-center items-center">
+
+                <img src={logo} className="h-16 w-16 rounded-full object-cover" alt="" />
+            <h2 className="text-2xl font-bold text-white">Paws & <span className="text-secondary">Hearts </span> </h2>
+            </div>
                 
-            </div> */}
                 <div onClick={() => setOpen(!open)} className="text-3xl md:hidden absolute right-12 top-4 cursor-pointer">
                     {
                         open ? <MdClose></MdClose> : <MdMenu></MdMenu>
@@ -84,7 +96,7 @@ const NavBar = () => {
 
 
                 </div>
-                <ul className={`md:flex space-y-6 pt-3 md:pt-0 md:items-center md:space-y-0 absolute md:static md:z-auto z-[-1] left-0 w-full md:w-auto md:pl-0 pl-9 bg-[#1e534e]   md:pb-0 pb-12 h-auto transition-all duration-500 ease-in ${open ? 'top-16' : 'top-[-450px]'} `}>
+                <ul className={`md:flex space-y-6  pt-3 md:pt-0 md:items-center md:space-y-0 absolute md:static md:z-auto z-[-1] left-0 w-full md:w-auto md:pl-0 pl-9  md:pb-0 pb-12 h-auto   transition-all duration-500 ease-in ${open ? 'top-16 bg-primary' : 'top-[-450px]'} `}>
                    
                     {navLinks}
 
@@ -125,7 +137,9 @@ const NavBar = () => {
                                     </div>
                                 )}
                             </div>
-                        </> : <Link to='/signup' className="bg-yellow-600 btn px-4 py-2 rounded-md">Sign In</Link>
+                        </> :  <NavLink className= {({ isActive, isPending }) =>
+                    isPending ? "pending" : isActive ? "bg-primary py-2 px-3  rounded-md" : "hover:text-blue-700  hover:bg-slate-400 py-2 px-2 hover:rounded-md"
+                } to='/signin'>Sign In</NavLink>
                     }
                 </div>
                 </ul>
