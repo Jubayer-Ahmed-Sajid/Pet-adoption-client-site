@@ -3,7 +3,6 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup'
 import Select from 'react-select'
 import { Textarea } from "@material-tailwind/react";
-import Swal from 'sweetalert2';
 import axios from 'axios';
 import useAxiosPublic from '../../../Components/Hooks/useAxiosPublic';
 import useAuth from '../../../Components/Hooks/useAuth';
@@ -23,7 +22,6 @@ const options = [
 
 
 const AddPet = () => {
-    const [compressedImage, setCompressedImage] = useState('')
     const axiosPublic = useAxiosPublic()
     const { user } = useAuth()
     const formik = useFormik({
@@ -109,18 +107,17 @@ const AddPet = () => {
         }
 
     });
-    const handleButtonClick = () => {
-        toast.loading('Success Message!', {
-            position:'top-right'
-
-        });
-    };
+    
     return (
         <div className='w-screen'>
+            {/* Sooner toast  */}
             <Toaster
                 richColors
                 position='top-right'
             />
+
+            {/* Pet add form starts here */}
+
             <form onSubmit={formik.handleSubmit} className=' bg-gray-600 p-4 space-y-2 mx-auto '>
                 <h2 className='text-center text-4xl text-yellow-600 my-6'>Add a Pet </h2>
 
@@ -250,12 +247,13 @@ const AddPet = () => {
                 <div className='w-1/2 mx-auto'>
 
                     <button className='w-3/4 btn py-3 rounded-lg  px-3 bg-yellow-600 text-white' type="submit">Add Pet</button>
-                    <br />
+                 
+
                 </div>
-
-
             </form>
-            <button onClick={handleButtonClick}>Show Toast</button>
+
+            {/* Form ends here */}
+           
         </div>
     );
 };
