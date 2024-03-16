@@ -1,21 +1,23 @@
 import { Link } from "react-router-dom";
+import Title from "../../../Components/Title/Title";
 const Featured = () => {
    
     return (
-        <div className="mb-12">
-            <h2 className="text-3xl font-semibold text-center  my-4 lg:my-12">Help us</h2>
+        <div className="mb-20 mx-4">
+           <Title title={'Help Us'}/>
 
-            <div className="lg:flex items-center bg-[#1e534e] justify-center gap-6">
+
+            <div className="lg:flex mt-12 p-8 items-center bg-primary justify-center gap-6">
                 <div className="mx-6">
-                    <h2 className="lg:text-3xl text-xl text-[#d9f9a5] font-bold py-4 lg:py-8">We need your help</h2>
-                    <p className="lg:text-xl font-semibold text-[#d9f9a5]">Any help you give can make a huge difference and keep us saving  wildlife.</p>
-                    <p className="text-white font-semibold mt-4 lg:mt-8">We are truly passionate about our work, but with your help we  can do even more to help British wildlife.</p>
+                    <h2 className="lg:text-3xl text-xl text-secondary font-bold py-4 lg:py-8">We need your help</h2>
+                    <p className="lg:text-xl font-semibold]">Any help you give can make a huge difference <span className="text-secondary">and keep us saving  wildlife. </span> </p>
+                    <p className=" font-semibold mt-4 lg:mt-8">We are truly passionate about our work, but with your help we  can do even more to help British wildlife.</p>
                     <div className="flex justify-center my-8">
-                        <button className="bg-[#479130] text-white lg:px-4 lg:py-3 p-2  rounded-lg lg:text-xl font-semibold"><Link to='/donationCampaign'>Donate Now</Link></button>
+                        <button className="bg-secondary text-white lg:px-4 lg:py-3 p-2  rounded-lg lg:text-xl font-semibold"><Link to='/donationCampaign'>Donate Now</Link></button>
                     </div>
                 </div>
-                <div className="mx-4">
-                    <img src="https://i.ibb.co/VxY7myc/21-3-16-Antibiotics.png" alt="" />
+                <div>
+                    <img src="https://i.ibb.co/VxY7myc/21-3-16-Antibiotics.png" className="h-full w-full" alt="" />
                 </div>
 
             </div>
