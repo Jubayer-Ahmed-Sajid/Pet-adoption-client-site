@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup'
 import Select from 'react-select'
@@ -7,6 +7,8 @@ import Swal from 'sweetalert2';
 import axios from 'axios';
 import useAxiosPublic from '../../../Components/Hooks/useAxiosPublic';
 import useAuth from '../../../Components/Hooks/useAuth';
+import Compressor from 'compressorjs';
+import { Toaster, toast } from 'sonner';
 
 const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`
@@ -21,8 +23,9 @@ const options = [
 
 
 const AddPet = () => {
+    const [compressedImage, setCompressedImage] = useState('')
     const axiosPublic = useAxiosPublic()
-    const {user} = useAuth()
+    const { user } = useAuth()
     const formik = useFormik({
 
         initialValues: {
@@ -45,42 +48,79 @@ const AddPet = () => {
         }),
 
         onSubmit: async values => {
-            const image = values.image
-            const formData = new FormData();
-            formData.append('image', image)
-            const res = await axios.post(image_hosting_api, formData, {
-                headers: { 'Content-Type': 'multipart/form-data' }
-            })
-            const img_url = res.data.data.display_url
-            const petsInfo = {
-                name: values.pet_name,
-                age: values.age,
-                pet_location: values.pet_location,
-                image: img_url,
-                short_description: values.short_description,
-                long_description: values.long_description,
-                category: values.category,
-                adopted: false,
-                email:user?.email,
-                AddedDate: new Date().toDateString()
+            try {
+               const petLoading =  toast.loading('Pet is adding')
+                const image = values.image;
 
-            }
-            const petRes = await axiosPublic.post('/pets', petsInfo)
-            if(petRes.data.insertedId){
-                Swal.fire({
-                    position: "top-end",
-                    icon: "success",
-                    title: "Successfully added the pet!",
-                    showConfirmButton: false,
-                    timer: 1500
+                // Compress the image
+                const compressedImage = await new Promise((resolve, reject) => {
+                    new Compressor(image, {
+                        quality: 0.8,
+                        success(result) {
+                            resolve(result);
+                        },
+                        error(error) {
+                            reject(error);
+                        }
+                    });
                 });
-            }
-            console.log(petRes.data)
 
-        },
+                // Create FormData with the compressed image
+                const formData = new FormData();
+                formData.append('image', compressedImage, compressedImage.name);
+
+                // Upload compressed image to image hosting API
+                const imageRes = await axios.post(image_hosting_api, formData, {
+                    headers: { 'Content-Type': 'multipart/form-data' }
+                });
+
+                // Extract image URL
+                const img_url = imageRes.data.data.display_url;
+
+                // Prepare pet information
+                const petsInfo = {
+                    name: values.pet_name,
+                    age: values.age,
+                    pet_location: values.pet_location,
+                    image: img_url,
+                    short_description: values.short_description,
+                    long_description: values.long_description,
+                    category: values.category,
+                    adopted: false,
+                    email: user?.email,
+                    AddedDate: new Date().toDateString()
+                };
+
+                // Add pet information to the database
+                const petRes = await axiosPublic.post('/pets', petsInfo);
+
+                if (petRes.data.insertedId) {
+                    toast.dismiss(petLoading)
+                    toast.success('Pet Successfully Added');
+                }
+
+                console.log(petRes.data);
+            } catch (error) {
+                toast.dismiss(petLoading)
+                toast.error('error.message')
+                console.error('An error occurred:', error);
+
+            }
+        }
+
     });
+    const handleButtonClick = () => {
+        toast.loading('Success Message!', {
+            position:'top-right'
+
+        });
+    };
     return (
         <div className='w-screen'>
+            <Toaster
+                richColors
+                position='top-right'
+            />
             <form onSubmit={formik.handleSubmit} className=' bg-gray-600 p-4 space-y-2 mx-auto '>
                 <h2 className='text-center text-4xl text-yellow-600 my-6'>Add a Pet </h2>
 
@@ -131,7 +171,7 @@ const AddPet = () => {
                     id="category"
                     name="category"
                     options={options}
-                            placeholder='Chose category'
+                    placeholder='Chose category'
                     onChange={(event) => {
                         const category = event.value
                         formik.setFieldValue('category', category)
@@ -210,9 +250,12 @@ const AddPet = () => {
                 <div className='w-1/2 mx-auto'>
 
                     <button className='w-3/4 btn py-3 rounded-lg  px-3 bg-yellow-600 text-white' type="submit">Add Pet</button>
+                    <br />
                 </div>
 
+
             </form>
+            <button onClick={handleButtonClick}>Show Toast</button>
         </div>
     );
 };

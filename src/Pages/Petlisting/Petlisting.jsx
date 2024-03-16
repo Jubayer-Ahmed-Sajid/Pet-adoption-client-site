@@ -2,24 +2,39 @@ import React, { useEffect, useState } from 'react';
 import usePets from '../../Components/Hooks/usePets';
 import { Link } from 'react-router-dom';
 import { MdLocationPin, MdSearch } from "react-icons/md";
-import { Input, Option, Select } from '@material-tailwind/react';
-import axios from 'axios';
+import { Input } from '@material-tailwind/react';
 import useAxiosPublic from '../../Components/Hooks/useAxiosPublic';
-
+import Select from 'react-select'
 const Petlisting = () => {
     const [pets, refetch] = usePets()
     const axiosPublic = useAxiosPublic()
+    const [displayCategory, setDisplayCategory] = useState('all')
     const [query, setQuery] = useState('')
     const [displayPets, setDisplayPets] = useState([])
 
+
+    const petCategories = [
+        { value: 'all', label: 'All' },
+        { value: 'cat', label: 'Cat' },
+        { value: 'dog', label: 'Dog' },
+        { value: 'fish', label: 'Fish' },
+        { value: 'bird', label: 'Bird' }]
+
+
+    const handleCategory = (options) => {
+        setDisplayCategory(options.value)
+    }
     useEffect(() => {
-        const petToDisplay = pets.filter(pet => !pet.adopted)
+        console.log(displayCategory);
+    }, [displayCategory]);
+
+    useEffect(() => {
+        const petToDisplay = pets.filter(pet => !pet.adopted && (displayCategory === 'all' || pet.category === displayCategory));
         setDisplayPets(petToDisplay)
-    }, [pets,setDisplayPets])
-    console.log('Unadopted',displayPets)
+        refetch()
+    }, [pets, setDisplayPets,displayCategory])
 
 
-    console.log(displayPets)
 
 
     const handleSearch = async () => {
@@ -32,29 +47,42 @@ const Petlisting = () => {
 
     return (
         <div className='px-4 mt-20'>
-            <div className='lg:flex items-center flex-row justify-start w-1/2'>
-                <Input type="text"
-                    value={query}
-                    onChange={(e) => setQuery(e.target.value)}
-                    placeholder='search pet here' className='border-black pl-4 p-2 bg-base-300 flex' name="" id="" />
-                <button onClick={handleSearch} className='text-xl font-semibold bg-black text-white px-3 py-2  rounded-lg '>Search</button>
-                <div className="w-72 mb-6">
-                    <Select  className='mb-2 border-none text-center  bg-green-600 text-xl text-blue-500 font-semibold' label='See by Category'>
-                        <Option><Link to='/categoryPets/cat'>Cat</Link></Option>
+
+            <div className='lg:flex items-center gap-8 flex-row justify-between mx-4'>
+                <div className='w-1/2 flex gap-4'>
+
+                    <Input type="text"
+                        value={query}
+                        onChange={(e) => setQuery(e.target.value)}
+                        placeholder='search pet here' className='border-black pl-4 p-2 bg-base-300 flex' name="" id="" />
+                    <button onClick={handleSearch} className='text-xl font-semibold bg-black text-white px-3 py-2  rounded-lg '>Search</button>
+                </div>
+                <div className="w-1/3 mb-6">
+                    <Select className='basic-single'
+                        classNamePrefix="select"
+                        defaultValue={petCategories[0]}
+                        name='Categories'
+                        options={petCategories}
+                        onChange={handleCategory}
+                    ></Select>
+
+
+                    {/* <Select defaultValue={'dog'} className='mb-2 border-none text-center text-xl text-blue-500 font-semibold'>
+                        <Option value='dog'><Link to='/categoryPets/cat'>Cat</Link></Option>
                         <Option><Link to='/categoryPets/dog'>Dog</Link></Option>
                         <Option><Link to='/categoryPets/fish'>Fish</Link></Option>
                         <Option><Link to='/categoryPets/bird'>Bird</Link></Option>
-                        
-                    </Select>
+
+                    </Select> */}
                 </div>
             </div>
 
 
 
-            <div className='grid lg:grid-cols-3 gap-4'>
+            <div className='grid lg:grid-cols-3 mt-12 gap-4'>
 
                 {
-                    displayPets?.map(pet => <div  key={pet._id} className="ml-4 relative flex flex-col text-gray-700 bg-white shadow-md  rounded-xl bg-clip-border hover:shadow-lg transition-transform duration-300 transform hover:scale-105">
+                    displayPets?.map(pet => <div key={pet._id} className="ml-4 relative flex flex-col text-gray-700 bg-white shadow-md  rounded-xl bg-clip-border hover:shadow-lg transition-transform duration-300 transform hover:scale-105">
                         <div className="relative mx-4 mt-4 overflow-hidden text-gray-700 bg-white  h-72 rounded-xl bg-clip-border">
 
                             <img src={pet.image} className='w-3/4 mx-auto h-60 object-cover' alt="profile-picture" />
