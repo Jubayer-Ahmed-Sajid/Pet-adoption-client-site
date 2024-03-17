@@ -118,10 +118,14 @@ const AddPet = () => {
 
             {/* Pet add form starts here */}
 
-            <form onSubmit={formik.handleSubmit} className=' bg-gray-600 p-4 space-y-2 mx-auto '>
-                <h2 className='text-center text-4xl text-yellow-600 my-6'>Add a Pet </h2>
+            <form onSubmit={formik.handleSubmit} className=' bg-gray-600 h-full p-4 space-y-6 mx-auto '>
+                <div className='w-2/4 pb-6 font-bold mx-auto'>
 
-                <div className="w-full lg:flex gap-4">
+                <h2 className='text-center text-xl lg:text-4xl text-secondary mt-4 lg:mt-6 mb-2'>Add a Pet </h2>
+                <hr className="border-t-2 border-white my-2" />
+                </div>
+
+                <div className="w-full lg:space-y-0 space-y-6 lg:flex gap-4">
 
 
                     <div className='mx-auto w-full space-y-2'>
@@ -134,7 +138,7 @@ const AddPet = () => {
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
                             value={formik.values.pet_name}
-                            className="text-green-400 w-full rounded-[7px] border border-blue-gray-200  bg-transparent px-3 py-2.5 text-sm  text-blue-gray-700 outline outline-0 transition-all  focus:border-pink-base-300  focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
+                            className="text-gray-200 w-full rounded-[7px] border border-blue-gray-200  bg-transparent px-3 py-2.5 text-sm  text-blue-gray-700 outline outline-0 transition-all  focus:border-pink-base-300  focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
                             placeholder=' Pet Name'
                         />
                         <br />
@@ -155,7 +159,7 @@ const AddPet = () => {
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
                             value={formik.values.age}
-                            className="text-green-400 w-full rounded-[7px] border border-blue-gray-200  bg-transparent px-3 py-2.5 text-sm  text-blue-gray-700 outline outline-0 transition-all  focus:border-pink-base-300  focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
+                            className="text-gray-200 w-full rounded-[7px] border border-blue-gray-200  bg-transparent px-3 py-2.5 text-sm  text-blue-gray-700 outline outline-0 transition-all  focus:border-pink-base-300  focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
                             placeholder='age Address'
                         />
                         {formik.touched.age && formik.errors.age ? (
@@ -163,6 +167,8 @@ const AddPet = () => {
                         ) : null}
                     </div>
                 </div>
+                <div className="w-full mx-auto space-y-2">
+
                 <label htmlFor="category" className='text-white font-semibold text-md'>Categories</label>
                 <Select
                     id="category"
@@ -175,6 +181,7 @@ const AddPet = () => {
                     }
                     }
                     onBlur={formik.handleBlur} />
+                </div>
 
                 <div className="w-full mx-auto space-y-2">
                     <label className='text-white font-semibold text-md'>Image</label>
@@ -192,8 +199,8 @@ const AddPet = () => {
                     />
                 </div>
 
-                <div className='w-full lg:flex gap-4'>
-                    <div className="space-y-2 mx-auto w-2/4">
+                <div className='w-full space-y-6 lg:space-y-0 lg:flex gap-4'>
+                    <div className="space-y-2 mx-auto lg:w-2/4">
                         <label htmlFor="locations" className='text-white font-semibold text-md'>Location</label>
                         <br />
                         <input
@@ -203,7 +210,7 @@ const AddPet = () => {
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
                             value={formik.values.pet_location}
-                            className="text-green-400 w-full rounded-[7px] border border-blue-gray-200  bg-transparent px-3 py-2.5 text-sm  text-blue-gray-700 outline outline-0 transition-all  focus:border-pink-base-300  focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
+                            className="text-gray-200 w-full rounded-[7px] border border-blue-gray-200  bg-transparent px-3 py-2.5 text-sm  text-blue-gray-700 outline outline-0 transition-all  focus:border-pink-base-300  focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
                             placeholder=' Address'
                         />
                         {formik.touched.pet_location && formik.errors.pet_location ? (
@@ -211,7 +218,7 @@ const AddPet = () => {
                         ) : null}
                     </div>
 
-                    <div className="space-y-2 mx-auto w-2/4">
+                    <div className="space-y-2 mx-auto lg:w-2/4">
                         <label htmlFor="short_description" className='text-white font-semibold text-md'>Short Description</label>
                         <br />
                         <input
@@ -221,7 +228,7 @@ const AddPet = () => {
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
                             value={formik.values.short_description}
-                            className="text-green-400 w-full rounded-[7px] border border-blue-gray-200  bg-transparent px-3 py-2.5 text-sm  text-blue-gray-700 outline outline-0 transition-all  focus:border-pink-base-300  focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
+                            className="text-gray-200 w-full rounded-[7px] border border-blue-gray-200  bg-transparent px-3 py-2.5 text-sm  text-blue-gray-700 outline outline-0 transition-all  focus:border-pink-base-300  focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
                             placeholder=' Address'
                         />
                         {formik.touched.short_description && formik.errors.short_description ? (
@@ -229,10 +236,11 @@ const AddPet = () => {
                         ) : null}
                     </div>
                 </div>
+
+                <div className="w-full space-y-2">
                 <label htmlFor="long_description" className='text-white font-semibold text-md'>Long Description</label>
-                <div className="w-full">
                     <Textarea
-                        className='h-40 text-green-400'
+                        className='lg:h-40 h-32 text-gray-200'
                         name='long_description'
                         id='long_description'
                         type='text'
@@ -244,9 +252,9 @@ const AddPet = () => {
                 </div>
 
                 <br />
-                <div className='w-1/2 mx-auto'>
+                <div className='w-full flex justify-center '>
 
-                    <button className='w-3/4 btn py-3 rounded-lg  px-3 bg-yellow-600 text-white' type="submit">Add Pet</button>
+                    <button className='w-2/5 btn py-3 rounded-lg  px-3 bg-secondary text-white' type="submit">Add Pet</button>
                  
 
                 </div>

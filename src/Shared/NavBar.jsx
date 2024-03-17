@@ -95,7 +95,7 @@ const NavBar = () => {
                     }
 
                 </div>
-                <ul  style={{ overflowY: 'auto', scrollbarWidth: 'thin', scrollbarColor: 'rgba(155, 155, 155, 0.5) rgba(255, 255, 255, 0.1)' }} className={`lg:flex space-y-6 scroll-smooth overflow-auto  pt-3 lg:pt-0 lg:items-center lg:space-y-0 absolute lg:static lg:z-auto z-[-1] left-0 w-full lg:w-auto lg:pl-0 pl-9  lg:pb-0 pb-12 h-auto   transition-all duration-500 ease-in ${open ? 'top-16 bg-black' : 'top-[-450px]'} `}>
+                <ul className={`lg:flex space-y-6 pt-3 lg:pt-0 lg:items-center lg:space-y-0 absolute lg:static lg:z-auto z-[-1] left-0 w-full lg:w-auto lg:pl-0 pl-9  lg:pb-0 pb-12 h-auto   transition-all duration-500 ease-in ${open ? 'top-16 bg-black' : 'top-[-450px]'} `}>
 
                     {navLinks}
 

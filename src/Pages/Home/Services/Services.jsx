@@ -27,15 +27,16 @@ const Services = () => {
 
                 <ParallaxBanner
                     layers={[
-                        { image: bg, speed: -20 },
+                        { image: bg, speed: -20,scale: [1, 1.2],
+                            opacity: [0.9, 1]},
                         {
                             speed: -15,
                             children: (
-                                <div className="absolute lg:gap-12 flex-col lg:flex-row inset-0 flex items-center justify-around">
+                                <div className="absolute lg:gap-12 min-h-screen inset-0 lg:flex items-center justify-around">
                                    
                                    <div>
 
-                                        <Card className="w-80">
+                                        <Card className="lg:w-80 ">
                                             <CardHeader shadow={false} floated={false} className="">
                                                 <img
                                                     src={adoption}
@@ -70,7 +71,7 @@ const Services = () => {
                                     </div>
                                     <div>
 
-                                        <Card className="w-80">
+                                        <Card className="lg:w-80">
                                             <CardHeader shadow={false} floated={false} className="">
                                                 <img
                                                     src={donation}
@@ -106,7 +107,7 @@ const Services = () => {
                                     </div>
                                     <div>
 
-                                        <Card className="w-80">
+                                        <Card className="lg:w-80">
                                             <CardHeader shadow={false} floated={false} className="">
                                                 <img
                                                     src={blogs}
