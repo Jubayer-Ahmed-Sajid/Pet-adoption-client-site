@@ -5,7 +5,24 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: { // Indented one extra level
+        primary: '#83c8e5',
+        secondary: '#f85458',
+        textprimary: '#808080'
+      }, 
+      screens: {
+        xxs:'320px',
+        xsm: '375px',
+        sml:'420px',
+        sm: '676px',
+        md: '768px',
+        lg: '976px',
+        subxl: '1150px',
+        xl: '1440px',
+      },
+    },
+    plugins: [],
   },
    plugins: [],
 }

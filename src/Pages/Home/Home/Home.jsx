@@ -1,8 +1,10 @@
 import About from "../About/About";
 import Banner from "../Banner/Banner";
-import CTA from "../CTA/CTA";
+import CallToSignUp from "../CallToSignUp/CallToSignUp";
 import Categories from "../Categories/Categories";
+import ContactUs from "../ContactUs/ContactUs";
 import Featured from "../FeaturedPet/Featured";
+import Services from "../Services/Services";
 
 const Home = () => {
     return (
@@ -10,9 +12,11 @@ const Home = () => {
             
             <Banner></Banner>
             <Categories></Categories>
-            <CTA></CTA>
+            <CallToSignUp></CallToSignUp>
+            <Services></Services>
             <About></About>
             <Featured></Featured>
+            <ContactUs></ContactUs>
         </div>
     );
 };

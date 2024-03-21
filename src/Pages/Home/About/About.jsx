@@ -1,10 +1,11 @@
+import Title from "../../../Components/Title/Title";
 
 const About = () => {
     return (
-        <div>
-            <h2 className="lg:text-4xl text-2xl text-center mt-8 lg:mt-20 mb-4 lg:mb-8 ">About Us</h2>
-            <hr />
-            <div className="lg:flex gap-6 w-full items-center lg:justify-between lg:mx-2 mx-6 justify-center ">
+        <div className="mb-20">
+           <Title title={'About us'} />
+         
+            <div className="lg:flex gap-6 mt-12 w-full items-center lg:justify-between lg:mx-2 mx-6 justify-center ">
                 <div className="lg:w-1/2  rounded-lg bg-white px-4 py-5 lg:py-12 w-full">
                     <h2 className="text-2xl lg:text-3xl font-bold text-[#001F3F] ">About Pet Adoption</h2>
                     <h3 className="text-2xl font-semibold my-3 lg:my-6">
