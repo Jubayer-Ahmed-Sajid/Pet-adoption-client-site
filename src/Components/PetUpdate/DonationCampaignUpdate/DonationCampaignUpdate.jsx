@@ -92,13 +92,13 @@ const DonationCampaignUpdate = () => {
     return (
         <div className='w-screen'>
             <form onSubmit={formik.handleSubmit} className=' bg-gray-600 p-4 space-y-2 mx-auto '>
-                <h2 className='text-center text-4xl text-yellow-600 my-6'>Add a Pet </h2>
+                <h2 className='text-center text-4xl text-secondary my-6'>Add a Pet </h2>
 
                 <div className="w-full lg:flex gap-4">
 
 
                     <div className='mx-auto w-full space-y-2'>
-                        <label htmlFor="pet_name" className='text-white font-semibold text-md'>Maximum Donation Amount</label>
+                        <label htmlFor="pet_name" className='text-white font-semibold text-md'>Campaign Goal Amount</label>
                         <br />
                         <input
                             id="pet_name"
@@ -116,7 +116,7 @@ const DonationCampaignUpdate = () => {
                         ) : null}
                     </div>
                     <div className='mx-auto w-full space-y-2'>
-                        <label htmlFor="max_donation_amount" className='text-white font-semibold text-md'>Maximum Donation Amount</label>
+                        <label htmlFor="max_donation_amount" className='text-white font-semibold text-md'>Campaign Goal Amount</label>
                         <br />
                         <input
                             id="max_donation_amount"
@@ -221,7 +221,7 @@ const DonationCampaignUpdate = () => {
                 <br />
                 <div className='w-1/2 mx-auto'>
 
-                    <button className='w-3/4 btn py-3 rounded-lg  px-3 bg-yellow-600 text-white' type="submit">Update Campaign</button>
+                    <button className='w-3/4 btn py-3 rounded-lg  px-3 bg-secondary text-white' type="submit">Update Campaign</button>
                 </div>
 
             </form >

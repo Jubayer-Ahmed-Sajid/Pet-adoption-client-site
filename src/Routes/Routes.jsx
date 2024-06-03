@@ -23,6 +23,7 @@ import AdminRoutes from "./AdminRoutes";
 import Favorites from "../Pages/Favorites/Favorites";
 import EventCard from "../Pages/Events/Events";
 import ConditionalRender from "../Components/PetDetails/conditionalRender";
+import CategoryPets from "../Pages/Home/Categories/CategoryPets";
 
 const router = createBrowserRouter([
     {
@@ -41,6 +42,11 @@ const router = createBrowserRouter([
             {
                 path: 'signUp',
                 element: <SignUp></SignUp>
+            },
+            {
+                path:'categoryPets/:category',
+                element:<CategoryPets></CategoryPets>
+
             },
             {
                 path: 'signin',

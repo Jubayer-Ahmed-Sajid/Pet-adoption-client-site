@@ -3,22 +3,22 @@ import BasicTable from '../../../Components/BasicTable';
 import useAdoptionRequest from '../../../Components/Hooks/useAdoptionRequest';
 import { MdCancel, MdCheckCircle } from 'react-icons/md';
 import useAxiosPublic from '../../../Components/Hooks/useAxiosPublic';
-import Swal from 'sweetalert2';
+import { toast } from 'sonner';
+
+
 const AdoptionRequest = () => {
     const [adoptionRequests, refetch] = useAdoptionRequest()
     console.log(adoptionRequests)
     const axiosPublic = useAxiosPublic()
 
     const handleReject = async (info) => {
+        const loadingToast = toast.loading('Adoption Request rejecting')
         const rejectInfo = await axiosPublic.delete(`/adoption/request/${info._id}`)
         if (rejectInfo.data.deletedCount) {
-            Swal.fire({
-                position: "top-end",
-                icon: "success",
-                title: "Rejected the request",
-                showConfirmButton: false,
-                timer: 1500
-            });
+            setTimeout(() => {
+                toast.dismiss(loadingToast);
+                toast.success('Adoption Request Successfully Rejected');
+            }, 500);
             refetch()
         }
 
@@ -29,16 +29,14 @@ const AdoptionRequest = () => {
         refetch()
     }
     const handleStatus = async (id) => {
+        const loadingToast = toast.loading('Adoption Request Accepting')
         const statusInfo = await axiosPublic.patch(`/adoption/request?id=${id}`)
         if (statusInfo.data.modifiedCount) {
 
-            Swal.fire({
-                position: "top-end",
-                icon: "success",
-                title: "Adoption Successful",
-                showConfirmButton: false,
-                timer: 1500
-            });
+            setTimeout(() => {
+                toast.dismiss(loadingToast);
+                toast.success('Adoption Request Successfully accepted');
+            }, 500);
             refetch()
         }
     }

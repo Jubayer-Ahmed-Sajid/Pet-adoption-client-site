@@ -1,0 +1,6 @@
+/* Services.css */
+@media screen and (max-width: 767px) {
+    .react-parallax-background-children {
+        position: relative !important;
+    }
+}

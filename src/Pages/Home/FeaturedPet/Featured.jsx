@@ -3,7 +3,7 @@ import Title from "../../../Components/Title/Title";
 const Featured = () => {
    
     return (
-        <div className="mb-20 mx-4">
+        <div className="mb-20 mx-4 text-white">
            <Title title={'Help Us'}/>
 
 

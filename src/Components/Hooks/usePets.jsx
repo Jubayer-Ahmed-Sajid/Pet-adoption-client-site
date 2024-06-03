@@ -3,7 +3,7 @@ import useAxiosPublic from './useAxiosPublic';
 
 const usePets = () => {
     const axiosPublic = useAxiosPublic()
-    const {data: pets=[],refetch,fetchNextPage,hasNextPage} = useQuery(
+    const {data: pets=[],isLoading,refetch,fetchNextPage,hasNextPage} = useQuery(
         {
             queryKey:['all-pets'],
             queryFn: async()=>{
@@ -23,7 +23,7 @@ const usePets = () => {
         //     return[...acc, ...page.allPets]
         // },[])
        
-        return [pets,refetch]
+        return [pets,isLoading,refetch]
     };
 
 export default usePets;

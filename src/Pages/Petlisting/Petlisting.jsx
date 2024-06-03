@@ -10,7 +10,7 @@ import { TbFilterSearch } from "react-icons/tb";
 
 
 const Petlisting = () => {
-    const [pets, refetch] = usePets()
+    const [pets,isLoading, refetch] = usePets()
     const axiosPublic = useAxiosPublic()
     const [displayCategory, setDisplayCategory] = useState('all')
     const [query, setQuery] = useState('')
@@ -31,7 +31,7 @@ const Petlisting = () => {
     useEffect(() => {
         console.log(displayCategory);
     }, [displayCategory]);
-
+  
     useEffect(() => {
         const petToDisplay = pets.filter(pet => !pet.adopted && (displayCategory === 'all' || pet.category === displayCategory));
         setDisplayPets(petToDisplay)
@@ -46,6 +46,7 @@ const Petlisting = () => {
         const response =await  axiosPublic.get(`/pets/search?name=${query}`);
         setDisplayPets(response.data)
     }
+   
    
 
     return (
@@ -81,10 +82,10 @@ const Petlisting = () => {
             <div>
                 { displayPets.length <= 0 ?
                 <div className='h-screen w-screen flex items-center justify-center'>
-                    <p>{ query||displayCategory} is not available adoption, Please try other pets!</p>
+                    <p>{ query|| displayCategory} is not available adoption, Please try other pets!</p>
                 </div>
                 :
-              <div className='grid lg:grid-cols-3 mt-12 gap-4'>
+              <div className='grid lg:grid-cols-3 mt-12 gap-4 lg:gap-8 space-y-6'>
 
                   {
                       displayPets?.map(pet => <div key={pet._id} className="ml-4 relative flex flex-col text-gray-700 bg-white shadow-md  rounded-xl bg-clip-border hover:shadow-lg transition-transform duration-300 transform hover:scale-105">
@@ -100,14 +101,14 @@ const Petlisting = () => {
                               <p className="block font-sans  antialiased font-medium leading-relaxed text-md bg-clip-text">
                                   Pet Age: {pet.age}
                               </p>
-                              <div className='lg:flex  flex-col gap-3 items-center justify-between'>
+                              <div className='lg:flex lg:flex-row flex-col gap-3 items-center justify-between'>
 
                                   <h2 className='flex items-center'><span className='text-3xl mr-2 my-2  rounded-lg'><MdLocationPin></MdLocationPin></span> {pet.pet_location}</h2>
                                   <h2>Added On {pet.AddedDate}</h2>
                               </div>
                           </div>
                           <div className="flex w-full justify-center">
-                              <Link to={`/petlisting/${pet._id}`} className='bg-[#4CAF41] hover:bg-[#4CAF8d] p-3 mb-3 text-white font-semibold rounded-lg'>See Details</Link>
+                              <Link to={`/petlisting/${pet._id}`} className='bg-secondary hover:bg-[#f65252d6] p-3 mb-3 text-white font-semibold rounded-lg'>See Details</Link>
 
                           </div>
 

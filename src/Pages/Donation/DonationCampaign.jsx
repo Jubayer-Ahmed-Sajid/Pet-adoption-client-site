@@ -6,7 +6,7 @@ const DonationCampaign = () => {
     
     return (
         <div>
-            <h2 className='text-center text-4xl text-green-600 mt-20 my-6'>Donation Campaigns </h2>
+            <h2 className='text-center text-4xl text-secondary mt-20 my-6'>Donation Campaigns </h2>
             <div className='grid lg:grid-cols-3 gap-4'>
 
                 {
@@ -19,9 +19,9 @@ const DonationCampaign = () => {
                                 Pet Name: {donation.pet_name}
                             </h4>
                             <div className="flex lg:flex-row flex-col font-sans gap-4 text-center items-center  antialiased justify-between text-sm  bg-clip-text">
-                            <h2 className="bg-pink-600 px-2 rounded-md text-white py-4">Max Donation: $ {donation.max_donation_amount}</h2>
-                            <p className="bg-pink-600 px-3 rounded-md text-white py-4">
-                                Donated Amount: $ {donation.donated_amount}</p>
+                            <h2 className="bg-secondary px-2 rounded-md text-white py-4">Campaign Goal: <span className="font-semibold text-lg">${donation.max_donation_amount} </span> </h2>
+                            <p className="bg-secondary px-3 rounded-md text-white py-4">
+                                Raised Amount: <span className="font-semibold text-lg">${donation.donated_amount}</span></p>
                             </div>
                         </div>
                         <div className="flex w-full justify-center">

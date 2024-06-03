@@ -7,7 +7,7 @@ export default {
   theme: {
     extend: {
       colors: { // Indented one extra level
-        primary: '#83c8e5',
+        primary: '#4B5563',
         secondary: '#f85458',
         textprimary: '#808080'
       }, 

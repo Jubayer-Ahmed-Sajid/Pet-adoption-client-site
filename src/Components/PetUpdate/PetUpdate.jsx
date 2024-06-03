@@ -3,11 +3,11 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup'
 import Select from 'react-select'
 import { Textarea } from "@material-tailwind/react";
-import Swal from 'sweetalert2';
 import axios from 'axios';
-import { useLoaderData, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import useAuth from '../Hooks/useAuth';
 import useAxiosPublic from '../Hooks/useAxiosPublic';
+import { toast } from 'sonner';
 
 
 const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY
@@ -86,13 +86,7 @@ const PetUpdate = () => {
             const petRes = await axiosPublic.patch(`/pets/${id}`, UpdatedPetsInfo)
             console.log(petRes)
             if (petRes.data.modifiedCount) {
-                Swal.fire({
-                    position: "top-end",
-                    icon: "success",
-                    title: "Successfully added the pet!",
-                    showConfirmButton: false,
-                    timer: 1500
-                });
+                toast.success('Pet Successfully Updated')
             }
             console.log(petRes.data)
 
@@ -101,7 +95,7 @@ const PetUpdate = () => {
     return (
         <div className='w-screen'>
             <form onSubmit={formik.handleSubmit} className=' bg-gray-600 p-4 space-y-2 mx-auto '>
-                <h2 className='text-center text-4xl text-yellow-600 my-6'>Update a Pet </h2>
+                <h2 className='text-center text-4xl text-secondary my-6'>Update a Pet </h2>
 
                 <div className="w-full lg:flex gap-4">
 
@@ -236,7 +230,7 @@ const PetUpdate = () => {
                 <br />
                 <div className='w-1/2 mx-auto'>
 
-                    <button className='w-3/4 btn py-3 rounded-lg  px-3 bg-yellow-600 text-white' type="submit">Update Pet</button>
+                    <button className='w-3/4 btn py-3 rounded-lg  px-3 bg-secondary text-white' type="submit">Update Pet</button>
                 </div>
 
             </form>

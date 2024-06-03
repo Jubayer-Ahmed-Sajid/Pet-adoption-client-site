@@ -24,6 +24,7 @@ const options = [
 const AddPet = () => {
     const axiosPublic = useAxiosPublic()
     const { user } = useAuth()
+    const [errorMessage, setErrorMessage] = useState('')
     const formik = useFormik({
 
         initialValues: {
@@ -47,7 +48,7 @@ const AddPet = () => {
 
         onSubmit: async values => {
             try {
-               const petLoading =  toast.loading('Pet is adding')
+                const petLoading = toast.loading('Pet is adding')
                 const image = values.image;
 
                 // Compress the image
@@ -57,7 +58,11 @@ const AddPet = () => {
                         success(result) {
                             resolve(result);
                         },
+
                         error(error) {
+                            setErrorMessage(error.message)
+                            toast.dismiss(petLoading)
+                            toast.error(errorMessage)
                             reject(error);
                         }
                     });
@@ -98,16 +103,19 @@ const AddPet = () => {
                 }
 
                 console.log(petRes.data);
-            } catch (error) {
+            }
+
+            catch (error) {
+                setErrorMessage(error.message)
                 toast.dismiss(petLoading)
-                toast.error('error.message')
+                toast.error(errorMessage)
                 console.error('An error occurred:', error);
 
             }
         }
 
     });
-    
+
     return (
         <div className='w-screen'>
             {/* Sooner toast  */}
@@ -118,11 +126,11 @@ const AddPet = () => {
 
             {/* Pet add form starts here */}
 
-            <form onSubmit={formik.handleSubmit} className=' bg-gray-600 h-full p-4 space-y-6 mx-auto '>
+            <form onSubmit={formik.handleSubmit} className=' bg-gray-600 min-h-full p-4 space-y-6 mx-auto '>
                 <div className='w-2/4 pb-6 font-bold mx-auto'>
 
-                <h2 className='text-center text-xl lg:text-4xl text-secondary mt-4 lg:mt-6 mb-2'>Add a Pet </h2>
-                <hr className="border-t-2 border-white my-2" />
+                    <h2 className='text-center text-xl lg:text-4xl text-secondary mt-4 lg:mt-6 mb-2'>Add a Pet </h2>
+                    <hr className="border-t-2 border-white my-2" />
                 </div>
 
                 <div className="w-full lg:space-y-0 space-y-6 lg:flex gap-4">
@@ -169,18 +177,18 @@ const AddPet = () => {
                 </div>
                 <div className="w-full mx-auto space-y-2">
 
-                <label htmlFor="category" className='text-white font-semibold text-md'>Categories</label>
-                <Select
-                    id="category"
-                    name="category"
-                    options={options}
-                    placeholder='Chose category'
-                    onChange={(event) => {
-                        const category = event.value
-                        formik.setFieldValue('category', category)
-                    }
-                    }
-                    onBlur={formik.handleBlur} />
+                    <label htmlFor="category" className='text-white font-semibold text-md'>Categories</label>
+                    <Select
+                        id="category"
+                        name="category"
+                        options={options}
+                        placeholder='Chose category'
+                        onChange={(event) => {
+                            const category = event.value
+                            formik.setFieldValue('category', category)
+                        }
+                        }
+                        onBlur={formik.handleBlur} />
                 </div>
 
                 <div className="w-full mx-auto space-y-2">
@@ -237,8 +245,8 @@ const AddPet = () => {
                     </div>
                 </div>
 
-                <div className="w-full space-y-2">
-                <label htmlFor="long_description" className='text-white font-semibold text-md'>Long Description</label>
+                <div className="w-full pb-2 relative space-y-2">
+                    <label htmlFor="long_description" className='text-white font-semibold text-md'>Long Description</label>
                     <Textarea
                         className='lg:h-40 h-32 text-gray-200'
                         name='long_description'
@@ -251,17 +259,18 @@ const AddPet = () => {
                     />
                 </div>
 
-                <br />
-                <div className='w-full flex justify-center '>
+         
+                <div className='w-full mx-auto h-16 flex justify-center'>
 
-                    <button className='w-2/5 btn py-3 rounded-lg  px-3 bg-secondary text-white' type="submit">Add Pet</button>
-                 
+                    <button className="w-2/5 btn py-3 absolute rounded-lg px-3 bg-secondary text-white" type="submit">
+                        Add pet
+                    </button>
 
                 </div>
             </form>
 
             {/* Form ends here */}
-           
+
         </div>
     );
 };

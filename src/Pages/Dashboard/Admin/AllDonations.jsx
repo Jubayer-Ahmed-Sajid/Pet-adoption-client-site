@@ -51,7 +51,7 @@ const AllDonations = () => {
             ),
         },
         {
-            header: 'Max Donation',
+            header: 'Campaign Goal',
             accessorKey: 'max_donation_amount'
         },
         {
