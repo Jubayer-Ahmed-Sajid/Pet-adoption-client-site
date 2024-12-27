@@ -3,6 +3,7 @@ import { MdPets,MdPlaylistAddCheck } from "react-icons/md";
 import { NavLink, Outlet } from "react-router-dom";
 import useAdmin from "../Components/Hooks/useAdmin";
 import Sidebar from "../Components/Sidebar";
+import DropDownMenu from "../Components/DropDownMenu";
 
 const DashBoard = () => {
     const [data,isLoading] = useAdmin()
@@ -13,9 +14,12 @@ const DashBoard = () => {
 
 
     return (
-        <div className="grid grid-cols-9 gap-2">
-            <div className="col-span-2">
+        <div className="lg:grid grid-cols-9 gap-2">
+            <div className="col-span-2 hidden lg:block">
                 <Sidebar></Sidebar>
+            </div>
+            <div className="lg:hidden">
+                <DropDownMenu></DropDownMenu>
             </div>
             <div className="col-span-7">
 
