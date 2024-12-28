@@ -6,6 +6,7 @@ import router from './Routes/Routes.jsx'
 import AuthProvider from './Providers/AuthProvider/AuthProvider.jsx'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ParallaxProvider } from 'react-scroll-parallax'
+import { Toaster } from 'sonner'
 const queryClient = new QueryClient()
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
@@ -13,6 +14,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     <div className='max-w-7xl mx-auto'>
         <QueryClientProvider client={queryClient}>
           <AuthProvider >
+            <Toaster richColors position='top-center'></Toaster>
             <RouterProvider router={router} />
           </AuthProvider>
         </QueryClientProvider>

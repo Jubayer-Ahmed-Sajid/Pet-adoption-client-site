@@ -14,14 +14,14 @@ const DashBoard = () => {
 
 
     return (
-        <div className="lg:grid grid-cols-9 gap-2">
+        <div className="md:grid grid-cols-10 gap-2">
             <div className="col-span-2 hidden lg:block">
                 <Sidebar></Sidebar>
             </div>
             <div className="lg:hidden">
                 <DropDownMenu></DropDownMenu>
             </div>
-            <div className="col-span-7">
+            <div className="col-span-8">
 
             <Outlet></Outlet>
             </div>

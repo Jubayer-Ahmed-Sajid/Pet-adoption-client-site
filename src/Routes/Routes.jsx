@@ -83,47 +83,47 @@ const router = createBrowserRouter([
         element: <DashBoard></DashBoard>,
         children: [
             {
-                path: 'allusers',
+                path: 'all-users',
                 element: <AdminRoutes><Users></Users></AdminRoutes>
             },
             {
-                path: 'allpets',
+                path: 'all-pets',
                 element: <AdminRoutes><AllPets></AllPets></AdminRoutes>
             },
             {
-                path: 'alldonations',
+                path: 'all-donations',
                 element: <AdminRoutes><AllDonations></AllDonations></AdminRoutes>
 
             },
             {
-                path: 'alldonations/:id',
+                path: 'all-donations/:id',
                 element: <AdminRoutes><DonationCampaignUpdate></DonationCampaignUpdate></AdminRoutes>
             }
             ,
             {
-                path: 'allpets/:id',
+                path: 'all-pets/:id',
                 element: <PrivateRoutes><PetUpdate></PetUpdate></PrivateRoutes>
 
 
             },
             {
-                path: 'addpet',
+                path: 'add-pet',
                 element: <PrivateRoutes><AddPet></AddPet></PrivateRoutes>
             },
             {
-                path: 'createdonation',
+                path: 'created-onation',
                 element: <PrivateRoutes><AddDonationCampaign></AddDonationCampaign></PrivateRoutes>
             },
             {
-                path: 'addedpets',
+                path: 'added-pets',
                 element: <PrivateRoutes><AddedPets></AddedPets></PrivateRoutes>
             },
             {
-                path: 'createddonation',
+                path: 'created-donation',
                 element: <PrivateRoutes><AddedDonations></AddedDonations></PrivateRoutes>
             },
             {
-                path: 'adoptionrequest',
+                path: 'adoption-request',
                 element: <PrivateRoutes><AdoptionRequest></AdoptionRequest></PrivateRoutes>
             },
 
