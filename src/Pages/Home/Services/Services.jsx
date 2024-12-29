@@ -32,7 +32,7 @@ const Services = () => {
                         {
                             speed: -15,
                             children: (
-                                <div className="absolute lg:gap-12 min-h-screen inset-0 lg:flex items-center justify-around">
+                                <div className="absolute lg:gap-8 min-h-screen inset-0 lg:flex items-center justify-around">
                                    
                                    <div>
 

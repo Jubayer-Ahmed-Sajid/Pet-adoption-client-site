@@ -7,7 +7,7 @@ const Main = () => {
         <div className="flex flex-col justify-end">
             <NavBar></NavBar>
             <Outlet></Outlet>
-           <div className="">
+           <div>
            <Footer></Footer>
            </div>
         </div>

@@ -10,7 +10,7 @@ const DonationCampaign = () => {
             <div className='grid lg:grid-cols-3 gap-4'>
 
                 {
-                    donations.map(donation => <Link to={`/donationCampaign/${donation._id}`} key={donation._id} className="relative hover:shadow-lg transition-transform duration-300 transform hover:scale-105 flex flex-col text-gray-700 bg-white shadow-md  rounded-xl bg-clip-border">
+                    donations.map(donation => <Link to={`/donation-campaign/${donation._id}`} key={donation._id} className="relative hover:shadow-lg transition-transform duration-300 transform hover:scale-105 flex flex-col text-gray-700 bg-white shadow-md  rounded-xl bg-clip-border">
                         <div className="relative mx-4 mt-4 overflow-hidden text-gray-700 bg-white h-80 rounded-xl bg-clip-border">
                             <img src={donation.image} alt="profile-picture" />
                         </div>

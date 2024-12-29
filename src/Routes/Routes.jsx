@@ -47,21 +47,21 @@ const router = createBrowserRouter([
                 element: <SignIn></SignIn>
             },
             {
-                path: 'petlisting',
+                path: 'pet-listing',
                 element: <PrivateRoutes><Petlisting></Petlisting></PrivateRoutes>
             },
             {
-                path: 'donationCampaign',
+                path: 'donation-campaign',
                 element: <PrivateRoutes><DonationCampaign></DonationCampaign></PrivateRoutes>
             },
             {
-                path: 'donationCampaign/:id',
+                path: 'donation-campaign/:id',
                 element: <PrivateRoutes><DonationDetails></DonationDetails></PrivateRoutes>,
 
 
             },
             {
-                path: 'petlisting/:id',
+                path: 'pet-listing/:id',
                 element: <PrivateRoutes><PetDetails></PetDetails></PrivateRoutes>,
             },
 
@@ -111,7 +111,7 @@ const router = createBrowserRouter([
                 element: <PrivateRoutes><AddPet></AddPet></PrivateRoutes>
             },
             {
-                path: 'created-onation',
+                path: 'create-donation',
                 element: <PrivateRoutes><AddDonationCampaign></AddDonationCampaign></PrivateRoutes>
             },
             {

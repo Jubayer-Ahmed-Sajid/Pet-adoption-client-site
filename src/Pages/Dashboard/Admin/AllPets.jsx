@@ -97,7 +97,7 @@ const AllPets = () => {
             accessorKey: 'update',
             cell: ({ row }) => (
 
-                <Link to={`/dashboard/allpets/${row.original._id}`}>
+                <Link to={`/dashboard/all-pets/${row.original._id}`}>
                 <button>
                     <FaEdit></FaEdit>
                 </button>

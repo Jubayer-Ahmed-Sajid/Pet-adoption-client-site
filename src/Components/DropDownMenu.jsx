@@ -52,7 +52,7 @@ const DropDownMenu = () => {
                 </MenuItem>
                 <MenuItem>
                   <NavLink
-                    to="/dashboard/allpets"
+                    to="/dashboard/all-pets"
                     className="flex items-center gap-3 transition-all duration-300 transform hover:scale-105"
                   >
                     <FaPaw className="text-2xl"></FaPaw> All Pets

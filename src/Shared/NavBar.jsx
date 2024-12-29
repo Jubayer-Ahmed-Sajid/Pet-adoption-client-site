@@ -6,6 +6,7 @@ import Swal from "sweetalert2";
 import logo from '../assets/Gemini_Generated_Image (3).jpg'
 
 import { MdClose, MdMenu } from "react-icons/md";
+import DropDown from "../Components/DropDown";
 const NavBar = () => {
     const { user, SignOutUser } = useAuth()
     const [isScrolled, setIsScrolled] = useState(false);
@@ -52,7 +53,7 @@ const NavBar = () => {
             <li>
                 <NavLink className={({ isActive, isPending }) =>
                     isPending ? "pending" : isActive ? "bg-primary md:ml-4 py-2 px-2 rounded-md" : "hover:text-blue-700 md:ml-4 hover:bg-slate-400 py-2 px-2 hover:rounded-md"
-                } to='/petlisting'>Pet Listing</NavLink>
+                } to='/pet-listing'>Pet Listing</NavLink>
             </li>
             <li>
                 <NavLink className={({ isActive, isPending }) =>
@@ -102,37 +103,7 @@ const NavBar = () => {
                     <div className={`text-white gap-2 flex flex-row-reverse  md:static justify-between mr-4 lg:flex-row md:pb-0 pb-8 md:items-center `}>
                         {
                             user ? < > <p className="lg:ml-12 ml-4 text-gray-300 font-semibold">{user.displayName}</p>
-                                <div className="relative inline-block text-left">
-                                    <button
-                                        type="button"
-                                        className="inline-flex items-center justify-center p-2 text-gray-400 hover:text-gray-700 focus:outline-none  "
-                                        onClick={toggleDropdown}
-                                    >
-                                        <img
-                                            src={user.photoURL}
-                                            className="w-12 h-12 rounded-full"
-                                            alt=""
-                                        />
-                                    </button>
-
-                                    {isDropdownOpen && (
-                                        <div className="absolute  left-0 mt-2 space-y-2 bg-white border border-gray-200 rounded-md shadow-lg">
-                                            <Link
-                                                to="/dashboard"
-                                                className="block px-4 py-2 text-xl text-gray-800 hover:bg-blue-500 hover:text-white"
-                                            >
-                                                Dashboard
-                                            </Link>
-                                            <button
-                                                type="button"
-                                                className="block px-4 py-2 text-xl text-gray-800 hover:bg-red-500 hover:text-white"
-                                                onClick={handleSignOut}
-                                            >
-                                                Sign Out
-                                            </button>
-                                        </div>
-                                    )}
-                                </div>
+                               <DropDown></DropDown>
                             </> : <div className="flex w-full justify-start">
                             <NavLink className={({ isActive, isPending }) =>
                                 isPending ? "pending" : isActive ? "bg-primary py-2 px-3 rounded-md" : "hover:text-blue-700  hover:bg-slate-400 py-2 px-2 hover:rounded-md"

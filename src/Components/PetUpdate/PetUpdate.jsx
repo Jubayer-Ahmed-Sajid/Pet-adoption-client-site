@@ -29,7 +29,6 @@ const optionsAdopted = [
 const PetUpdate = () => {
     const [donationCampaign,setDonationCampaign] = useState({})
     const { id } = useParams()
-    console.log(id)
     const axiosPublic = useAxiosPublic()
     const { user } = useAuth()
     useEffect(()=>{
@@ -39,17 +38,19 @@ const PetUpdate = () => {
 
         })
     },[axiosPublic,id])
+    
+    
     const formik = useFormik({
 
         initialValues: {
-            name: donationCampaign.name,
-            age: donationCampaign.age,
-            pet_location: donationCampaign.pet_location,
+            name: donationCampaign?.name,
+            age: donationCampaign?.age,
+            pet_location: donationCampaign?.pet_location,
             image: '',
-            short_description: donationCampaign.short_description,
-            long_description: donationCampaign.long_description,
-            category: donationCampaign.category,
-            adopted: donationCampaign.adopted
+            short_description: donationCampaign?.short_description,
+            long_description: donationCampaign?.long_description,
+            category: donationCampaign?.category,
+            adopted: donationCampaign?.adopted
         },
         validationSchema: Yup.object({
             name: Yup.string()
@@ -99,15 +100,15 @@ const PetUpdate = () => {
         },
     });
     return (
-        <div className='w-screen'>
-            <form onSubmit={formik.handleSubmit} className=' bg-gray-600 p-4 space-y-2 mx-auto '>
-                <h2 className='text-center text-4xl text-yellow-600 my-6'>Update a Pet </h2>
+        <div className='w-full'>
+            <form onSubmit={formik.handleSubmit} className=' bg-white shadow-lg p-4 space-y-2 mx-auto '>
+                <h2 className='text-center text-4xl text-blue-600 my-6'>Update a Pet </h2>
 
                 <div className="w-full lg:flex gap-4">
 
 
                     <div className='mx-auto w-full space-y-2'>
-                        <label htmlFor="name" className='text-white font-semibold text-md'>Pet Name</label>
+                        <label htmlFor="name" className='font-semibold text-md'>Pet Name</label>
                         <br />
                         <input
                             id="pet_name"
@@ -115,9 +116,9 @@ const PetUpdate = () => {
                             type="text"
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
-                            defaultValue={formik.values.name}
+                            value={formik.name}
 
-                            className="text-green-400 w-full rounded-[7px] border border-blue-gray-200  bg-transparent px-3 py-2.5 text-sm  text-blue-gray-700 outline outline-0 transition-all  focus:border-pink-base-300  focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
+                            className=" w-full rounded-[7px] border border-blue-gray-200  bg-transparent px-3 py-2.5 text-sm  text-blue-gray-700 outline outline-0 transition-all  focus:border-pink-base-300  focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
                         />
                         <br />
                         {formik.touched.name && formik.errors.name ? (
@@ -127,7 +128,7 @@ const PetUpdate = () => {
 
 
                     <div className=' mx-auto w-full space-y-2'>
-                        <label htmlFor="age" className='text-white font-semibold text-md'>Age </label>
+                        <label htmlFor="age" className='font-semibold text-md'>Age </label>
                         <br />
 
                         <input
@@ -136,30 +137,29 @@ const PetUpdate = () => {
                             type="number"
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
-                            defaultValue={formik.values.age}
-                            className="text-green-400 w-full rounded-[7px] border border-blue-gray-200  bg-transparent px-3 py-2.5 text-sm  text-blue-gray-700 outline outline-0 transition-all  focus:border-pink-base-300  focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
+                            value={formik.age}
+                            className=" w-full rounded-[7px] border border-blue-gray-200  bg-transparent px-3 py-2.5 text-sm  text-blue-gray-700 outline outline-0 transition-all  focus:border-pink-base-300  focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
                         />
                         {formik.touched.age && formik.errors.age ? (
                             <p className='text-red-400 text-md'>{formik.errors.age}</p>
                         ) : null}
                     </div>
                 </div>
-                <label htmlFor="category" className='text-white font-semibold text-md'>Categories</label>
+                <label htmlFor="category" className='font-semibold text-md'>Categories</label>
                 <Select
                     id="category"
                     name="category"
                     options={options}
-                    defaultValue={donationCampaign.category}
+                   
                     onChange={(event) => {
                         const category = event.defaultValue
                         formik.setFieldValue('category', category)
                     }
                     }
                     onBlur={formik.handleBlur} />
-                <label htmlFor="adopted" className=' text-white font-semibold text-md'>Adoption Status</label>
+                <label htmlFor="adopted" className=' font-semibold text-md'>Adoption Status</label>
                 <Select id='adopted'
                     name='adopted'
-                    defaultValue={donationCampaign.adopted ? 'True' : 'False'}
                     options={optionsAdopted}
                     onChange={(event) => {
                         const adopted = event.value
@@ -168,7 +168,7 @@ const PetUpdate = () => {
                     onBlur={formik.handleBlur} />
 
                 <div className="w-full mx-auto space-y-2">
-                    <label className='text-white font-semibold text-md'>Image</label>
+                    <label className='font-semibold text-md'>Image</label>
                     <br />
 
                     <input
@@ -185,7 +185,7 @@ const PetUpdate = () => {
 
                 <div className='w-full lg:flex gap-4'>
                     <div className="space-y-2 mx-auto w-2/4">
-                        <label htmlFor="locations" className='text-white font-semibold text-md'>Location</label>
+                        <label htmlFor="locations" className='font-semibold text-md'>Location</label>
                         <br />
                         <input
                             id="pet_location"
@@ -193,8 +193,8 @@ const PetUpdate = () => {
                             type="text"
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
-                            defaultValue={formik.values.pet_location}
-                            className="text-green-400 w-full rounded-[7px] border border-blue-gray-200  bg-transparent px-3 py-2.5 text-sm  text-blue-gray-700 outline outline-0 transition-all  focus:border-pink-base-300  focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
+                            value={formik?.pet_location}
+                            className=" w-full rounded-[7px] border border-blue-gray-200  bg-transparent px-3 py-2.5 text-sm  text-blue-gray-700 outline outline-0 transition-all  focus:border-pink-base-300  focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
                             
                         />
                         {formik.touched.pet_location && formik.errors.pet_location ? (
@@ -203,7 +203,7 @@ const PetUpdate = () => {
                     </div>
 
                     <div className="space-y-2 mx-auto w-2/4">
-                        <label htmlFor="short_description" className='text-white font-semibold text-md'>Short Description</label>
+                        <label htmlFor="short_description" className='font-semibold text-md'>Short Description</label>
                         <br />
                         <input
                             id="short_description"
@@ -211,24 +211,24 @@ const PetUpdate = () => {
                             type="text"
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
-                            defaultValue={formik.values.short_description}
-                            className="text-green-400 w-full rounded-[7px] border border-blue-gray-200  bg-transparent px-3 py-2.5 text-sm  text-blue-gray-700 outline outline-0 transition-all  focus:border-pink-base-300  focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
+                            value = {formik.short_description}
+                            className=" w-full rounded-[7px] border border-blue-gray-200  bg-transparent px-3 py-2.5 text-sm  text-blue-gray-700 outline outline-0 transition-all  focus:border-pink-base-300  focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
                         />
                         {formik.touched.short_description && formik.errors.short_description ? (
                             <p className='text-red-400 text-md'>{formik.errors.short_description}</p>
                         ) : null}
                     </div>
                 </div>
-                <label htmlFor="long_description" className='text-white font-semibold text-md'>Long Description</label>
+                <label htmlFor="long_description" className='font-semibold text-md'>Long Description</label>
                 <div className="w-full">
                     <Textarea
-                        className='h-40 text-green-400'
+                        className='h-40 '
                         name='long_description'
                         id='long_description'
                         type='text'
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
-                        defaultValue={formik.values.long_description}
+                        value={formik.values.long_description}
                     />
                 </div>
 
@@ -236,7 +236,7 @@ const PetUpdate = () => {
                 <br />
                 <div className='w-1/2 mx-auto'>
 
-                    <button className='w-3/4 btn py-3 rounded-lg  px-3 bg-yellow-600 text-white' type="submit">Update Pet</button>
+                    <button className='w-3/4 btn py-3 rounded-md text-white px-3 bg-blue-500'  type="submit">Update Pet</button>
                 </div>
 
             </form>

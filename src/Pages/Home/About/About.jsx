@@ -5,7 +5,7 @@ const About = () => {
         <div className="mb-20">
            <Title title={'About us'} />
          
-            <div className="lg:flex gap-6 mt-12 w-full items-center lg:justify-between lg:mx-2 mx-6 justify-center ">
+            <div className="lg:flex gap-6 mt-12 w-full items-center lg:justify-between p-8 lg:mx-0 mx-6 justify-center ">
                 <div className="lg:w-1/2  rounded-lg bg-white px-4 py-5 lg:py-12 w-full">
                     <h2 className="text-2xl lg:text-3xl font-bold text-[#001F3F] ">About Pet Adoption</h2>
                     <h3 className="text-2xl font-semibold my-3 lg:my-6">

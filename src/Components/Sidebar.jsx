@@ -35,18 +35,18 @@ const Sidebar = () => {
           <>
             <li>
               <NavLink
-                to="/dashboard/allusers"
+                to="/dashboard/all-users"
                 className="flex items-center gap-3 transition-all duration-300 transform hover:scale-105"
               >
-                <FaUsers className="text-2xl "></FaUsers> All Users
+                <FaUsers className="text-2xl text-blue-600"></FaUsers> All Users
               </NavLink>
             </li>
             <li>
               <NavLink
-                to="/dashboard/allpets"
+                to="/dashboard/all-pets"
                 className="flex items-center gap-3 transition-all duration-300 transform hover:scale-105"
               >
-                <FaPaw className="text-2xl"></FaPaw> All Pets
+                <FaPaw className="text-2xl text-blue-600"></FaPaw> All Pets
               </NavLink>
             </li>
             <li>
@@ -54,7 +54,7 @@ const Sidebar = () => {
                 to="/dashboard/all-donations"
                 className="flex items-center gap-3 transition-all duration-300 transform hover:scale-105"
               >
-                <FaDollarSign className="text-2xl"></FaDollarSign>All Donations
+                <FaDollarSign className="text-2xl text-blue-600"></FaDollarSign>All Donations
               </NavLink>
             </li>
           </>

@@ -80,7 +80,7 @@ const SignUp = () => {
         });
     },
   });
-  const handleGoogleSigin = () => {
+  const handleGoogleSignin = () => {
     googleSignin().then(async (result) => {
       const image = result?.user?.photoURL;
       const formData = new FormData();
@@ -158,21 +158,13 @@ const SignUp = () => {
     });
   };
 
-
- 
-
-
   return (
-      <div className="my-8 min-h-screen lg:mx-6">
-       
-      <form
-        onSubmit={formik.handleSubmit}
-        className="rounded-lg mt-6 lg:mt-12 bg-white shadow-lg py-3 lg:py-6 space-y-2 mx-auto w-full lg:w-2/4 "
-      >
+    <div className="my-8 min-h-screen lg:mx-auto bg-white rounded-lg  shadow-lg py-3 lg:py-6 space-y-2 mx-auto w-full lg:w-2/4">
+      <form onSubmit={formik.handleSubmit} className=" mt-6 lg:mt-12 ">
         <h2 className="text-center text-blue-500 text-2xl lg:text-4xl  my-6">
           Please Sign Up{" "}
         </h2>
-        <hr className="bg-black h-[2px] w-2/3 mx-auto"/>
+        <hr className="bg-black h-[2px] w-2/3 mx-auto" />
         <div className="mx-auto w-3/4 lg:w-2/4 space-y-2">
           <label htmlFor="fullName">Full Name</label>
           <br />
@@ -225,7 +217,7 @@ const SignUp = () => {
             onBlur={formik.handleBlur}
           />
         </div>
-      
+
         <br />
         <div className="space-y-2 mx-auto w-3/4 lg:w-2/4">
           <label htmlFor="password">Password</label>
@@ -254,48 +246,49 @@ const SignUp = () => {
             Sign up
           </button>
         </div>
-        <div className="flex w-3/4 lg:w-1/2 mx-auto items-center gap-2">
-          <div className=" w-5/12">
-            <hr />
-          </div>
-          <h2 className="text-blue-400  font-semibold">or</h2>
-          <div className=" w-5/12">
-            <hr />
-          </div>
-        </div>
-
-        <div className="lg:w-1/2 flex justify-center lg:block mx-auto">
-          <button
-            onClick={handleGoogleSigin}
-            className="btn mb-4 text-white rounded-lg text-center w-full bg-blue-500 py-3"
-          >
-            <h2 className="flex justify-center items-center gap-4">
-              Login by Google <img src={google} className="h-6" alt="" />
-            </h2>
-          </button>
-        </div>
-        <div className="lg:w-1/2 lg:block flex justify-center mx-auto">
-          <button
-            onClick={handleGitHubSignin}
-            className="btn text-white rounded-md text-center w-full bg-blue-500 py-3"
-          >
-            <h2 className="flex  justify-center items-center gap-4">
-              Login by Github <FaGithub></FaGithub>
-            </h2>
-          </button>
-        </div>
-        <div className="my-6 lg:w-1/2 lg:mx-auto px-4">
-          <h2>
-            Already have an account ?
-            <Link className="text-blue-400 ml-2" to="/signin">
-              Sing In Now
-            </Link>
-          </h2>
-        </div>
       </form>
-     <div>
-        
-     </div>
+
+      <div className="flex w-3/4 lg:w-1/2 mx-auto items-center gap-2">
+        <div className=" w-5/12">
+          <hr />
+        </div>
+        <h2 className="text-blue-400  font-semibold">or</h2>
+        <div className=" w-5/12">
+          <hr />
+        </div>
+      </div>
+
+      <div className="lg:w-1/2 flex justify-center lg:block mx-auto">
+        <button
+          onClick={handleGoogleSignin}
+          className="btn mb-4 text-white rounded-lg text-center w-full bg-blue-500 py-3"
+        >
+          <h2 className="flex justify-center items-center gap-4">
+            Login by Google <img src={google} className="h-6" alt="" />
+          </h2>
+        </button>
+      </div>
+
+      <div className="lg:w-1/2 lg:block flex justify-center mx-auto">
+        <button
+          onClick={handleGitHubSignin}
+          className="btn text-white rounded-md text-center w-full bg-blue-500 py-3"
+        >
+          <h2 className="flex  justify-center items-center gap-4">
+            Login by Github <FaGithub></FaGithub>
+          </h2>
+        </button>
+      </div>
+
+      <div className="my-6 lg:w-1/2 lg:mx-auto px-4">
+        <h2>
+          Already have an account ?
+          <Link className="text-blue-400 ml-2" to="/signin">
+            Sing In Now
+          </Link>
+        </h2>
+      </div>
+      
     </div>
   );
 };
