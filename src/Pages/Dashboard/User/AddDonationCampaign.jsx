@@ -82,9 +82,9 @@ const AddDonationCampaign = () => {
         },
     });
     return (
-        <div className='w-screen'>
-            <form onSubmit={formik.handleSubmit} className=' bg-gray-600 p-4 space-y-2 mx-auto '>
-                <h2 className='text-center text-4xl text-yellow-600 my-6'>Add Donation Campaign </h2>
+        <div className='w-full'>
+            <form onSubmit={formik.handleSubmit} className=' bg-gray-600 p-4 space-y-4 mx-auto text-white'>
+                <h2 className='text-center text-4xl text-secondary my-6'>Add Donation Campaign </h2>
 
                 <div className="w-full lg:flex gap-4">
                 <div className='w-full gap-4'>
@@ -100,7 +100,7 @@ const AddDonationCampaign = () => {
                            onChange={formik.handleChange}
                            onBlur={formik.handleBlur}
                            value={formik.values.pet_name}
-                           className="text-green-400 w-full rounded-[7px] border border-blue-gray-200  bg-transparent px-3 py-2.5 text-sm  text-blue-gray-700 outline outline-0 transition-all  focus:border-pink-base-300  focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
+                           className=" w-full rounded-[7px] border border-blue-gray-200  bg-transparent px-3 py-2.5 text-sm  text-blue-gray-700 outline outline-0 transition-all  focus:border-pink-base-300  focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
                        />
                        {formik.touched.pet_name && formik.errors.pet_name ? (
                            <p className='text-red-400 text-md'>{formik.errors.pet_name}</p>
@@ -120,7 +120,7 @@ const AddDonationCampaign = () => {
                             onBlur={formik.handleBlur}
                             value={formik.values.max_donation_amount}
 
-                            className="text-green-400 w-full rounded-[7px] border border-blue-gray-200  bg-transparent px-3 py-2.5 text-sm  text-blue-gray-700 outline outline-0 transition-all  focus:border-pink-base-300  focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
+                            className=" w-full rounded-[7px] border border-blue-gray-200  bg-transparent px-3 py-2.5 text-sm  text-blue-gray-700 outline outline-0 transition-all  focus:border-pink-base-300  focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
                         />
                         <br />
                         {formik.touched.max_donation_amount && formik.errors.max_donation_amount ? (
@@ -140,7 +140,7 @@ const AddDonationCampaign = () => {
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
                             value={formik.values.last_date}
-                            className="text-green-400 w-full rounded-[7px] border border-blue-gray-200  bg-transparent px-3 py-2.5 text-sm  text-blue-gray-700 outline outline-0 transition-all  focus:border-pink-base-300  focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
+                            className=" w-full rounded-[7px] border border-blue-gray-200  bg-transparent px-3 py-2.5 text-sm  text-blue-gray-700 outline outline-0 transition-all  focus:border-pink-base-300  focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
                         />
                         {formik.touched.last_date && formik.errors.last_date ? (
                             <p className='text-red-400 text-md'>{formik.errors.last_date}</p>
@@ -149,7 +149,7 @@ const AddDonationCampaign = () => {
                 </div>
                 <div>
                     <label htmlFor="status">Status</label>
-                    <Select options={statusOptions}
+                    <Select className='text-black' options={statusOptions}
                             id="status"
                             name="status"
                             // value={campaign.status}
@@ -191,7 +191,7 @@ const AddDonationCampaign = () => {
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
                             value={formik.values.short_description}
-                            className="text-green-400 w-full rounded-[7px] border border-blue-gray-200  bg-transparent px-3 py-2.5 text-sm  text-blue-gray-700 outline outline-0 transition-all  focus:border-pink-base-300  focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
+                            className=" w-full rounded-[7px] border border-blue-gray-200  bg-transparent px-3 py-2.5 text-sm  text-blue-gray-700 outline outline-0 transition-all  focus:border-pink-base-300  focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
                         />
                         {formik.touched.short_description && formik.errors.short_description ? (
                             <p className='text-red-400 text-md'>{formik.errors.short_description}</p>
@@ -201,7 +201,7 @@ const AddDonationCampaign = () => {
                 <label htmlFor="long_description" className='text-white font-semibold text-md'>Long Description</label>
                 <div className="w-full">
                     <Textarea
-                        className='h-40 text-green-400'
+                        className='h-40 '
                         name='long_description'
                         id='long_description'
                         type='text'
@@ -215,7 +215,7 @@ const AddDonationCampaign = () => {
                 <br />
                 <div className='w-1/2 mx-auto'>
 
-                    <button className='w-3/4 btn py-3 rounded-lg  px-3 bg-yellow-600 text-white' type="submit">Create Campaign</button>
+                    <button className='w-3/4 btn py-3 rounded-lg  px-3 bg-secondary text-white' type="submit">Create Campaign</button>
                 </div>
 
             </form >

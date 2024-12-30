@@ -73,7 +73,7 @@ const CategoryPets = () => {
                             </div>
                         </div>
                         <div className="flex w-full justify-center">
-                            <button className='bg-yellow-600 p-3 my-3 text-white font-semibold rounded-lg'>See Details</button>
+                            <button className='bg-red-500 p-3 my-3 text-white font-semibold rounded-lg'>See Details</button>
 
                         </div>
 

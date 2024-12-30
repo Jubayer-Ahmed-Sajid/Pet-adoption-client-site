@@ -19,8 +19,8 @@ const DonationCampaign = () => {
                                 Pet Name: {donation.pet_name}
                             </h4>
                             <div className="flex lg:flex-row flex-col font-sans gap-4 text-center items-center  antialiased justify-between text-sm  bg-clip-text">
-                            <h2 className="bg-pink-600 px-2 rounded-md text-white py-4">Max Donation: $ {donation.max_donation_amount}</h2>
-                            <p className="bg-pink-600 px-3 rounded-md text-white py-4">
+                            <h2 className="bg-red-500 px-2 rounded-md text-white py-4">Max Donation: $ {donation.max_donation_amount}</h2>
+                            <p className="bg-red-500 px-3 rounded-md text-white py-4">
                                 Donated Amount: $ {donation.donated_amount}</p>
                             </div>
                         </div>

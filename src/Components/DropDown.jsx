@@ -47,15 +47,15 @@ const DropDown = () => {
           <MenuItem>
             <Link
               to="/dashboard"
-              className=" gap-2 mx-auto w-full items-center flex px-2 py-2 text-xl text-gray-800 hover:bg-blue-500 hover:text-white"
+              className=" gap-2 mb-2 rounded-md mx-auto w-full items-center border-none flex px-2 py-2 text-xl hover:bg-blue-500 hover:text-white"
             >
-              <MdOutlineDashboard className="text-xl text-blue-500" /> Dashboard
+              <MdOutlineDashboard className="text-xl " /> Dashboard
             </Link>
           </MenuItem>
           <MenuItem>
             <button
               type="button"
-              className="flex items-center px-4 py-2 text-xl rounded-md mx-auto hover:bg-red-400 bg-red-500 text-white  hover:text-white"
+              className="flex items-center px-5 py-2 text-xl rounded-md mx-auto hover:bg-red-400 bg-red-500 text-white  hover:text-white"
               onClick={handleSignOut}
             >
               <GoSignOut /> Sign Out

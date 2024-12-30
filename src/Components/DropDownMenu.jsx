@@ -44,7 +44,7 @@ const DropDownMenu = () => {
               <>
                 <MenuItem>
                   <NavLink
-                    to="/dashboard/allusers"
+                    to="/dashboard/all-users"
                     className="flex items-center gap-3 transition-all duration-300 transform hover:scale-105"
                   >
                     <FaUsers className="text-2xl "></FaUsers> All Users

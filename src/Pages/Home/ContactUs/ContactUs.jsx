@@ -28,25 +28,29 @@ const ContactUs = () => {
       );
   };
   return (
-    <div className="mb-20">
+    <div className="lg:mb-20 mb-12">
       <Title title={"Contact us"} />
-      <div id="contacts" className=" mt-12">
-        <div className="bg-white shadow-lg mx-4 py-8 rounded-xl lg:flex items-center justify-center">
-            <div className="lg:w-1/2 space-y-8">
-              <div className="flex gap-2">
+      <div id="contacts" className="mt-4 lg:mt-12">
+        <div className="bg-white shadow-lg px-6 py-8 rounded-xl lg:flex items-center justify-center">
+          <div className="lg:w-1/2 space-y-8">
+            <div className="flex gap-2">
               <FaWhatsapp className="text-2xl text-blue-500" />
               +880122343
-              </div>
-              <div className="flex gap-2">
-              <IoMailOpenOutline className="text-2xl text-blue-500"/>
-              sajid661aca@gmail.com
-              </div>
-              <div className="flex gap-2">
-              <CiLocationOn className="text-2xl text-blue-500"/>
-              2 Dhaka,1236
-              </div>
             </div>
-          <form className="space-y-4 lg:w-1/2 lg:mx-4" ref={form} onSubmit={sendEmail}>
+            <div className="flex gap-2">
+              <IoMailOpenOutline className="text-2xl text-blue-500" />
+              sajid661aca@gmail.com
+            </div>
+            <div className="flex gap-2">
+              <CiLocationOn className="text-2xl text-blue-500" />
+              1234 Elm Street, Apt 56 Springfield, IL 62704 United States
+            </div>
+          </div>
+          <form
+            className="space-y-4 lg:w-1/2 lg:mx-4"
+            ref={form}
+            onSubmit={sendEmail}
+          >
             <div>
               <label>Name</label>
               <br />

@@ -25,7 +25,7 @@ const PetDetails = () => {
     const handleOpen = () => setOpen(!open);
     const { id } = useParams()
     const { PetDetails } = usePetDetails(id)
-    console.log(PetDetails)
+ 
 
     const formik = useFormik({
 
@@ -54,17 +54,21 @@ const PetDetails = () => {
                 image: PetDetails.image,
                 id: PetDetails._id
             }
-            console.log(adopterInfo)
+            
             const reqInfo = await axiosPublic.post('/adoption/request', adopterInfo)
-            console.log(reqInfo)
+            console.log(reqInfo.data.insertedId)
             
             if (reqInfo.data.insertedId) {
+               handleOpen()
                 Swal.fire({
                     position: "top-end",
                     icon: "success",
                     title: "Adoption Request has been saved",
                     showConfirmButton: false,
-                    timer: 1500
+                    timer: 1500,
+                    
+                    
+                    
                 });
             }
 
@@ -88,10 +92,11 @@ const PetDetails = () => {
         }
 
         else {
-            console.log(favPet)
+            
             const favInfo = await axiosPublic.post('/pets/favorites', favPet)
             console.log(favInfo)
             if (favInfo.data.insertedId) {
+                
                 Swal.fire({
                     position: "top-end",
                     icon: "success",
@@ -124,8 +129,8 @@ const PetDetails = () => {
 
                 </div>
                 <hr />
-                <div className="flex gap-4 my-4">
-                    <img src={PetDetails.image} className="w-2/4 h-[70vh]  object-cover" alt="" />
+                <div className="lg:flex gap-4 my-4">
+                    <img src={PetDetails.image} className="lg:w-2/4 w-full h-[70vh]  object-cover" alt="" />
                     <div>
                         <h2 className="text-xl font-semibold">{PetDetails.short_description}</h2><br />
                         <h2 className="text-md  ">{PetDetails.long_description}</h2>
@@ -134,17 +139,17 @@ const PetDetails = () => {
             </div>
             <div className="w-1/2 mx-auto">
 
-                <Button onClick={handleOpen} variant="gradient" className="mb-8 text-center bg-yellow-600 text-white">
+                <Button onClick={handleOpen} variant="gradient" className="mb-8 text-center bg-red-500 text-white">
                     Adopt Pet
                 </Button>
             </div>
-            <Dialog open={open} handler={handleOpen} className=" w-3/4">
+            <Dialog open={open} handler={handleOpen} className="-z-10 w-2/4">
                 <div className="text-center w-full mt-6">
                     <p>Please Fill up The Form</p>
                 </div>
                 <DialogBody className=" mx-auto">
                     <form onSubmit={formik.handleSubmit} className='mt-12 p-6 space-y-2 mx-auto'>
-                        <div className='mx-auto w-2/4 space-y-2'>
+                        <div className='mx-auto w-full lg:w-2/4 space-y-2'>
                             <label htmlFor="name">User Name</label>
                             <br />
                             <input
@@ -152,12 +157,12 @@ const PetDetails = () => {
                                 type="text"
                                 defaultValue={name}
                                 disabled
-                                className="w-3/4 rounded-[7px]   bg-transparent px-3 py-2.5 text-sm  text-blue-gray-700 outline disabled:outline-transparent"
+                                className="lg:w-3/4 w-full rounded-[7px]  bg-transparent px-3 py-2.5 text-sm  text-blue-gray-700 outline disabled:outline-transparent"
                             />
                             <br />
 
                         </div>
-                        <div className='w-2/4 mx-auto space-y-2'>
+                        <div className='lg:w-2/4 w-full mx-auto space-y-2'>
                             <label htmlFor="email">User Email Address </label>
                             <br />
                             <input
@@ -166,12 +171,12 @@ const PetDetails = () => {
                                 type="email"
                                 defaultValue={email}
                                 disabled
-                                className="w-3/4 rounded-[7px]   bg-transparent px-3 py-2.5 text-sm  text-blue-gray-700 outline disabled:outline-transparent"
+                                className="lg:w-3/4 w-full rounded-[7px] bg-transparent px-3 py-2.5 text-sm  text-blue-gray-700 outline disabled:outline-transparent"
 
                             />
                         </div>
 
-                        <div className='mx-auto w-2/4 space-y-2'>
+                        <div className='mx-auto w-full lg:w-2/4 space-y-2'>
                             <label htmlFor="phone">Phone Number</label>
                             <br />
                             <input
@@ -181,15 +186,15 @@ const PetDetails = () => {
                                 onChange={formik.handleChange}
                                 onBlur={formik.handleBlur}
                                 value={formik.values.phone}
-                                className="w-3/4 rounded-[7px] border border-blue-gray-200  bg-transparent px-3 py-2.5 text-sm  text-blue-gray-700 outline  transition-all  focus:border-pink-base-300  focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
-                                placeholder=' Your full Name'
+                                className="lg:w-3/4 w-full rounded-[7px] border border-blue-gray-200  bg-transparent px-3 py-2.5 text-sm  text-blue-gray-700 outline  transition-all  focus:border-pink-base-300 focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
+                                placeholder=' Your Phone Number'
                             />
                             <br />
                             {formik.touched.phone && formik.errors.phone ? (
                                 <p className='text-red-400 text-md'>{formik.errors.phone}</p>
                             ) : null}
                         </div>
-                        <div className='mx-auto w-2/4 space-y-2'>
+                        <div className='mx-auto w-full lg:w-2/4 space-y-2'>
                             <label htmlFor="address">Address</label>
                             <br />
                             <input
@@ -199,7 +204,7 @@ const PetDetails = () => {
                                 onChange={formik.handleChange}
                                 onBlur={formik.handleBlur}
                                 value={formik.values.address}
-                                className="w-3/4 rounded-[7px] border border-blue-gray-200  bg-transparent px-3 py-2.5 text-sm  text-blue-gray-700 outline outline-0 transition-all  focus:border-pink-base-300  focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
+                                className="lg:w-3/4 w-full rounded-[7px] border border-blue-gray-200  bg-transparent px-3 py-2.5 text-sm  text-blue-gray-700 outline outline-0 transition-all  focus:border-pink-base-300  focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
                                 placeholder=' Your Address'
                             />
                             <br />
@@ -208,7 +213,7 @@ const PetDetails = () => {
                             ) : null}
                         </div>
                         <div className='w-1/2 mx-auto'>
-                            <button className='w-3/4 py-3 rounded-lg  px-3 bg-yellow-600 text-white' type="submit">Submit</button>
+                            <button className='w-3/4 py-3 rounded-lg  px-3 bg-red-500 text-white' type="submit">Submit</button>
                         </div>
 
                     </form>
@@ -222,7 +227,7 @@ const PetDetails = () => {
                     >
                         <span>Cancel</span>
                     </Button>
-                    <Button variant="gradient" className="mr-1 bg-[#4CAF41] text-white" onClick={handleOpen}>
+                    <Button variant="gradient" className="mr-1 bg-red-500 text-white" onClick={handleOpen}>
                         <span>Confirm</span>
                     </Button>
                 </DialogFooter>

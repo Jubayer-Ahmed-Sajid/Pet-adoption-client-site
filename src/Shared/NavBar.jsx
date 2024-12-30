@@ -58,7 +58,7 @@ const NavBar = () => {
             <li>
                 <NavLink className={({ isActive, isPending }) =>
                     isPending ? "pending" : isActive ? "bg-primary md:ml-4 py-2 px-2 rounded-md" : "hover:text-blue-700 md:ml-4 hover:bg-slate-400 py-2 px-2 hover:rounded-md"
-                } to='/donationCampaign'>Campaigns</NavLink>
+                } to='/donation-campaign'>Campaigns</NavLink>
             </li>
 
             <li>
@@ -78,25 +78,25 @@ const NavBar = () => {
         console.log(menu)
     }
     return (
-        <div className={`h-16   z-10 fixed text-white top-0 left-0 w-full transition-all
+        <div className={`h-20 z-10 fixed text-white top-0 overflow-hidden left-0 w-full transition-all
               ${isScrolled ? "bg-black/70" : "bg-black"}`
         }
         >
 
-            <nav className=" lg:flex items-center shadow-md  max-w-7xl rounded-sm mx-auto justify-between md:px-8 px-5">
+            <nav className=" lg:flex items-center shadow-md lg:max-w-7xl rounded-sm mx-auto justify-between md:px-8 px-5">
                 <div className="flex justify-start gap-2 lg:justify-center items-center">
 
                     <img src={logo} className="lg:h-16 mt-2 lg:mt-0 h-12 w-12 lg:w-16 rounded-full object-cover" alt="" />
-                    <h2 className="lg:text-2xl text-xl font-bold text-white">Paws & <span className="text-secondary">Hearts </span> </h2>
+                    <h2 className="lg:text-2xl lg:block hidden text-xl font-bold text-white">Paws & <span className="text-secondary">Hearts </span> </h2>
                 </div>
 
-                <div onClick={() => setOpen(!open)} className="text-3xl lg:hidden absolute right-12 top-4 cursor-pointer">
+                <div onClick={() => setOpen(!open)} className="text-2xl lg:hidden absolute right-12 top-4 cursor-pointer">
                     {
                         open ? <MdClose></MdClose> : <MdMenu></MdMenu>
                     }
 
                 </div>
-                <ul className={`lg:flex space-y-6 pt-3 lg:pt-0 lg:items-center lg:space-y-0 absolute lg:static lg:z-auto z-[-1] left-0 w-full lg:w-auto lg:pl-0 pl-9  lg:pb-0 pb-12 h-auto   transition-all duration-500 ease-in ${open ? 'top-16 bg-black' : 'top-[-450px]'} `}>
+                <ul className={`lg:flex space-y-6 pt-3 lg:pt-0 lg:items-center lg:space-y-0 absolute lg:static lg:z-auto z-[-1] left-0 w-full lg:w-auto lg:pl-0 pl-9  lg:pb-0 pb-12 h-auto   transition-all duration-500 ease-in ${open ? 'top-16 lg:bg-transparent bg-black' : 'top-[-450px]'} `}>
 
                     {navLinks}
 

@@ -52,7 +52,7 @@ const Favorites = () => {
                             </div>
                         </div>
                         <div className="flex w-full justify-center">
-                            <Link to={`/petlisting/${pet._id}`} className='bg-yellow-600 p-3 my-3 btn text-white font-semibold rounded-lg'>See Details</Link>
+                            <Link to={`/pet-listing/${pet._id}`} className='bg-red-500 p-3 my-3 btn text-white font-semibold rounded-lg'>See Details</Link>
 
                         </div>
 

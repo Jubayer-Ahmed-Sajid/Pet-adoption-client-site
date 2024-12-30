@@ -23,6 +23,7 @@ import AdminRoutes from "./AdminRoutes";
 import Favorites from "../Pages/Favorites/Favorites";
 import EventCard from "../Pages/Events/Events";
 import ConditionalRender from "../Components/PetDetails/conditionalRender";
+import CategoryPets from "../Pages/Home/Categories/CategoryPets";
 
 const router = createBrowserRouter([
     {
@@ -49,6 +50,11 @@ const router = createBrowserRouter([
             {
                 path: 'pet-listing',
                 element: <PrivateRoutes><Petlisting></Petlisting></PrivateRoutes>
+            },
+            {
+                path:'categoryPets/:category',
+                element:<CategoryPets></CategoryPets>
+
             },
             {
                 path: 'donation-campaign',
