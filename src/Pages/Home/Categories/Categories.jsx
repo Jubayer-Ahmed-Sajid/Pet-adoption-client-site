@@ -4,9 +4,9 @@ import Title from "../../../Components/Title/Title";
 
 const Categories = () => {
     return (
-        <div className="mt-4 text-white">
+        <div className="mt-4 ">
             <Title  title={"Categories"}/>
-         <div className="grid mx-12 mt-12 lg:grid-cols-4 text-center gap-4 lg:mx-4 my-2 lg:text-center">
+         <div className="grid text-white mx-12 mt-12 lg:grid-cols-4 text-center gap-4 lg:mx-4 my-2 lg:text-center">
          <Link to='categoryPets/cat' className="shadow-lg rounded-md bg-primary px-6 py-8">
                 <div className=" flex justify-center mx-auto text-8xl text lg:w-20 mb-4">
                 <FaCat></FaCat>

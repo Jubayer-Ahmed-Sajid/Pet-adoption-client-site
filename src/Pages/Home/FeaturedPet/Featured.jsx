@@ -3,11 +3,11 @@ import Title from "../../../Components/Title/Title";
 const Featured = () => {
    
     return (
-        <div className="mb-20 mx-4 text-white">
+        <div className="mb-20 mx-4">
            <Title title={'Help Us'}/>
 
 
-            <div className="lg:flex mt-12 p-8 items-center bg-primary justify-center gap-6">
+            <div className="lg:flex mt-12 text-white p-8 items-center bg-primary justify-center gap-6">
                 <div className="mx-6">
                     <h2 className="lg:text-3xl text-xl text-red-700 font-bold py-4 lg:py-8">We need your help</h2>
                     <p className="lg:text-xl font-semibold]">Any help you give can make a huge difference <span className="text-red-700">and keep us saving  wildlife. </span> </p>

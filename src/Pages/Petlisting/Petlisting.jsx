@@ -45,8 +45,8 @@ const Petlisting = () => {
   };
 
   return (
-    <div className="px-4 mt-20">
-      <div className="lg:flex  items-center lg:gap-8 flex-row justify-between mx-4">
+    <div className="px-4 mt-24">
+      <div className="lg:flex items-center lg:gap-8 flex-row justify-between mx-4">
         <div className="lg:w-1/2 mb-4 flex gap-4">
           <Input
             type="text"
@@ -59,7 +59,7 @@ const Petlisting = () => {
           />
           <button
             onClick={handleSearch}
-            className="lg:text-xl font-semibold bg-black text-white px-3 py-2  rounded-lg "
+            className="bg-black text-white px-3 py-2  rounded-lg "
           >
             Search
           </button>
@@ -89,16 +89,16 @@ const Petlisting = () => {
             </p>
           </div>
         ) : (
-          <div className="grid lg:grid-cols-3 mt-12 gap-4">
+          <div className="grid lg:grid-cols-3 mt-12 gap-x-4 gap-y-6">
             {displayPets?.map((pet) => (
               <div
                 key={pet._id}
-                className="ml-4 relative flex flex-col text-gray-700 bg-white shadow-md  rounded-xl bg-clip-border hover:shadow-lg transition-transform duration-300 transform hover:scale-105"
+                className="ml-4 relative flex flex-col text-gray-700 bg-white shadow-md  rounded-xl  hover:shadow-lg transition-transform duration-300 transform hover:scale-105"
               >
-                <div className="relative mx-4 mt-4 overflow-hidden text-gray-700 bg-white  h-72 rounded-xl bg-clip-border">
+                <div className="relative w-full mb-5 overflow-hidden text-gray-700 bg-white rounded-lg bg-clip-border">
                   <img
                     src={pet.image}
-                    className="w-3/4 mx-auto h-60 object-cover"
+                    className="mx-auto h-60 object-cover"
                     alt="profile-picture"
                   />
                 </div>
@@ -125,8 +125,7 @@ const Petlisting = () => {
                 <div className="flex w-full justify-center">
                   <Link
                     to={`/pet-listing/${pet._id}`}
-                    className="bg-red-500 hover:bg-red-400 p-3 mb-3 text-white font-semibold rounded-lg"
-                  >
+                    className="bg-red-500 w-5/6 mt-4 text-center hover:bg-red-400 py-2 px-3 mb-3 text-white  rounded-md">
                     See Details
                   </Link>
                 </div>
