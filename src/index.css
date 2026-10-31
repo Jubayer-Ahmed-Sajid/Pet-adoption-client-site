@@ -1,11 +1,74 @@
-/* styles.css */
+/* Hallmark · shape: Feature Stack · genre: playful · theme: Hum (deal 3/3, seed pet-adoption-animal-rescue-9192·8fc2aa89·2026-10-31·r0) · redesign: full
+ * hero: Counter · nav: edge-aligned · footer: index · imagery: photographs · signature: animated rescue stats and interactive pet matching
+ * axes: light/rounded-sans/chromatic-yellow · posture: full-palette · contrast: pass · fold: pass · v2.0.0 */
+/* Hallmark · pre-emit critique: P5 H5 E5 S5 R5 V5 · weakest: H, polished hero composition and spring micro-interactions */
+@import "./tokens.css";
+@import "./base.css";
 
-@import url('https://fonts.googleapis.com/css2?family=Fira+Sans:wght@300;400;500;600;700&display=swap');
-body {
-    font-family: 'Fira Sans', sans-serif;
-    
-
-}
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer utilities {
+  .hover-lift {
+    transition: transform var(--dur-short) var(--ease-spring), box-shadow var(--dur-short) var(--ease-out);
+  }
+  .hover-lift:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-card-hover);
+  }
+  .press-down:active {
+    transform: translateY(1px);
+  }
+}
+
+@keyframes floatSoft {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-6px); }
+}
+
+@keyframes pulseGaze {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.88; transform: scale(0.99); }
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes pulseSubtle {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.05); opacity: 0.9; }
+}
+
+.animate-float-slow {
+  animation: floatSoft 5s ease-in-out infinite;
+}
+
+.animate-float-delayed {
+  animation: floatSoft 5s ease-in-out 2.5s infinite;
+}
+
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee 35s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+.animate-pulse-subtle {
+  animation: pulseSubtle 3s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-float-slow,
+  .animate-float-delayed,
+  .animate-marquee,
+  .animate-pulse-subtle {
+    animation: none !important;
+  }
+}
