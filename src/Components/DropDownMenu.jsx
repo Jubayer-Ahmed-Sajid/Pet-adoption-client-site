@@ -2,159 +2,124 @@ import React from "react";
 import useUserDetails from "./Hooks/useUserDetails";
 import { MdLogout, MdPets, MdPlaylistAddCheckCircle } from "react-icons/md";
 import {
-  FaAd,
   FaDollarSign,
-  FaDonate,
   FaHome,
-  FaList,
   FaPaw,
   FaUsers,
+  FaHeart,
+  FaCalendarAlt,
 } from "react-icons/fa";
 import { Link, NavLink } from "react-router-dom";
 import {
-    Menu,
-    MenuHandler,
-    MenuList,
-    MenuItem,
-    Button,
-  } from "@material-tailwind/react";
-
+  Menu,
+  MenuHandler,
+  MenuList,
+  MenuItem,
+} from "@material-tailwind/react";
+import useAuth from "./Hooks/useAuth";
+import ThemeToggle from "./ThemeToggle";
 
 const DropDownMenu = () => {
-  const { data, isLoading } = useUserDetails();
+  const { data } = useUserDetails();
+  const { SignOutUser } = useAuth();
   const isAdmin = data?.isAdmin;
-  return (
-    
-    <div className="flex items-center justify-between m-3">
-        <Link className="text-red-600 font-semibold" to ={'/'}>Paws and Hearts</Link>
 
-        <Menu className="dropdown dropdown">
-          <MenuHandler className="w-12 h-12 object-cover rounded-full">
+  const itemClass = "flex items-center gap-2.5 text-sm font-medium text-ink hover:text-accent-3 transition-colors py-2";
+
+  return (
+    <div className="flex items-center justify-between">
+      <Link className="font-display font-semibold text-lg text-ink" to={"/"}>
+        Paws & <span className="text-accent-3">Hearts</span>
+      </Link>
+
+      <div className="flex items-center gap-3">
+        <ThemeToggle />
+        <Menu>
+        <MenuHandler>
+          {data?.photo_url ? (
             <img
-              className="w-12 h-12 object-cover rounded-full"
-              src={data?.photo_url}
-              alt=""
+              className="w-10 h-10 object-cover rounded-full ring-2 ring-accent cursor-pointer"
+              src={data.photo_url}
+              alt={data?.name || "User avatar"}
             />
-          </MenuHandler>
-          <MenuList
-          
-            className="dropdown-content menu  p-6 w-64 space-y-4 rounded-box z-[1] shadow"
-          >
-            {isAdmin ? (
-              <>
-                <MenuItem>
-                  <NavLink
-                    to="/dashboard/all-users"
-                    className="flex items-center gap-3 transition-all duration-300 transform hover:scale-105"
-                  >
-                    <FaUsers className="text-2xl "></FaUsers> All Users
-                  </NavLink>
-                </MenuItem>
-                <MenuItem>
-                  <NavLink
-                    to="/dashboard/all-pets"
-                    className="flex items-center gap-3 transition-all duration-300 transform hover:scale-105"
-                  >
-                    <FaPaw className="text-2xl"></FaPaw> All Pets
-                  </NavLink>
-                </MenuItem>
-                <MenuItem>
-                  <NavLink
-                    to="/dashboard/all-donations"
-                    className="flex items-center gap-3 transition-all duration-300 transform hover:scale-105"
-                  >
-                    <FaDollarSign className="text-2xl"></FaDollarSign>All
-                    Donations
-                  </NavLink>
-                </MenuItem>
-              </>
-            ) : (
-              <>
-                <MenuItem>
-                  <NavLink
-                    to="/dashboard/add-pet"
-                    className="flex items-center gap-3 transition-all duration-300 transform hover:scale-105"
-                  >
-                    <FaAd className="text-2xl text-blue-600"></FaAd> Add a Pet
-                  </NavLink>
-                </MenuItem>
-                <MenuItem>
-                  <NavLink
-                    to="/dashboard/added-pets"
-                    className="flex items-center gap-3 transition-all duration-300 transform hover:scale-105"
-                  >
-                    <MdPets className="text-2xl text-blue-600"></MdPets> My Added
-                    Pets
-                  </NavLink>
-                </MenuItem>
-                <MenuItem>
-                  <NavLink
-                    to="/dashboard/adoption-request"
-                    className="flex items-center gap-3 transition-all duration-300 transform hover:scale-105"
-                  >
-                    <FaAd className="text-2xl text-blue-600"></FaAd>Adoption
-                    Request
-                  </NavLink>
-                </MenuItem>
-                <MenuItem>
-                  <NavLink
-                    to="/dashboard/create-donation"
-                    className="flex items-center gap-3 transition-all duration-300 transform hover:scale-105"
-                  >
-                    <FaDonate className="text-2xl text-blue-600"></FaDonate>{" "}
-                    Create Campaign
-                  </NavLink>
-                </MenuItem>
-                <MenuItem>
-                  <NavLink
-                    to="/dashboard/created-donation"
-                    className="flex items-center gap-3 transition-all duration-300 transform hover:scale-105"
-                  >
-                    <MdPlaylistAddCheckCircle className="text-2xl text-blue-600"></MdPlaylistAddCheckCircle>
-                    My Campaigns
-                  </NavLink>
-                </MenuItem>
-                <MenuItem>
-                  <NavLink
-                    to="/dashboard/my-donation"
-                    className="flex items-center gap-3 transition-all duration-300 transform hover:scale-105"
-                  >
-                    <FaDollarSign className="text-2xl text-blue-600"></FaDollarSign>{" "}
-                    My Donation
-                  </NavLink>
-                </MenuItem>
-              </>
-            )}
-            <div className="divider"></div>
-            {/* Shared Routes */}
-            <hr />
-            <MenuItem>
-              <NavLink
-                to="/"
-                className="flex items-center gap-3 transition-all duration-300 transform hover:scale-105"
-              >
-                <FaHome className="text-2xl text-blue-600"></FaHome> Home
+          ) : (
+            <div className="w-10 h-10 rounded-full bg-accent text-accent-ink font-display font-semibold text-sm flex items-center justify-center ring-2 ring-accent cursor-pointer">
+              {(data?.name || "U").slice(0, 1).toUpperCase()}
+            </div>
+          )}
+        </MenuHandler>
+        <MenuList className="bg-card border border-rule p-4 w-56 rounded-card shadow-card z-50">
+          <div className="pb-2 mb-2 border-b border-rule">
+            <p className="text-xs font-semibold text-ink">{data?.name}</p>
+            <p className="text-[11px] text-muted truncate">{data?.email}</p>
+          </div>
+
+          {isAdmin ? (
+            <>
+              <MenuItem className="p-0">
+                <NavLink to="/dashboard/all-users" className={itemClass}>
+                  <FaUsers /> All Users
+                </NavLink>
+              </MenuItem>
+              <MenuItem className="p-0">
+                <NavLink to="/dashboard/all-pets" className={itemClass}>
+                  <FaPaw /> All Pets
+                </NavLink>
+              </MenuItem>
+              <MenuItem className="p-0">
+                <NavLink to="/dashboard/all-donations" className={itemClass}>
+                  <FaDollarSign /> All Campaigns
+                </NavLink>
+              </MenuItem>
+            </>
+          ) : (
+            <>
+              <MenuItem className="p-0">
+                <NavLink to="/dashboard/add-pet" className={itemClass}>
+                  <MdPets /> Add a Pet
+                </NavLink>
+              </MenuItem>
+              <MenuItem className="p-0">
+                <NavLink to="/dashboard/added-pets" className={itemClass}>
+                  <MdPlaylistAddCheckCircle /> My Listed Pets
+                </NavLink>
+              </MenuItem>
+              <MenuItem className="p-0">
+                <NavLink to="/dashboard/adoption-request" className={itemClass}>
+                  <FaHeart /> Adoption Requests
+                </NavLink>
+              </MenuItem>
+              <MenuItem className="p-0">
+                <NavLink to="/dashboard/create-donation" className={itemClass}>
+                  <FaDollarSign /> Start Campaign
+                </NavLink>
+              </MenuItem>
+              <MenuItem className="p-0">
+                <NavLink to="/dashboard/created-donation" className={itemClass}>
+                  <FaCalendarAlt /> My Campaigns
+                </NavLink>
+              </MenuItem>
+            </>
+          )}
+
+          <div className="pt-2 mt-2 border-t border-rule space-y-1">
+            <MenuItem className="p-0">
+              <NavLink to="/" className={itemClass}>
+                <FaHome /> Return Home
               </NavLink>
             </MenuItem>
-            <MenuItem>
-              <NavLink
-                to="/pet-listing"
-                className="flex items-center gap-3 transition-all duration-300 transform hover:scale-105"
-              >
-                <FaList className="text-2xl text-blue-600"></FaList> Pets
-              </NavLink>
-            </MenuItem>
-            <MenuItem>
+            <MenuItem className="p-0">
               <button
-                onClick={() => SignOutUser()}
-                className="flex bg-red-500 px-3 py-2 rounded-md text-white items-center gap-3 transition-all duration-300 transform hover:scale-105"
+                onClick={SignOutUser}
+                className="w-full flex items-center gap-2 text-sm font-semibold text-accent-3 py-2 text-left"
               >
-                <MdLogout className="text-2xl "></MdLogout> SignOut
+                <MdLogout /> Sign Out
               </button>
             </MenuItem>
-          </MenuList>
-        </Menu>
-    
+          </div>
+        </MenuList>
+      </Menu>
+      </div>
     </div>
   );
 };

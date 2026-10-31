@@ -1,48 +1,28 @@
-import { FaAd, FaDollarSign, FaDonate, FaHome, FaList, FaPaw, FaUsers} from "react-icons/fa";
-import { MdPets,MdPlaylistAddCheck } from "react-icons/md";
-import { NavLink, Outlet } from "react-router-dom";
-import useAdmin from "../Components/Hooks/useAdmin";
+import { Outlet } from "react-router-dom";
 import Sidebar from "../Components/Sidebar";
 import DropDownMenu from "../Components/DropDownMenu";
 
 const DashBoard = () => {
-    const [data,isLoading] = useAdmin()
-    console.log(data)
+  return (
+    <div className="min-h-screen bg-paper flex flex-col lg:flex-row">
+      {/* Desktop Sidebar */}
+      <div className="hidden lg:block w-72 shrink-0">
+        <Sidebar />
+      </div>
 
-    const isAdmin = data;
-    console.log(isAdmin)
+      {/* Mobile Top Bar */}
+      <div className="lg:hidden p-4 bg-card border-b border-rule">
+        <DropDownMenu />
+      </div>
 
-
-    return (
-        <div className="md:grid grid-cols-10 gap-2">
-            <div className="col-span-2 hidden lg:block">
-                <Sidebar></Sidebar>
-            </div>
-            <div className="lg:hidden">
-                <DropDownMenu></DropDownMenu>
-            </div>
-            <div className="col-span-8">
-
-            <Outlet></Outlet>
-            </div>
+      {/* Main Dashboard Content Area */}
+      <main className="flex-1 p-4 sm:p-6 lg:p-8 overflow-y-auto">
+        <div className="max-w-6xl mx-auto">
+          <Outlet />
         </div>
-    );
+      </main>
+    </div>
+  );
 };
 
 export default DashBoard;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

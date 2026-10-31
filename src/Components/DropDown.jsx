@@ -4,19 +4,19 @@ import {
   MenuHandler,
   MenuList,
   MenuItem,
-  Button,
 } from "@material-tailwind/react";
 import useUserDetails from "./Hooks/useUserDetails";
 import { Link } from "react-router-dom";
-import { MdOutlineDashboard } from "react-icons/md";
-import { GoSignOut } from "react-icons/go";
+import { MdOutlineDashboard, MdLogout } from "react-icons/md";
 import useAuth from "./Hooks/useAuth";
+import Swal from "sweetalert2";
 
 const DropDown = () => {
   const { data, isLoading } = useUserDetails();
   const { SignOutUser } = useAuth();
+
   if (isLoading) {
-    return <h2>Loading...</h2>;
+    return <div className="w-10 h-10 rounded-full bg-paper-2 animate-pulse" />;
   }
 
   const handleSignOut = () => {
@@ -31,39 +31,60 @@ const DropDown = () => {
         });
       })
       .catch((error) => {
-        console.log(error.message);
+        console.error("Sign out error:", error.message);
       });
   };
-  return (
-    <div>
-      <Menu placement="bottom-end">
-        <MenuHandler>
-        <Button>
-            <img src={data?.photo_url} className="h-12 w-12 rounded-full" alt="" />
-        </Button>
 
-        </MenuHandler>
-        <MenuList className="z-20">
-          <MenuItem>
-            <Link
-              to="/dashboard"
-              className=" gap-2 mb-2 rounded-md mx-auto w-full items-center border-none flex px-2 py-2 text-xl hover:bg-blue-500 hover:text-white"
-            >
-              <MdOutlineDashboard className="text-xl " /> Dashboard
-            </Link>
-          </MenuItem>
-          <MenuItem>
-            <button
-              type="button"
-              className="flex items-center px-5 py-2 text-xl rounded-md mx-auto hover:bg-red-400 bg-red-500 text-white  hover:text-white"
-              onClick={handleSignOut}
-            >
-              <GoSignOut /> Sign Out
-            </button>
-          </MenuItem>
-        </MenuList>
-      </Menu>
-    </div>
+  const photo = data?.photo_url || null;
+
+  return (
+    <Menu placement="bottom-end">
+      <MenuHandler>
+        <button
+          aria-label="User Profile Menu"
+          className="p-0.5 rounded-full ring-2 ring-accent/60 hover:ring-accent transition-colors focus:outline-none"
+        >
+          {photo ? (
+            <img
+              src={photo}
+              className="h-9 w-9 rounded-full object-cover"
+              alt={data?.name || "User profile"}
+            />
+          ) : (
+            <div className="h-9 w-9 rounded-full bg-accent text-accent-ink font-display font-semibold text-sm flex items-center justify-center">
+              {(data?.name || "U").slice(0, 1).toUpperCase()}
+            </div>
+          )}
+        </button>
+      </MenuHandler>
+      <MenuList className="z-50 bg-card border border-rule p-3 w-52 rounded-card shadow-card">
+        <div className="px-2 py-1.5 mb-1.5 border-b border-rule">
+          <p className="text-xs font-semibold text-ink truncate">{data?.name}</p>
+          <p className="text-[11px] text-muted truncate">{data?.email}</p>
+        </div>
+
+        <MenuItem className="p-0">
+          <Link
+            to="/dashboard"
+            className="flex items-center gap-2.5 px-2.5 py-2 rounded-stock text-xs font-medium text-ink hover:bg-paper-2 hover:text-ink transition-colors w-full"
+          >
+            <MdOutlineDashboard className="text-sm" />
+            <span>Dashboard</span>
+          </Link>
+        </MenuItem>
+
+        <MenuItem className="p-0 mt-1">
+          <button
+            type="button"
+            className="flex items-center gap-2.5 px-2.5 py-2 rounded-stock text-xs font-semibold text-accent-3 hover:bg-paper-2 transition-colors w-full text-left"
+            onClick={handleSignOut}
+          >
+            <MdLogout className="text-sm" />
+            <span>Sign Out</span>
+          </button>
+        </MenuItem>
+      </MenuList>
+    </Menu>
   );
 };
 

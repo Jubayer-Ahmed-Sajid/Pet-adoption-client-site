@@ -1,122 +1,185 @@
-import { Link, NavLink } from "react-router-dom";
-import { useState } from 'react';
-import { CiMenuBurger } from 'react-icons/ci'
+import { Link, NavLink, useLocation } from "react-router-dom";
+import { useState, useEffect } from "react";
 import useAuth from "../Components/Hooks/useAuth";
-import Swal from "sweetalert2";
-import logo from '../assets/Gemini_Generated_Image (3).jpg'
-
-import { MdClose, MdMenu } from "react-icons/md";
+import logo from "../assets/Gemini_Generated_Image (3).jpg";
+import { MdClose, MdMenu, MdFavorite } from "react-icons/md";
+import { FaHeart, FaPaw, FaShieldAlt } from "react-icons/fa";
 import DropDown from "../Components/DropDown";
+import ThemeToggle from "../Components/ThemeToggle";
+
+const navLinks = [
+  { path: "/", label: "Home" },
+  { path: "/pet-listing", label: "Find Companions", icon: FaPaw },
+  { path: "/donation-campaign", label: "Medical Relief", icon: FaHeart },
+  { path: "/favorites", label: "Saved Pets", icon: MdFavorite },
+];
+
 const NavBar = () => {
-    const { user, SignOutUser } = useAuth()
-    const [isScrolled, setIsScrolled] = useState(false);
+  const { user } = useAuth();
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [open, setOpen] = useState(false);
+  const location = useLocation();
+
+  // Close mobile drawer on route transition
+  useEffect(() => {
+    setOpen(false);
+  }, [location.pathname]);
+
+  useEffect(() => {
     const handleScroll = () => {
-        if (window.scrollY >= 64) {
-            setIsScrolled(true)
-
-        }
-        else setIsScrolled(false)
-    }
-    window.addEventListener('scroll', handleScroll)
-
-    const handleSignOut = () => {
-        SignOutUser()
-            .then(() => {
-                Swal.fire({
-                    position: "top-end",
-                    icon: "success",
-                    title: "Successfully logged out",
-                    showConfirmButton: false,
-                    timer: 1500
-                });
-            })
-            .catch((error) => {
-                console.log(error.message)
-            })
-
-    }
-
-    const [menu, setMenuItem] = useState(false)
-    const [isDropdownOpen, setDropdownOpen] = useState(false);
-
-    const toggleDropdown = () => {
-        setDropdownOpen(!isDropdownOpen);
+      setIsScrolled(window.scrollY > 16);
     };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
-    const navLinks =
-        <>
-            <li>
-                <NavLink className={({ isActive, isPending }) =>
-                    isPending ? "pending" : isActive ? "bg-primary md:ml-4 py-2 px-3  rounded-md" : "hover:text-blue-700  md:ml-4 hover:bg-slate-400 py-2 px-2 hover:rounded-md"
-                } to='/'>Home</NavLink>
-            </li>
-            <li>
-                <NavLink className={({ isActive, isPending }) =>
-                    isPending ? "pending" : isActive ? "bg-primary md:ml-4 py-2 px-2 rounded-md" : "hover:text-blue-700 md:ml-4 hover:bg-slate-400 py-2 px-2 hover:rounded-md"
-                } to='/pet-listing'>Pet Listing</NavLink>
-            </li>
-            <li>
-                <NavLink className={({ isActive, isPending }) =>
-                    isPending ? "pending" : isActive ? "bg-primary md:ml-4 py-2 px-2 rounded-md" : "hover:text-blue-700 md:ml-4 hover:bg-slate-400 py-2 px-2 hover:rounded-md"
-                } to='/donation-campaign'>Campaigns</NavLink>
-            </li>
+  const navLinkClasses = ({ isActive }) =>
+    `relative px-4 py-2 rounded-pill text-xs font-semibold tracking-tight transition-all duration-200 flex items-center gap-1.5 ${isActive
+      ? "bg-ink text-paper shadow-sm"
+      : "text-ink-2 hover:text-ink hover:bg-paper-2"
+    }`;
 
-            <li>
-                <NavLink className={({ isActive, isPending }) =>
-                    isPending ? "pending" : isActive ? "bg-primary py-2 md:ml-4 px-2 rounded-md" : "hover:text-blue-700 md:ml-4 hover:bg-slate-400 py-2 px-2 hover:rounded-md"
-                } to='/favorites'>Favorites</NavLink>
-            </li>
-            <li>
-                <NavLink className={({ isActive, isPending }) =>
-                    isPending ? "pending" : isActive ? "bg-primary py-2 md:ml-4 px-2 rounded-md" : "hover:text-blue-700 md:ml-4 hover:bg-slate-400 py-2 px-2 hover:rounded-md"
-                } to='/events'>Events</NavLink>
-            </li>
-        </>
-    let [open, setOpen] = useState(false)
-    const handleChange = () => {
-        setMenuItem(!menu)
-        console.log(menu)
-    }
-    return (
-        <div className={`h-20 z-10 fixed text-white top-0 overflow-hidden left-0 w-full transition-all
-              ${isScrolled ? "bg-black/70" : "bg-black"}`
-        }
-        >
+  return (
+    <header
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled
+        ? "bg-paper/90 backdrop-blur-md border-b border-rule/80 shadow-xs py-3.5"
+        : "bg-paper/70 backdrop-blur-sm border-b border-transparent py-5"
+        }`}
+    >
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
 
-            <nav className=" lg:flex items-center shadow-md lg:max-w-7xl rounded-sm mx-auto justify-between md:px-8 px-5">
-                <div className="flex justify-start gap-2 lg:justify-center items-center">
+        {/* Brand Wordmark & Mission Identifier */}
+        <Link to="/" className="flex items-center gap-3 group">
+          <div className="relative">
+            <img
+              src={logo}
+              className="h-10 w-10 sm:h-11 sm:w-11 rounded-full object-cover ring-2 ring-accent/60 group-hover:ring-accent transition-all duration-300 group-hover:scale-105"
+              alt="Paws & Hearts platform emblem"
+            />
+            <span className="absolute -bottom-0.5 -right-0.5 bg-mint-deep text-white rounded-full p-1 text-[9px] shadow-xs">
+              <FaShieldAlt />
+            </span>
+          </div>
+          <div>
+            <span className="text-xl sm:text-2xl font-display font-semibold tracking-tight text-ink block leading-none">
+              Paws & <span className="text-accent-3">Hearts</span>
+            </span>
+            <span className="text-[10px] uppercase font-semibold text-muted tracking-wider block mt-1">
+              Ethical Rescue Network
+            </span>
+          </div>
+        </Link>
 
-                    <img src={logo} className="lg:h-16 mt-2 lg:mt-0 h-12 w-12 lg:w-16 rounded-full object-cover" alt="" />
-                    <h2 className="lg:text-2xl lg:block hidden text-xl font-bold text-white">Paws & <span className="text-secondary">Hearts </span> </h2>
-                </div>
+        {/* Desktop Editorial Navigation Links */}
+        <nav className="hidden lg:flex items-center gap-1 bg-paper-2/90 p-1.5 rounded-pill border border-rule/80 shadow-xs">
+          {navLinks.map((item) => {
+            const Icon = item.icon;
+            return (
+              <NavLink key={item.path} to={item.path} className={navLinkClasses}>
+                {Icon && <Icon className="text-[11px] opacity-75" />}
+                <span>{item.label}</span>
+              </NavLink>
+            );
+          })}
+        </nav>
 
-                <div onClick={() => setOpen(!open)} className="text-2xl lg:hidden absolute right-12 top-4 cursor-pointer">
-                    {
-                        open ? <MdClose></MdClose> : <MdMenu></MdMenu>
-                    }
+        {/* Desktop Quick CTA & User Hub */}
+        <div className="hidden lg:flex items-center gap-3">
+          <ThemeToggle />
 
-                </div>
-                <ul className={`lg:flex space-y-6 pt-3 lg:pt-0 lg:items-center lg:space-y-0 absolute lg:static lg:z-auto z-[-1] left-0 w-full lg:w-auto lg:pl-0 pl-9  lg:pb-0 pb-12 h-auto   transition-all duration-500 ease-in ${open ? 'top-16 lg:bg-transparent bg-black' : 'top-[-450px]'} `}>
+          <Link
+            to="/pet-listing"
+            className="px-4 py-2 rounded-pill text-xs font-semibold text-ink bg-paper border border-rule hover:bg-paper-2 transition-colors flex items-center gap-1.5"
+          >
+            <FaPaw className="text-accent-deep text-xs" />
+            <span>Adopt a Companion</span>
+          </Link>
 
-                    {navLinks}
-
-                    <div className={`text-white gap-2 flex flex-row-reverse  md:static justify-between mr-4 lg:flex-row md:pb-0 pb-8 md:items-center `}>
-                        {
-                            user ? < > <p className="lg:ml-12 ml-4 text-gray-300 font-semibold">{user.displayName}</p>
-                               <DropDown></DropDown>
-                            </> : <div className="flex w-full justify-start">
-                            <NavLink className={({ isActive, isPending }) =>
-                                isPending ? "pending" : isActive ? "bg-primary py-2 px-3 rounded-md" : "hover:text-blue-700  hover:bg-slate-400 py-2 px-2 hover:rounded-md"
-                            } to='/signin'>Sign In</NavLink>
-                            </div>
-                        }
-                    </div>
-
-                </ul>
-
-            </nav>
+          {user ? (
+            <div className="flex items-center gap-3 pl-1">
+              <span className="text-xs font-semibold text-ink-2 max-w-[120px] truncate">
+                {user.displayName || user.email}
+              </span>
+              <DropDown />
+            </div>
+          ) : (
+            <div className="flex items-center gap-2">
+              <Link
+                to="/signin"
+                className="px-5 py-2.5 rounded-pill text-xs font-semibold text-accent-ink bg-accent hover:bg-accent-deep hover-lift press-down shadow-xs transition-colors"
+              >
+                Sign In
+              </Link>
+            </div>
+          )}
         </div>
-    );
+
+        {/* Mobile Hamburger & Controls */}
+        <div className="lg:hidden flex items-center gap-2.5">
+          <ThemeToggle />
+          {user && <DropDown />}
+          <button
+            onClick={() => setOpen(!open)}
+            className="p-2.5 rounded-pill bg-paper-2 border border-rule text-ink hover:bg-paper-3 transition-colors"
+            aria-label="Toggle navigation menu"
+          >
+            {open ? <MdClose className="text-xl" /> : <MdMenu className="text-xl" />}
+          </button>
+        </div>
+
+      </div>
+
+      {/* Mobile Drawer */}
+      {open && (
+        <div className="lg:hidden bg-paper/95 backdrop-blur-xl border-b border-rule px-4 py-6 space-y-4 shadow-card animate-fadeIn">
+          <nav className="flex flex-col gap-2">
+            {navLinks.map((item) => {
+              const Icon = item.icon;
+              return (
+                <NavLink
+                  key={item.path}
+                  to={item.path}
+                  className={({ isActive }) =>
+                    `px-4 py-3 rounded-card text-sm font-semibold flex items-center gap-2.5 transition-colors ${isActive
+                      ? "bg-ink text-paper"
+                      : "text-ink-2 hover:bg-paper-2 hover:text-ink"
+                    }`
+                  }
+                >
+                  {Icon && <Icon className="text-sm" />}
+                  <span>{item.label}</span>
+                </NavLink>
+              );
+            })}
+          </nav>
+
+          <div className="pt-4 border-t border-rule space-y-2.5">
+            <div className="flex items-center justify-between px-2 py-1">
+              <span className="text-xs font-semibold text-muted">Theme Appearance</span>
+              <ThemeToggle showLabel className="px-3 py-1.5" />
+            </div>
+
+            <Link
+              to="/pet-listing"
+              className="w-full text-center py-3 rounded-pill bg-accent text-accent-ink font-semibold text-xs flex items-center justify-center gap-2 shadow-xs"
+            >
+              <FaPaw />
+              <span>Explore Adoptable Pets</span>
+            </Link>
+
+            {!user && (
+              <Link
+                to="/signin"
+                className="w-full text-center py-3 rounded-pill bg-paper-2 border border-rule text-ink font-semibold text-xs block hover:bg-paper-3 transition-colors"
+              >
+                Sign In / Recruiter Access
+              </Link>
+            )}
+          </div>
+        </div>
+      )}
+    </header>
+  );
 };
 
 export default NavBar;
