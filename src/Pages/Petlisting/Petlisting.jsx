@@ -1,139 +1,258 @@
 import React, { useEffect, useState } from "react";
 import usePets from "../../Components/Hooks/usePets";
 import { Link } from "react-router-dom";
-import { MdLocationPin, MdSearch } from "react-icons/md";
-import { Input } from "@material-tailwind/react";
+import { MdLocationPin, MdSearch, MdClose } from "react-icons/md";
+import { FaPaw, FaCat, FaDog, FaFish, FaKiwiBird, FaShieldAlt, FaArrowRight } from "react-icons/fa";
 import useAxiosPublic from "../../Components/Hooks/useAxiosPublic";
-import Select from "react-select";
-import { TbFilterSearch } from "react-icons/tb";
+
+const petCategories = [
+  { value: "all", label: "All Companions", icon: FaPaw },
+  { value: "dog", label: "Dogs", icon: FaDog },
+  { value: "cat", label: "Cats", icon: FaCat },
+  { value: "bird", label: "Birds", icon: FaKiwiBird },
+  { value: "fish", label: "Aquatic", icon: FaFish },
+];
 
 const Petlisting = () => {
-  const [pets, refetch] = usePets();
+  const [pets] = usePets();
   const axiosPublic = useAxiosPublic();
   const [displayCategory, setDisplayCategory] = useState("all");
   const [query, setQuery] = useState("");
   const [displayPets, setDisplayPets] = useState([]);
-
-  const petCategories = [
-    { value: "all", label: "All" },
-    { value: "cat", label: "Cat" },
-    { value: "dog", label: "Dog" },
-    { value: "fish", label: "Fish" },
-    { value: "bird", label: "Bird" },
-  ];
-
-  const handleCategory = (options) => {
-    setDisplayCategory(options.value);
-  };
-  useEffect(() => {
-    console.log(displayCategory);
-  }, [displayCategory]);
+  const [searching, setSearching] = useState(false);
 
   useEffect(() => {
-    const petToDisplay = pets.filter(
+    const petToDisplay = (pets || []).filter(
       (pet) =>
         !pet.adopted &&
-        (displayCategory === "all" || pet.category === displayCategory)
+        (displayCategory === "all" ||
+          pet.category?.toLowerCase() === displayCategory.toLowerCase())
     );
     setDisplayPets(petToDisplay);
-    refetch();
-  }, [pets, setDisplayPets, displayCategory]);
+  }, [pets, displayCategory]);
 
-  const handleSearch = async () => {
-    const response = await axiosPublic.get(`/pets/search?name=${query}`);
-    setDisplayPets(response.data);
+  const handleSearch = async (e) => {
+    if (e) e.preventDefault();
+    if (!query.trim()) {
+      const petToDisplay = (pets || []).filter(
+        (pet) =>
+          !pet.adopted &&
+          (displayCategory === "all" ||
+            pet.category?.toLowerCase() === displayCategory.toLowerCase())
+      );
+      setDisplayPets(petToDisplay);
+      return;
+    }
+    setSearching(true);
+    try {
+      const response = await axiosPublic.get(
+        `/pets/search?name=${encodeURIComponent(query)}`
+      );
+      setDisplayPets(response.data || []);
+    } catch {
+      const filtered = (pets || []).filter((pet) =>
+        pet.name?.toLowerCase().includes(query.toLowerCase())
+      );
+      setDisplayPets(filtered);
+    } finally {
+      setSearching(false);
+    }
+  };
+
+  const handleClearSearch = () => {
+    setQuery("");
+    const petToDisplay = (pets || []).filter(
+      (pet) =>
+        !pet.adopted &&
+        (displayCategory === "all" ||
+          pet.category?.toLowerCase() === displayCategory.toLowerCase())
+    );
+    setDisplayPets(petToDisplay);
   };
 
   return (
-    <div className="px-4 mt-24">
-      <div className="lg:flex items-center lg:gap-8 flex-row justify-between mx-4">
-        <div className="lg:w-1/2 mb-4 flex gap-4">
-          <Input
-            type="text"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder="search pet here"
-            className="border-black  pl-4 p-2 bg-base-300 flex"
-            name=""
-            id=""
-          />
-          <button
-            onClick={handleSearch}
-            className="bg-black text-white px-3 py-2  rounded-lg "
-          >
-            Search
-          </button>
+    <div className="pt-28 pb-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      {/* Editorial Page Header */}
+      <div className="mb-10 text-center max-w-3xl mx-auto">
+        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-pill bg-paper-2 border border-rule text-xs font-semibold text-ink mb-4 shadow-xs">
+          <FaShieldAlt className="text-mint-deep text-xs" />
+          <span>Verified Shelter Network · Health Guarantee Included</span>
         </div>
 
-        <Select
-          className="lg:w-1/3  basic-single"
-          classNamePrefix="select"
-          placeholder="Filter Pets"
-          name="Categories"
-          options={petCategories}
-          onChange={handleCategory}
-          components={{
-            DropdownIndicator: () => (
-              <TbFilterSearch className="text-gray-400 w-16" />
-            ),
-          }}
-        />
+        <h1 className="text-4xl sm:text-5xl font-display font-semibold text-ink tracking-tight">
+          Find your companion
+        </h1>
+        
+        <p className="text-base text-ink-2 mt-3 leading-relaxed">
+          Every companion animal below has completed clinical health clearances, behavior evaluations, and foster socialization. Filter by species or search by name.
+        </p>
       </div>
 
-      <div>
-        {displayPets.length <= 0 ? (
-          <div className="h-screen w-screen flex items-center justify-center">
-            <p>
-              {query || displayCategory} is not available adoption, Please try
-              other pets!
-            </p>
-          </div>
-        ) : (
-          <div className="grid lg:grid-cols-3 mt-12 gap-x-4 gap-y-6">
-            {displayPets?.map((pet) => (
-              <div
-                key={pet._id}
-                className="ml-4 relative flex flex-col text-gray-700 bg-white shadow-md  rounded-xl  hover:shadow-lg transition-transform duration-300 transform hover:scale-105"
+      {/* Filter Chips & Interactive Search Toolbar */}
+      <div className="bg-card p-4 sm:p-5 rounded-card border border-rule shadow-sm mb-10 flex flex-col lg:flex-row items-center justify-between gap-5">
+        
+        {/* Category Pills */}
+        <div className="flex flex-wrap items-center gap-2 w-full lg:w-auto">
+          {petCategories.map((cat) => {
+            const Icon = cat.icon;
+            const isSelected = displayCategory === cat.value;
+            return (
+              <button
+                key={cat.value}
+                onClick={() => {
+                  setDisplayCategory(cat.value);
+                  setQuery("");
+                }}
+                className={`px-4 py-2 rounded-pill text-xs font-semibold transition-all duration-150 flex items-center gap-2 border ${
+                  isSelected
+                    ? "bg-ink text-paper border-ink shadow-xs"
+                    : "bg-paper-2 border-rule text-ink hover:bg-paper-3 hover:text-ink"
+                }`}
               >
-                <div className="relative w-full mb-5 overflow-hidden text-gray-700 bg-white rounded-lg bg-clip-border">
+                <Icon className={`text-xs ${isSelected ? "text-accent" : "text-muted"}`} />
+                <span>{cat.label}</span>
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Search Input Form */}
+        <form onSubmit={handleSearch} className="flex items-center gap-2 w-full lg:w-88">
+          <div className="relative flex-1">
+            <MdSearch className="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted text-lg" />
+            <input
+              type="text"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="Search companion by name..."
+              className="w-full pl-10 pr-9 py-2.5 rounded-pill bg-paper-2 border border-rule text-xs sm:text-sm text-ink placeholder:text-muted focus:outline-none focus:border-ink transition-colors"
+            />
+            {query && (
+              <button
+                type="button"
+                onClick={handleClearSearch}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted hover:text-ink"
+                aria-label="Clear search"
+              >
+                <MdClose className="text-base" />
+              </button>
+            )}
+          </div>
+          <button
+            type="submit"
+            className="px-5 py-2.5 rounded-pill bg-accent hover:bg-accent-deep text-accent-ink font-semibold text-xs transition-colors shrink-0 press-down shadow-xs"
+          >
+            {searching ? "..." : "Search"}
+          </button>
+        </form>
+
+      </div>
+
+      {/* Live Results Counter Bar */}
+      <div className="flex items-center justify-between mb-8 pb-3 border-b border-rule/70 text-xs text-muted">
+        <span>
+          Showing <strong className="text-ink font-semibold">{displayPets.length}</strong> adoptable {displayPets.length === 1 ? "companion" : "companions"}
+        </span>
+        <span className="hidden sm:inline">All listings vetted by 501(c)(3) sanctuaries</span>
+      </div>
+
+      {/* Pet Cards Grid */}
+      {displayPets.length <= 0 ? (
+        <div className="bg-card rounded-card border border-rule p-12 text-center max-w-lg mx-auto shadow-sm">
+          <div className="w-16 h-16 rounded-full bg-paper-2 text-muted text-2xl flex items-center justify-center mx-auto mb-4">
+            <FaPaw />
+          </div>
+          <h3 className="text-xl font-display font-semibold text-ink">
+            No companions found
+          </h3>
+          <p className="text-xs sm:text-sm text-ink-2 mt-2 leading-relaxed">
+            No companions match your current search or filter criteria. Try clearing the filter or search term to see all available pets.
+          </p>
+          <button
+            onClick={() => {
+              setDisplayCategory("all");
+              setQuery("");
+            }}
+            className="mt-6 px-6 py-2.5 rounded-pill bg-accent text-accent-ink font-semibold text-xs hover:bg-accent-deep transition-colors press-down shadow-xs"
+          >
+            View all companions
+          </button>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          {displayPets.map((pet) => (
+            <div
+              key={pet._id}
+              className="bg-card rounded-card border border-rule overflow-hidden shadow-sm hover-lift flex flex-col justify-between group transition-all hover:border-accent-deep/50 hover:shadow-card"
+            >
+              <div>
+                {/* Image Stage with Gradient Scrim and Badges */}
+                <div className="relative h-64 w-full overflow-hidden bg-paper-2">
                   <img
                     src={pet.image}
-                    className="mx-auto h-60 object-cover"
-                    alt="profile-picture"
+                    alt={pet.name}
+                    className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                   />
-                </div>
-                <h2 className="text-xl py-2 ml-4 text-green-500 rounded-md w-fit px-6 font-semibold bg-[#eaecf0]">
-                  {pet.category}
-                </h2>
-                <div className="px-6 py-3 space-y-3">
-                  <h4 className="block mb-2 font-sans text-xl antialiased font-semibold leading-snug tracking-normal text-blue-gray-900">
-                    {pet.name}
-                  </h4>
-                  <p className="block font-sans  antialiased font-medium leading-relaxed text-md bg-clip-text">
-                    Pet Age : <span className="text-secondary">{pet.age}</span>
-                  </p>
-                  <div className="lg:flex gap-3 items-center justify-between">
-                    <h2 className="flex items-center">
-                      <span className="text-3xl mr-2 my-2  rounded-lg">
-                        <MdLocationPin className="text-primary"></MdLocationPin>
-                      </span>{" "}
-                      {pet.pet_location}
-                    </h2>
-                    <h2>Added On {pet.AddedDate}</h2>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-80 group-hover:opacity-60 transition-opacity"></div>
+                  
+                  {/* Top Species & Status Badges */}
+                  <div className="absolute top-3 left-3 right-3 flex items-center justify-between">
+                    <span className="bg-paper/95 backdrop-blur-md px-3 py-1 rounded-pill border border-rule text-[11px] font-semibold text-ink capitalize shadow-xs">
+                      {pet.category || "Companion"}
+                    </span>
+                    <span className="bg-paper/95 backdrop-blur-md px-2.5 py-1 rounded-pill border border-rule text-[11px] font-semibold text-mint-deep shadow-xs flex items-center gap-1">
+                      <span className="w-1.5 h-1.5 rounded-full bg-mint-deep"></span>
+                      <span>Ready</span>
+                    </span>
+                  </div>
+
+                  {/* Bottom Image Overlay: Age */}
+                  <div className="absolute bottom-3 left-4">
+                    <span className="text-white text-xs font-semibold bg-black/40 backdrop-blur-sm px-2.5 py-0.5 rounded-pill border border-white/20">
+                      Age {pet.age} {pet.age === 1 ? "yr" : "yrs"}
+                    </span>
                   </div>
                 </div>
-                <div className="flex w-full justify-center">
-                  <Link
-                    to={`/pet-listing/${pet._id}`}
-                    className="bg-red-500 w-5/6 mt-4 text-center hover:bg-red-400 py-2 px-3 mb-3 text-white  rounded-md">
-                    See Details
-                  </Link>
+
+                {/* Companion Narrative */}
+                <div className="p-6">
+                  <h3 className="text-2xl font-display font-semibold text-ink group-hover:text-accent-deep transition-colors mb-2">
+                    {pet.name}
+                  </h3>
+
+                  <p className="text-xs sm:text-sm text-ink-2 line-clamp-2 leading-relaxed mb-4">
+                    {pet.short_description ||
+                      "Affectionate companion waiting for a kind and loving forever home."}
+                  </p>
+
+                  <div className="flex items-center justify-between text-xs text-muted pt-3 border-t border-rule/70">
+                    <span className="inline-flex items-center gap-1 font-medium text-ink-2 truncate max-w-[170px]">
+                      <MdLocationPin className="text-accent-3 text-sm shrink-0" />
+                      <span className="truncate">{pet.pet_location}</span>
+                    </span>
+                    <span className="shrink-0 text-[11px]">
+                      {pet.AddedDate ? `Added ${pet.AddedDate}` : "Available today"}
+                    </span>
+                  </div>
                 </div>
               </div>
-            ))}
-          </div>
-        )}
-      </div>
+
+              {/* Action Button */}
+              <div className="p-6 pt-0">
+                <Link
+                  to={`/pet-listing/${pet._id}`}
+                  className="w-full py-3 rounded-pill font-semibold text-xs text-accent-ink bg-accent hover:bg-accent-deep hover-lift press-down shadow-xs transition-colors flex items-center justify-center gap-2 group/btn"
+                >
+                  <span>Meet {pet.name}</span>
+                  <FaArrowRight className="text-[10px] transition-transform group-hover/btn:translate-x-1" />
+                </Link>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
     </div>
   );
 };

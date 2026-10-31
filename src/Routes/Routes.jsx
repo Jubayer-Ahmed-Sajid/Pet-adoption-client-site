@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, Navigate } from "react-router-dom";
 import Main from "../Layout/Main";
 import Home from "../Pages/Home/Home/Home";
 import Petlisting from "../Pages/Petlisting/Petlisting";
@@ -37,7 +37,6 @@ const router = createBrowserRouter([
             {
                 path: 'render',
                 element: <ConditionalRender></ConditionalRender>
-
             },
             {
                 path: 'signUp',
@@ -49,29 +48,32 @@ const router = createBrowserRouter([
             },
             {
                 path: 'pet-listing',
-                element: <PrivateRoutes><Petlisting></Petlisting></PrivateRoutes>
+                element: <Petlisting></Petlisting>
             },
             {
-                path:'categoryPets/:category',
-                element:<CategoryPets></CategoryPets>
-
+                path: 'petlisting',
+                element: <Navigate to="/pet-listing" replace />
+            },
+            {
+                path: 'categoryPets/:category',
+                element: <CategoryPets></CategoryPets>
             },
             {
                 path: 'donation-campaign',
-                element: <PrivateRoutes><DonationCampaign></DonationCampaign></PrivateRoutes>
+                element: <DonationCampaign></DonationCampaign>
+            },
+            {
+                path: 'donationCampaign',
+                element: <Navigate to="/donation-campaign" replace />
             },
             {
                 path: 'donation-campaign/:id',
-                element: <PrivateRoutes><DonationDetails></DonationDetails></PrivateRoutes>,
-
-
+                element: <DonationDetails></DonationDetails>,
             },
             {
                 path: 'pet-listing/:id',
-                element: <PrivateRoutes><PetDetails></PetDetails></PrivateRoutes>,
+                element: <PetDetails></PetDetails>,
             },
-
-
             {
                 path: 'favorites',
                 element: <PrivateRoutes><Favorites></Favorites></PrivateRoutes>
@@ -80,8 +82,6 @@ const router = createBrowserRouter([
                 path: 'events',
                 element: <PrivateRoutes><EventCard></EventCard></PrivateRoutes>
             }
-
-
         ],
     },
     {
@@ -99,18 +99,22 @@ const router = createBrowserRouter([
             {
                 path: 'all-donations',
                 element: <AdminRoutes><AllDonations></AllDonations></AdminRoutes>
-
+            },
+            {
+                path: 'alldonations',
+                element: <Navigate to="/dashboard/all-donations" replace />
             },
             {
                 path: 'all-donations/:id',
                 element: <AdminRoutes><DonationCampaignUpdate></DonationCampaignUpdate></AdminRoutes>
-            }
-            ,
+            },
+            {
+                path: 'alldonations/:id',
+                element: <AdminRoutes><DonationCampaignUpdate></DonationCampaignUpdate></AdminRoutes>
+            },
             {
                 path: 'all-pets/:id',
                 element: <PrivateRoutes><PetUpdate></PetUpdate></PrivateRoutes>
-
-
             },
             {
                 path: 'add-pet',
@@ -132,8 +136,8 @@ const router = createBrowserRouter([
                 path: 'adoption-request',
                 element: <PrivateRoutes><AdoptionRequest></AdoptionRequest></PrivateRoutes>
             },
-
         ]
     }
-])
+]);
+
 export default router;
