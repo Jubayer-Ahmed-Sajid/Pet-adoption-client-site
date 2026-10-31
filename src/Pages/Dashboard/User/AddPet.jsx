@@ -2,7 +2,6 @@ import React from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import Select from "react-select";
-import { Textarea } from "@material-tailwind/react";
 import axios from "axios";
 import useAxiosPublic from "../../../Components/Hooks/useAxiosPublic";
 import useAuth from "../../../Components/Hooks/useAuth";
@@ -34,98 +33,94 @@ const AddPet = () => {
       category: "",
     },
     validationSchema: Yup.object({
-      pet_name: Yup.string().required("Required"),
-      age: Yup.number().required("Required"),
-      pet_location: Yup.string().required("No pet_location provided."),
+      pet_name: Yup.string().required("Pet name is required"),
+      age: Yup.number().required("Age is required"),
+      pet_location: Yup.string().required("Location is required"),
     }),
 
-    onSubmit: async (values,{resetForm}) => {
+    onSubmit: async (values, { resetForm }) => {
       try {
-        console.log(values);
-        const petLoading = toast.loading("Pet is adding");
+        const petLoading = toast.loading("Adding pet profile…");
         const image = values.image;
 
-        // Compress the image
-        const compressedImage = await new Promise((resolve, reject) => {
-          new Compressor(image, {
-            quality: 0.8,
-            success(result) {
-              resolve(result);
-            },
-            error(error) {
-              reject(error);
+        let photo_url = "https://i.ibb.co/RgXFFJW/2c791441-ac9f-411f-85a8-9fb6e8b834f0.jpg";
+
+        if (image) {
+          const compressedImage = await new Promise((resolve, reject) => {
+            new Compressor(image, {
+              quality: 0.8,
+              success(result) {
+                resolve(result);
+              },
+              error(error) {
+                reject(error);
+              },
+            });
+          });
+
+          const formData = new FormData();
+          formData.append("image", compressedImage);
+
+          const res = await axios.post(image_hosting_api, formData, {
+            headers: {
+              "Content-Type": "multipart/form-data",
             },
           });
-        });
+          if (res.data?.data?.display_url) {
+            photo_url = res.data.data.display_url;
+          }
+        }
 
-        // Create FormData with the compressed image
-        const formData = new FormData();
-        formData.append("image", compressedImage, compressedImage.name);
-
-        // Upload compressed image to image hosting API
-        const imageRes = await axios.post(image_hosting_api, formData, {
-          headers: { "Content-Type": "multipart/form-data" },
-        });
-
-        // Extract image URL
-        const img_url = imageRes.data.data.display_url;
-
-        // Prepare pet information
-        const petsInfo = {
-          name: values.pet_name,
+        const petInfo = {
+          pet_name: values.pet_name,
           age: values.age,
           pet_location: values.pet_location,
-          image: img_url,
+          pet_image: photo_url,
           short_description: values.short_description,
           long_description: values.long_description,
           category: values.category,
+          date_time: new Date(),
           adopted: false,
-          email: user?.email,
-          AddedDate: new Date().toDateString(),
+          user_email: user?.email,
+          user_name: user?.displayName,
         };
 
-        // Add pet information to the database
-        const petRes = await axiosPublic.post("/pets", petsInfo);
+        const result = await axiosPublic.post("/pets", petInfo);
 
-        if (petRes.data.insertedId) {
+        if (result.data.insertedId) {
           toast.dismiss(petLoading);
-          toast.success("Pet Successfully Added");
-          resetForm()
+          toast.success("Pet profile listed successfully!");
+          resetForm();
         }
-
-        console.log(petRes.data);
       } catch (error) {
-        toast.dismiss(petLoading);
-        toast.error("error.message");
-        console.error("An error occurred:", error);
+        toast.error("Could not list pet: " + error.message);
       }
     },
   });
 
   return (
-    <div className="w-full">
-      {/* Pet add form starts here */}
-
+    <div className="w-full max-w-4xl mx-auto py-4">
       <form
         onSubmit={formik.handleSubmit}
-        className=" bg-gray-600 p-4 space-y-6 m-3 rounded-lg "
+        className="bg-card rounded-card border border-rule p-6 sm:p-10 shadow-card space-y-6 text-ink"
       >
-        <div className="w-2/4 pb-6 font-bold mx-auto">
-          <h2 className="text-center text-xl lg:text-4xl text-secondary mt-4 lg:mt-6 mb-2">
-            Add a Pet{" "}
+        <div className="text-center pb-4 border-b border-rule">
+          <span className="text-xs uppercase tracking-wider font-semibold text-accent-deep">
+            Shelter & Rescue Directory
+          </span>
+          <h2 className="text-2xl sm:text-3xl font-display font-semibold text-ink mt-1">
+            List an Adoptable Companion
           </h2>
-          <hr className="border-t-2 border-white my-2" />
+          <p className="text-xs sm:text-sm text-ink-2 mt-1">
+            Add a rescued pet to connect them with certified loving families
+          </p>
         </div>
 
-        <div className="w-full lg:space-y-0 space-y-6 lg:flex gap-4">
-          <div className="mx-auto w-full space-y-2">
-            <label
-              htmlFor="pet_name"
-              className="text-white font-semibold text-md"
-            >
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label htmlFor="pet_name" className="block text-xs font-semibold text-ink-2 mb-1.5">
               Pet Name
             </label>
-            <br />
             <input
               id="pet_name"
               name="pet_name"
@@ -133,21 +128,18 @@ const AddPet = () => {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.pet_name}
-              className="text-gray-200 w-full rounded-[7px] border border-blue-gray-200  bg-transparent px-3 py-2.5 text-sm  text-blue-gray-700 outline outline-0 transition-all  focus:border-pink-base-300  focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
-              placeholder=" Pet Name"
+              placeholder="e.g. Charlie"
+              className="w-full px-4 py-2.5 rounded-input bg-paper-2 border border-rule text-sm text-ink placeholder:text-muted focus:outline-none focus:border-accent-2 transition-colors"
             />
-            <br />
-            {formik.touched.pet_name && formik.errors.pet_name ? (
-              <p className="text-red-400 text-md">{formik.errors.pet_name}</p>
-            ) : null}
+            {formik.touched.pet_name && formik.errors.pet_name && (
+              <p className="text-xs text-accent-3 mt-1">{formik.errors.pet_name}</p>
+            )}
           </div>
 
-          <div className=" mx-auto w-full space-y-2">
-            <label htmlFor="age" className="text-white font-semibold text-md">
-              Age{" "}
+          <div>
+            <label htmlFor="age" className="block text-xs font-semibold text-ink-2 mb-1.5">
+              Age (Years or Months)
             </label>
-            <br />
-
             <input
               id="age"
               name="age"
@@ -155,59 +147,61 @@ const AddPet = () => {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.age}
-              className="text-gray-200 w-full rounded-[7px] border border-blue-gray-200  bg-transparent px-3 py-2.5 text-sm  text-blue-gray-700 outline outline-0 transition-all  focus:border-pink-base-300  focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
-              placeholder="age Address"
+              placeholder="e.g. 2"
+              className="w-full px-4 py-2.5 rounded-input bg-paper-2 border border-rule text-sm text-ink placeholder:text-muted focus:outline-none focus:border-accent-2 transition-colors"
             />
-            {formik.touched.age && formik.errors.age ? (
-              <p className="text-red-400 text-md">{formik.errors.age}</p>
-            ) : null}
+            {formik.touched.age && formik.errors.age && (
+              <p className="text-xs text-accent-3 mt-1">{formik.errors.age}</p>
+            )}
           </div>
         </div>
-        <div className="w-full mx-auto space-y-2">
-          <label
-            htmlFor="category"
-            className="text-white font-semibold text-md"
-          >
-            Categories
-          </label>
-          <Select
-            id="category"
-            name="category"
-            options={options}
-            placeholder="Chose category"
-            onChange={(event) => {
-              const category = event.value;
-              formik.setFieldValue("category", category);
-            }}
-            onBlur={formik.handleBlur}
-          />
-        </div>
 
-        <div className="w-full text-white mx-auto space-y-2">
-          <label className="font-semibold text-md">Image</label>
-          <br />
-
-          <input
-            id="image"
-            name="image"
-            type="file"
-            onChange={(event) => {
-              const file = event.target.files[0];
-              formik.setFieldValue("image", file);
-            }}
-            onBlur={formik.handleBlur}
-          />
-        </div>
-
-        <div className="w-full space-y-6 lg:space-y-0 lg:flex gap-4">
-          <div className="space-y-2 mx-auto lg:w-2/4">
-            <label
-              htmlFor="locations"
-              className="text-white font-semibold text-md"
-            >
-              Location
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label htmlFor="category" className="block text-xs font-semibold text-ink-2 mb-1.5">
+              Species Category
             </label>
-            <br />
+            <Select
+              id="category"
+              name="category"
+              options={options}
+              placeholder="Select species…"
+              onChange={(event) => {
+                formik.setFieldValue("category", event.value);
+              }}
+              onBlur={formik.handleBlur}
+              styles={{
+                control: (base) => ({
+                  ...base,
+                  backgroundColor: "var(--color-paper-2)",
+                  borderColor: "var(--color-rule)",
+                  borderRadius: "var(--radius-input)",
+                  color: "var(--color-ink)",
+                  padding: "2px 4px",
+                }),
+                singleValue: (base) => ({
+                  ...base,
+                  color: "var(--color-ink)",
+                }),
+                menu: (base) => ({
+                  ...base,
+                  backgroundColor: "var(--color-card)",
+                  borderColor: "var(--color-rule)",
+                  color: "var(--color-ink)",
+                }),
+                option: (base, state) => ({
+                  ...base,
+                  backgroundColor: state.isFocused ? "var(--color-paper-2)" : "transparent",
+                  color: "var(--color-ink)",
+                }),
+              }}
+            />
+          </div>
+
+          <div>
+            <label htmlFor="pet_location" className="block text-xs font-semibold text-ink-2 mb-1.5">
+              Location / Shelter
+            </label>
             <input
               id="pet_location"
               name="pet_location"
@@ -215,71 +209,76 @@ const AddPet = () => {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.pet_location}
-              className="text-gray-200 w-full rounded-[7px] border border-blue-gray-200  bg-transparent px-3 py-2.5 text-sm  text-blue-gray-700 outline outline-0 transition-all  focus:border-pink-base-300  focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
-              placeholder=" Address"
+              placeholder="e.g. Oakland Foster Center"
+              className="w-full px-4 py-2.5 rounded-input bg-paper-2 border border-rule text-sm text-ink placeholder:text-muted focus:outline-none focus:border-accent-2 transition-colors"
             />
-            {formik.touched.pet_location && formik.errors.pet_location ? (
-              <p className="text-red-400 text-md">
-                {formik.errors.pet_location}
-              </p>
-            ) : null}
-          </div>
-
-          <div className="space-y-2 mx-auto lg:w-2/4">
-            <label
-              htmlFor="short_description"
-              className="text-white font-semibold text-md"
-            >
-              Short Description
-            </label>
-            <br />
-            <input
-              id="short_description"
-              name="short_description"
-              type="text"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.short_description}
-              className="text-gray-200 w-full rounded-[7px] border border-blue-gray-200  bg-transparent px-3 py-2.5 text-sm  text-blue-gray-700 outline outline-0 transition-all  focus:border-pink-base-300  focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
-              placeholder=" Address"
-            />
-            {formik.touched.short_description &&
-            formik.errors.short_description ? (
-              <p className="text-red-400 text-md">
-                {formik.errors.short_description}
-              </p>
-            ) : null}
+            {formik.touched.pet_location && formik.errors.pet_location && (
+              <p className="text-xs text-accent-3 mt-1">{formik.errors.pet_location}</p>
+            )}
           </div>
         </div>
 
-        <div className="w-full space-y-2">
-          <label
-            htmlFor="long_description"
-            className="text-white font-semibold text-md"
-          >
-            Long Description
+        <div>
+          <label htmlFor="image" className="block text-xs font-semibold text-ink-2 mb-1.5">
+            Companion Photo
           </label>
-          <br />
-          <textarea
-            className="lg:h-40 h-32 focus:border-none w-full border-none p-4 rounded-md"
-            name="long_description"
-            id="long_description"
-            type="text"
-            placeholder="Long Description"
-            onChange={formik.handleChange}
+          <input
+            id="image"
+            name="image"
+            type="file"
+            accept="image/*"
+            onChange={(event) => {
+              const file = event.target.files[0];
+              formik.setFieldValue("image", file);
+            }}
             onBlur={formik.handleBlur}
-            value={formik.values.long_description}
+            className="w-full text-xs text-muted file:mr-3 file:py-2 file:px-3 file:rounded-pill file:border-0 file:text-xs file:font-semibold file:bg-paper-2 file:text-ink hover:file:bg-paper-3"
           />
         </div>
 
-      <div className="flex w-full items-center justify-center">
-        <button type="submit" className="btn bg-secondary w-2/5 py-3 rounded-md text-white">Add Pet</button>
-      </div>
+        <div>
+          <label htmlFor="short_description" className="block text-xs font-semibold text-ink-2 mb-1.5">
+            Short Highlight Summary
+          </label>
+          <input
+            id="short_description"
+            name="short_description"
+            type="text"
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            value={formik.values.short_description}
+            placeholder="e.g. Gentle, affectionate, fully vaccinated, loves walks"
+            className="w-full px-4 py-2.5 rounded-input bg-paper-2 border border-rule text-sm text-ink placeholder:text-muted focus:outline-none focus:border-accent-2 transition-colors"
+          />
+        </div>
 
+        <div>
+          <label htmlFor="long_description" className="block text-xs font-semibold text-ink-2 mb-1.5">
+            Full Adoption Story & Care Needs
+          </label>
+          <textarea
+            id="long_description"
+            name="long_description"
+            rows="4"
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            value={formik.values.long_description}
+            placeholder="Describe the companion's personality, medical history, house training, and ideal home environment…"
+            className="w-full px-4 py-3 rounded-input bg-paper-2 border border-rule text-sm text-ink placeholder:text-muted focus:outline-none focus:border-accent-2 transition-colors resize-none"
+          />
+        </div>
+
+        <div className="pt-2 flex justify-end">
+          <button
+            type="submit"
+            className="py-3 px-8 rounded-pill font-semibold text-accent-ink bg-accent hover:bg-accent-deep hover-lift press-down shadow-sm text-sm transition-colors"
+          >
+            Submit Listing
+          </button>
+        </div>
       </form>
-
-      {/* Form ends here */}
     </div>
   );
 };
+
 export default AddPet;

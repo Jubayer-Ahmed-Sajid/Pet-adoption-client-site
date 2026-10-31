@@ -4,14 +4,13 @@ import * as Yup from "yup";
 import useAuth from "../../Components/Hooks/useAuth";
 import Swal from "sweetalert2";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { FaGithub, FaGoogle } from "react-icons/fa";
-import google from "../../assets/google-logo-history-png-2603.png";
+import { FaGithub, FaGoogle, FaUserShield } from "react-icons/fa";
 
 const SignIn = () => {
   const navigate = useNavigate();
   const { Signin, googleSignin, gitHubSignin } = useAuth();
   const location = useLocation();
-  console.log(location);
+
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -21,166 +20,176 @@ const SignIn = () => {
       email: Yup.string().email("Invalid email address").required("Required"),
       password: Yup.string()
         .required("No password provided.")
-        .min(6, "Password is too short - should be 6 chars minimum.")
-        .matches(
-          /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])/,
-          "Must Contain One Uppercase, One Lowercase, One Number and One Special Case Character"
-        ),
+        .min(6, "Password must be at least 6 characters."),
     }),
-
     onSubmit: async (values) => {
-      const email = values.email;
-      const password = values.password;
-
-      Signin(email, password)
-        .then((result) => {
-          console.log(result.user);
+      Signin(values.email, values.password)
+        .then(() => {
           Swal.fire({
             position: "top-end",
             icon: "success",
-            title: "Successfully logged in!",
+            title: "Signed in successfully!",
             showConfirmButton: false,
             timer: 1500,
           });
-          navigate(location?.state ? location?.state : "/");
+          navigate(location?.state ? location.state : "/");
         })
         .catch((error) => {
           Swal.fire({
-            position: "top-end",
             icon: "error",
-            title: `${error.message}`,
-            showConfirmButton: false,
-            timer: 1500,
+            title: "Sign in failed",
+            text: error.message,
           });
         });
     },
   });
-  const handleGoogleSigin = () => {
+
+  const handleFillDemoAdmin = () => {
+    formik.setValues({
+      email: "sajid661azxcca@gmail.com",
+      password: "1234aA!",
+    });
+  };
+
+  const handleGoogleSignin = () => {
     googleSignin()
-      .then((res) => {
-        Swal.fire({
-          position: "top-end",
-          icon: "success",
-          title: "Successfully logged in!",
-          showConfirmButton: false,
-          timer: 1500,
-        });
-        navigate(location?.state ? location?.state : "/");
+      .then(() => {
+        navigate(location?.state ? location.state : "/");
       })
       .catch((error) => {
-        console.log(error.message);
+        Swal.fire({ icon: "error", title: "OAuth failed", text: error.message });
       });
   };
+
   const handleGitHubSignin = () => {
     gitHubSignin()
-      .then((res) => {
-        console.log(res.user);
-        navigate(location?.state ? location?.state : "/");
+      .then(() => {
+        navigate(location?.state ? location.state : "/");
       })
       .catch((error) => {
-        Swal.fire({
-          position: "top-end",
-          icon: "error",
-          title: `${error.message}`,
-          showConfirmButton: false,
-          timer: 1500,
-        });
+        Swal.fire({ icon: "error", title: "OAuth failed", text: error.message });
       });
   };
+
   return (
-    <div className="lg:mx-6 my-8">
-      <form
-        onSubmit={formik.handleSubmit}
-        className="rounded-lg mt-12 bg-white shadow-lg py-6 w-full space-y-2 mx-auto lg:w-2/4 "
-      >
-        <h2 className="text-center text-2xl lg:text-4xl text-blue-500 my-6">
-          Please Sign In
-        </h2>
-        <hr className="w-2/3 bg-black mx-auto h-[2px]" />
-
-        <div className="mx-auto w-3/4 lg:w-2/4 space-y-2">
-          <label htmlFor="email"> Email Address </label>
-          <br />
-
-          <input
-            id="email"
-            name="email"
-            type="email"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.email}
-            className="w-full rounded-[7px] border border-blue-gray-200  bg-transparent px-3 py-2.5 text-sm  text-blue-gray-700 outline outline-0 transition-all  focus:border-pink-base-300  focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
-            placeholder="Email Address"
-          />
-          {formik.touched.email && formik.errors.email ? (
-            <p className="text-red-400 text-md">{formik.errors.email}</p>
-          ) : null}
+    <div className="pt-28 pb-20 max-w-md mx-auto px-4 sm:px-6">
+      <div className="bg-card rounded-card border border-rule p-8 sm:p-10 shadow-card">
+        {/* Header */}
+        <div className="text-center mb-8">
+          <span className="text-xs uppercase tracking-wider font-semibold text-muted">
+            Welcome Back
+          </span>
+          <h1 className="text-3xl font-display font-semibold text-ink mt-1">
+            Sign In
+          </h1>
+          <p className="text-xs sm:text-sm text-ink-2 mt-1.5">
+            Access your applications, favorites, and dashboard
+          </p>
         </div>
-        <div className="space-y-2 mx-auto w-3/4 lg:w-2/4">
-          <label htmlFor="password">Password</label>
-          <br />
-          <input
-            id="password"
-            name="password"
-            type="password"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.password}
-            className="w-full rounded-[7px] border border-blue-gray-200  bg-transparent px-3 py-2.5 text-sm  text-blue-gray-700 outline outline-0 transition-all  focus:border-pink-base-300  focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
-            placeholder="password Address"
-          />
-          {formik.touched.password && formik.errors.password ? (
-            <p className="text-red-400 text-md">{formik.errors.password}</p>
-          ) : null}
-        </div>
-          <br />
-        <div className="lg:w-1/2 mx-auto">
+
+        {/* Demo Account Callout for Evaluators */}
+        <div className="mb-6 p-3.5 rounded-stock bg-paper-2 border border-rule flex items-center justify-between gap-3">
+          <div className="flex items-center gap-2.5 text-xs text-ink-2">
+            <FaUserShield className="text-accent-3 text-base shrink-0" />
+            <span>Evaluating as recruiter?</span>
+          </div>
           <button
-            className="w-full btn py-3 rounded-lg  px-3 bg-blue-500 text-white"
+            type="button"
+            onClick={handleFillDemoAdmin}
+            className="px-3 py-1.5 rounded-pill bg-accent text-accent-ink font-semibold text-xs hover:bg-accent-deep transition-colors shrink-0"
+          >
+            Fill Demo Admin
+          </button>
+        </div>
+
+        {/* Credentials Form */}
+        <form onSubmit={formik.handleSubmit} className="space-y-4">
+          <div>
+            <label htmlFor="email" className="block text-xs font-semibold text-ink-2 mb-1.5">
+              Email Address
+            </label>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.email}
+              placeholder="you@example.com"
+              className="w-full px-4 py-2.5 rounded-input bg-paper-2 border border-rule text-sm text-ink placeholder:text-muted focus:outline-none focus:border-accent-2 transition-colors"
+            />
+            {formik.touched.email && formik.errors.email && (
+              <p className="text-xs text-accent-3 mt-1">{formik.errors.email}</p>
+            )}
+          </div>
+
+          <div>
+            <label htmlFor="password" className="block text-xs font-semibold text-ink-2 mb-1.5">
+              Password
+            </label>
+            <input
+              id="password"
+              name="password"
+              type="password"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.password}
+              placeholder="••••••••"
+              className="w-full px-4 py-2.5 rounded-input bg-paper-2 border border-rule text-sm text-ink placeholder:text-muted focus:outline-none focus:border-accent-2 transition-colors"
+            />
+            {formik.touched.password && formik.errors.password && (
+              <p className="text-xs text-accent-3 mt-1">{formik.errors.password}</p>
+            )}
+          </div>
+
+          <button
             type="submit"
+            className="w-full py-3 rounded-pill font-semibold text-accent-ink bg-accent hover:bg-accent-deep hover-lift press-down shadow-sm text-sm transition-colors mt-2"
           >
-            Signin
+            Sign In to Account
           </button>
-        </div>
-        <div className="flex w-3/4 lg:w-1/2 mx-auto items-center gap-2">
-          <div className=" w-5/12">
-            <hr className="bg-blue-400" />
+        </form>
+
+        {/* Divider */}
+        <div className="relative my-6">
+          <div className="absolute inset-0 flex items-center">
+            <div className="w-full border-t border-rule"></div>
           </div>
-          <h2 className="text-blue-400  font-semibold">or</h2>
-          <div className=" w-5/12">
-            <hr />
+          <div className="relative flex justify-center text-xs uppercase">
+            <span className="bg-card px-2 text-muted">Or continue with</span>
           </div>
         </div>
-        <div className="lg:w-1/2 mx-auto">
+
+        {/* OAuth Buttons */}
+        <div className="grid grid-cols-2 gap-3">
           <button
-            onClick={handleGoogleSigin}
-            className="btn mb-4 text-white rounded-lg text-center w-full bg-blue-500 py-3"
+            type="button"
+            onClick={handleGoogleSignin}
+            className="py-2.5 px-3 rounded-input bg-paper-2 hover:bg-paper-3 border border-rule text-xs font-semibold text-ink inline-flex items-center justify-center gap-2 transition-colors"
           >
-            <h2 className="flex  justify-center items-center gap-4">
-              Login by Google <img src={google} className="w-6" alt="" />{" "}
-            </h2>
+            <FaGoogle />
+            <span>Google</span>
           </button>
-        </div>
-        <div className="lg:w-1/2 mx-auto">
           <button
+            type="button"
             onClick={handleGitHubSignin}
-            className="btn mb-4 text-white rounded-lg text-center w-full bg-blue-500 py-3"
+            className="py-2.5 px-3 rounded-input bg-paper-2 hover:bg-paper-3 border border-rule text-xs font-semibold text-ink inline-flex items-center justify-center gap-2 transition-colors"
           >
-            <h2 className="flex  justify-center items-center gap-4">
-              Login by Github <FaGithub></FaGithub>
-            </h2>
+            <FaGithub />
+            <span>GitHub</span>
           </button>
         </div>
-        <div className="my-6 px-4 lg:w-1/2 mx-auto">
-          <h2>
-            New to the site?
-            <Link className="text-blue-400 ml-2" to="/signup">
-              Sing Up Now
-            </Link>
-          </h2>
-        </div>
-      </form>
+
+        {/* Sign Up Redirect */}
+        <p className="text-xs text-center text-muted mt-6">
+          Don't have an account yet?{" "}
+          <Link to="/signUp" className="text-ink font-semibold hover:text-accent-3 underline">
+            Create an account
+          </Link>
+        </p>
+      </div>
     </div>
   );
 };
+
 export default SignIn;

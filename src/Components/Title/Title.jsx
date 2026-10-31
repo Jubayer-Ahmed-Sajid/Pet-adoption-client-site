@@ -1,14 +1,16 @@
-import React from 'react';
-
-const Title = ({title}) => {
-    return (
-        <div className='flex items-center my-4 justify-center'>
-
-        <h1 class="text-2xl md:text-3xl pl-2 my-2 border-l-4  font-sans font-bold border-teal-400  dark:text-gray-200">
-       {title}
-    </h1>
-        </div>
-    );
+const Title = ({ title, subtitle }) => {
+  return (
+    <div className="text-center max-w-xl mx-auto my-8">
+      {subtitle && (
+        <p className="text-xs text-muted mb-1">
+          {subtitle}
+        </p>
+      )}
+      <h2 className="text-3xl sm:text-4xl font-display font-semibold text-ink tracking-tight">
+        {title}
+      </h2>
+    </div>
+  );
 };
 
 export default Title;
