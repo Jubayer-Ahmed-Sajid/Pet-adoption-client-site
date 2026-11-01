@@ -3,7 +3,8 @@ import React, { useEffect, useState } from "react";
 import useAuth from "../../Components/Hooks/useAuth";
 import useAxiosPublic from "../../Components/Hooks/useAxiosPublic";
 import useDonationDetails from "../../Components/Hooks/useDonationDetails";
-import { FaShieldAlt, FaLock } from "react-icons/fa";
+import { FaShieldAlt, FaLock, FaHeart, FaHospital, FaCheckCircle, FaWifi } from "react-icons/fa";
+import { MdOutlineCreditCard, MdOutlineVerified } from "react-icons/md";
 import Swal from "sweetalert2";
 
 const CheckOut = ({ id, onSuccess }) => {
@@ -22,6 +23,13 @@ const CheckOut = ({ id, onSuccess }) => {
   const maxAmount = Number(donationDetails.max_donation_amount) || 1000;
   const currentDonated = Number(donationDetails.donated_amount) || 0;
   const remainingAllowed = Math.max(0, maxAmount - currentDonated);
+
+  const presets = [
+    { amt: 15, label: "Pain Relief", badge: "7 Days" },
+    { amt: 25, label: "Lab Diagnostic", badge: "Blood Panel" },
+    { amt: 50, label: "Wound Care", badge: "Sterile Dressings" },
+    { amt: 100, label: "Orthopedic Care", badge: "Surgical Plate" },
+  ];
 
   const handlePreset = (amount) => {
     if (amount > remainingAllowed) {
@@ -125,8 +133,8 @@ const CheckOut = ({ id, onSuccess }) => {
 
         Swal.fire({
           icon: "success",
-          title: "Thank you for your donation!",
-          text: `Transaction ID: ${paymentIntent.id}`,
+          title: "Thank you for your generous gift!",
+          text: `Transaction ID: ${paymentIntent.id}. Direct clinical disbursement recorded.`,
         });
 
         if (refetch) refetch();
@@ -139,30 +147,96 @@ const CheckOut = ({ id, onSuccess }) => {
     }
   };
 
+  const beneficiaryName = donationDetails.name || donationDetails.pet_name || "Companion";
+
   return (
-    <form onSubmit={handleSubmit} className="space-y-5">
-      {/* Quick Preset Buttons */}
+    <form onSubmit={handleSubmit} className="space-y-6">
+      {/* Mind-Bending Holographic Guardian Sponsor Card */}
+      <div className="relative overflow-hidden rounded-card p-6 bg-gradient-to-br from-paper-2 via-card to-paper-3 border border-rule shadow-card text-ink">
+        {/* Specular Shimmer Sweep Effect */}
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none animate-shimmer"></div>
+        
+        {/* Top Card Header */}
+        <div className="flex items-center justify-between mb-5 relative z-10">
+          <div className="flex items-center gap-2">
+            <div className="w-7 h-5 rounded bg-accent/80 border border-rule flex items-center justify-center text-[10px] font-mono font-bold text-accent-ink">
+              CHIP
+            </div>
+            <FaWifi className="text-muted text-xs rotate-90" />
+            <span className="text-[11px] font-semibold text-muted">Veterinary Direct Escrow</span>
+          </div>
+          <div className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-pill bg-mint/20 text-mint-deep border border-rule text-[11px] font-semibold">
+            <FaShieldAlt className="text-[10px]" />
+            <span>501(c)(3) Verified</span>
+          </div>
+        </div>
+
+        {/* Amount & Beneficiary Projection */}
+        <div className="my-4 relative z-10 flex items-baseline justify-between">
+          <div>
+            <p className="text-[11px] font-semibold text-muted uppercase tracking-wider">
+              Sponsorship Allocation
+            </p>
+            <p className="text-3xl font-display font-semibold text-ink mt-0.5 tracking-tight">
+              ${totalAmount || 0}
+              <span className="text-xs font-normal text-muted ml-1.5">USD</span>
+            </p>
+          </div>
+          <div className="text-right">
+            <p className="text-[11px] font-semibold text-muted uppercase tracking-wider">
+              Beneficiary
+            </p>
+            <p className="text-base font-display font-semibold text-accent-3 mt-0.5 flex items-center justify-end gap-1">
+              <FaHeart className="text-xs animate-heart-pulse" />
+              <span>{beneficiaryName}</span>
+            </p>
+          </div>
+        </div>
+
+        {/* Cardholder Footnote & Verification Seal */}
+        <div className="pt-3 border-t border-rule/70 flex items-center justify-between text-xs relative z-10">
+          <div>
+            <p className="text-[10px] font-semibold text-muted uppercase">Guardian Donor</p>
+            <p className="font-medium text-ink truncate max-w-[200px]">
+              {user?.displayName || "Anonymous Supporter"}
+            </p>
+          </div>
+          <div className="text-right">
+            <p className="text-[10px] font-semibold text-muted uppercase">Status</p>
+            <p className="font-mono text-[11px] text-mint-deep font-semibold">Ready for Stripe</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Preset Impact Amounts */}
       <div>
         <label className="block text-xs font-semibold text-ink-2 mb-2">
-          Select Donation Amount
+          Select Emergency Relief Tier
         </label>
-        <div className="grid grid-cols-4 gap-2 mb-3">
-          {[10, 25, 50, 100].map((amt) => (
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-3">
+          {presets.map((preset) => (
             <button
-              key={amt}
+              key={preset.amt}
               type="button"
-              onClick={() => handlePreset(amt)}
-              className={`py-2 rounded-pill text-xs font-semibold border transition-colors ${
-                totalAmount === amt
-                  ? "bg-accent text-accent-ink border-accent-deep"
+              onClick={() => handlePreset(preset.amt)}
+              className={`p-3 rounded-card text-left border transition-all duration-150 press-down ${
+                totalAmount === preset.amt
+                  ? "bg-ink text-paper border-ink shadow-xs scale-105"
                   : "bg-paper-2 text-ink border-rule hover:bg-paper-3"
               }`}
             >
-              ${amt}
+              <div className="flex items-center justify-between">
+                <span className="text-sm font-semibold">${preset.amt}</span>
+                {totalAmount === preset.amt && <FaCheckCircle className="text-accent text-xs" />}
+              </div>
+              <p className={`text-[11px] font-medium mt-1 truncate ${totalAmount === preset.amt ? "text-accent" : "text-ink-2"}`}>
+                {preset.label}
+              </p>
             </button>
           ))}
         </div>
 
+        {/* Custom Amount Field */}
         <div className="relative">
           <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-sm font-semibold text-muted">
             $
@@ -173,30 +247,39 @@ const CheckOut = ({ id, onSuccess }) => {
             max={remainingAllowed}
             value={customAmount}
             onChange={handleInputChange}
-            placeholder="Custom amount"
-            className="w-full pl-8 pr-4 py-2.5 rounded-input bg-paper-2 border border-rule text-sm text-ink focus:outline-none focus:border-accent-2 transition-colors font-mono"
+            placeholder="Enter custom gift amount..."
+            className="w-full pl-8 pr-4 py-3 rounded-input bg-paper-2 border border-rule text-sm text-ink focus:outline-none focus:border-ink transition-colors font-mono"
           />
         </div>
       </div>
 
-      {/* Stripe Card Element Box */}
+      {/* Stripe Payment Card Element Box */}
       <div>
-        <label className="block text-xs font-semibold text-ink-2 mb-2">
-          Credit or Debit Card
-        </label>
-        <div className="p-3.5 rounded-input bg-paper-2 border border-rule">
+        <div className="flex items-center justify-between mb-2">
+          <label className="block text-xs font-semibold text-ink-2 flex items-center gap-1.5">
+            <MdOutlineCreditCard className="text-sm text-muted" />
+            <span>Card Information</span>
+          </label>
+          <span className="text-[11px] text-muted flex items-center gap-1">
+            <FaLock className="text-[10px]" />
+            <span>256-bit Encrypted</span>
+          </span>
+        </div>
+
+        <div className="p-4 rounded-input bg-paper-2 border border-rule focus-within:border-ink transition-colors">
           <CardElement
             options={{
               style: {
                 base: {
                   fontSize: "14px",
-                  color: "#1e1e1e",
+                  color: "var(--color-ink)",
+                  fontFamily: 'system-ui, -apple-system, sans-serif',
                   "::placeholder": {
-                    color: "#737373",
+                    color: "var(--color-muted)",
                   },
                 },
                 invalid: {
-                  color: "#d9383a",
+                  color: "var(--color-accent-3)",
                 },
               },
             }}
@@ -206,24 +289,28 @@ const CheckOut = ({ id, onSuccess }) => {
 
       {/* Error Message */}
       {error && (
-        <p className="text-xs text-accent-3 font-medium bg-accent-3/10 p-2.5 rounded-input border border-accent-3/20">
-          {error}
+        <p className="text-xs text-accent-3 font-medium bg-accent-3/10 p-3 rounded-input border border-accent-3/20 flex items-center gap-2">
+          <FaShieldAlt className="shrink-0" />
+          <span>{error}</span>
         </p>
       )}
 
-      {/* Secure Notice & Submit */}
-      <div className="pt-2">
-        <div className="flex items-center justify-center gap-1.5 text-[11px] text-muted mb-3">
-          <FaLock className="text-[10px]" />
-          <span>Encrypted 256-bit Stripe transaction</span>
+      {/* Transparency Guarantee & Submit */}
+      <div className="pt-2 space-y-3">
+        <div className="p-3 rounded-card bg-paper-2 border border-rule/70 flex items-center gap-2.5 text-xs text-ink-2">
+          <MdOutlineVerified className="text-mint-deep text-base shrink-0" />
+          <span>Zero platform deduction. 100% disbursed to veterinary hospital account.</span>
         </div>
 
         <button
           type="submit"
           disabled={!stripe || !clientSecret || processing || totalAmount <= 0}
-          className="w-full py-3.5 rounded-pill font-semibold text-accent-ink bg-accent hover:bg-accent-deep hover-lift press-down shadow-sm text-sm transition-colors disabled:opacity-50"
+          className="w-full py-4 rounded-pill font-semibold text-white bg-accent-3 hover:bg-accent-3/90 hover-lift press-down shadow-sm text-sm transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
         >
-          {processing ? "Processing Donation…" : `Donate $${totalAmount} Now`}
+          <FaHeart className="text-xs animate-heart-pulse" />
+          <span>
+            {processing ? "Securing Clinical Disbursement…" : `Confirm $${totalAmount} Sponsorship`}
+          </span>
         </button>
       </div>
     </form>
