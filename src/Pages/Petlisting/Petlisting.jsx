@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
 import usePets from "../../Components/Hooks/usePets";
-import { Link } from "react-router-dom";
-import { MdLocationPin, MdSearch, MdClose } from "react-icons/md";
-import { FaPaw, FaCat, FaDog, FaFish, FaKiwiBird, FaShieldAlt, FaArrowRight } from "react-icons/fa";
+import { Link, useNavigate } from "react-router-dom";
+import { MdLocationPin, MdSearch, MdClose, MdFavorite, MdCheckCircle } from "react-icons/md";
+import { FaPaw, FaCat, FaDog, FaFish, FaKiwiBird, FaShieldAlt, FaArrowRight, FaHeart } from "react-icons/fa";
 import useAxiosPublic from "../../Components/Hooks/useAxiosPublic";
+import useAuth from "../../Components/Hooks/useAuth";
+import useFavorites from "../../Components/Hooks/useFavorites";
 import MotionReveal from "../../Components/MotionReveal";
+import Swal from "sweetalert2";
 
 const petCategories = [
   { value: "all", label: "All Companions", icon: FaPaw },
@@ -16,11 +19,63 @@ const petCategories = [
 
 const Petlisting = () => {
   const [pets] = usePets();
+  const { user } = useAuth();
+  const [favorites, refetchFavorites] = useFavorites();
   const axiosPublic = useAxiosPublic();
   const [displayCategory, setDisplayCategory] = useState("all");
   const [query, setQuery] = useState("");
   const [displayPets, setDisplayPets] = useState([]);
   const [searching, setSearching] = useState(false);
+
+  const handleFavoriteToggle = async (pet, e) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (!user) {
+      Swal.fire({
+        icon: "info",
+        title: "Sign in required",
+        text: "Please sign in to save companions to your favorites.",
+        showConfirmButton: true,
+      });
+      return;
+    }
+
+    const isFav = (favorites || []).some(
+      (fav) => fav._id === pet._id || fav.name === pet.name
+    );
+
+    if (isFav) {
+      Swal.fire({
+        toast: true,
+        position: "top-end",
+        icon: "info",
+        title: `${pet.name} is already saved`,
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      return;
+    }
+
+    try {
+      const { _id, ...rest } = pet;
+      const favPet = { ...rest, email: user.email };
+      const res = await axiosPublic.post("/pets/favorites", favPet);
+      if (res.data.insertedId) {
+        Swal.fire({
+          toast: true,
+          position: "top-end",
+          icon: "success",
+          title: `Saved ${pet.name}!`,
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        refetchFavorites();
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   useEffect(() => {
     const petToDisplay = (pets || []).filter(
@@ -73,7 +128,7 @@ const Petlisting = () => {
 
   return (
     <div className="pt-28 pb-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      
+
       {/* Editorial Page Header */}
       <MotionReveal direction="up" distance={16}>
         <div className="mb-10 text-center max-w-3xl mx-auto">
@@ -186,81 +241,117 @@ const Petlisting = () => {
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {displayPets.map((pet, idx) => (
-            <MotionReveal
-              key={pet._id}
-              delay={(idx % 6) * 60}
-              distance={20}
-              direction="up"
-            >
-              <div
-                className="bg-card rounded-card border border-rule overflow-hidden shadow-sm hover-lift flex flex-col justify-between group transition-all hover:border-accent-deep/50 hover:shadow-card h-full"
+          {displayPets.map((pet, idx) => {
+            const isFav = (favorites || []).some(
+              (fav) => fav._id === pet._id || fav.name === pet.name
+            );
+
+            return (
+              <MotionReveal
+                key={pet._id}
+                delay={(idx % 6) * 60}
+                distance={20}
+                direction="up"
               >
-                <div>
-                  {/* Image Stage with Gradient Scrim and Badges */}
-                  <div className="relative h-64 w-full overflow-hidden bg-paper-2">
-                    <img
-                      src={pet.image}
-                      alt={pet.name}
-                      className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-80 group-hover:opacity-60 transition-opacity"></div>
-                    
-                    {/* Top Species & Status Badges */}
-                    <div className="absolute top-3 left-3 right-3 flex items-center justify-between">
-                      <span className="bg-paper/95 backdrop-blur-md px-3 py-1 rounded-pill border border-rule text-[11px] font-semibold text-ink capitalize shadow-xs">
-                        {pet.category || "Companion"}
-                      </span>
-                      <span className="bg-paper/95 backdrop-blur-md px-2.5 py-1 rounded-pill border border-rule text-[11px] font-semibold text-mint-deep shadow-xs flex items-center gap-1">
-                        <span className="w-1.5 h-1.5 rounded-full bg-mint-deep animate-radar"></span>
-                        <span>Ready</span>
-                      </span>
+                <div
+                  className="bg-card rounded-card border border-rule overflow-hidden shadow-sm hover-lift flex flex-col justify-between group transition-all hover:border-accent-2/40 hover:shadow-card h-full"
+                >
+                  <div>
+                    {/* Image Stage with Gradient Scrim and Badges */}
+                    <div className="relative h-64 w-full overflow-hidden bg-paper-2">
+                      <img
+                        src={pet.image}
+                        alt={pet.name}
+                        className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-black/20 opacity-90 group-hover:opacity-75 transition-opacity"></div>
+                      
+                      {/* Top Species, Status & Favorite Badges */}
+                      <div className="absolute top-3 left-3 right-3 flex items-center justify-between">
+                        <div className="flex items-center gap-1.5">
+                          <span className="bg-paper/95 backdrop-blur-md px-3 py-1 rounded-pill border border-rule text-[11px] font-semibold text-ink capitalize shadow-xs">
+                            {pet.category || "Companion"}
+                          </span>
+                          <span className="bg-paper/95 backdrop-blur-md px-2.5 py-1 rounded-pill border border-rule text-[11px] font-semibold text-mint-deep shadow-xs flex items-center gap-1">
+                            <span className="w-1.5 h-1.5 rounded-full bg-mint-deep animate-radar"></span>
+                            <span>Ready</span>
+                          </span>
+                        </div>
+
+                        {/* Interactive Favorite Bookmark Button */}
+                        <button
+                          onClick={(e) => handleFavoriteToggle(pet, e)}
+                          className={`p-2 rounded-full backdrop-blur-md border transition-transform duration-200 press-down shadow-xs ${
+                            isFav
+                              ? "bg-accent-3 text-white border-accent-3 scale-110"
+                              : "bg-paper/90 text-ink hover:text-accent-3 border-rule hover:scale-105"
+                          }`}
+                          aria-label={`Favorite ${pet.name}`}
+                        >
+                          <MdFavorite className="text-sm" />
+                        </button>
+                      </div>
+
+                      {/* Bottom Image Overlay: Age & Shelter Guarantee */}
+                      <div className="absolute bottom-3 left-4 right-4 flex items-center justify-between">
+                        <span className="text-white text-xs font-semibold bg-black/45 backdrop-blur-sm px-2.5 py-0.5 rounded-pill border border-white/20">
+                          Age {pet.age} {pet.age === 1 ? "yr" : "yrs"}
+                        </span>
+                        <span className="text-[11px] text-white/90 font-medium bg-black/40 backdrop-blur-sm px-2 py-0.5 rounded-pill border border-white/10 flex items-center gap-1">
+                          <FaShieldAlt className="text-mint text-[10px]" />
+                          <span>Health Verified</span>
+                        </span>
+                      </div>
                     </div>
 
-                    {/* Bottom Image Overlay: Age */}
-                    <div className="absolute bottom-3 left-4">
-                      <span className="text-white text-xs font-semibold bg-black/40 backdrop-blur-sm px-2.5 py-0.5 rounded-pill border border-white/20">
-                        Age {pet.age} {pet.age === 1 ? "yr" : "yrs"}
-                      </span>
+                    {/* Companion Narrative & Trait Chips */}
+                    <div className="p-6">
+                      <h3 className="text-2xl font-display font-semibold text-ink group-hover:text-accent-deep transition-colors mb-2">
+                        {pet.name}
+                      </h3>
+
+                      <p className="text-xs sm:text-sm text-ink-2 line-clamp-2 leading-relaxed mb-4">
+                        {pet.short_description ||
+                          "Affectionate companion waiting for a kind and loving forever home."}
+                      </p>
+
+                      {/* Quick Trait Badges */}
+                      <div className="flex flex-wrap gap-1.5 mb-4">
+                        <span className="px-2.5 py-0.5 rounded-pill bg-paper-2 border border-rule text-[11px] text-ink-2 font-medium flex items-center gap-1">
+                          <MdCheckCircle className="text-mint-deep text-xs" />
+                          <span>Vaccinated</span>
+                        </span>
+                        <span className="px-2.5 py-0.5 rounded-pill bg-paper-2 border border-rule text-[11px] text-ink-2 font-medium">
+                          Foster Socialized
+                        </span>
+                      </div>
+
+                      <div className="flex items-center justify-between text-xs text-muted pt-3 border-t border-rule/70">
+                        <span className="inline-flex items-center gap-1 font-medium text-ink-2 truncate max-w-[170px]">
+                          <MdLocationPin className="text-accent-3 text-sm shrink-0" />
+                          <span className="truncate">{pet.pet_location}</span>
+                        </span>
+                        <span className="shrink-0 text-[11px]">
+                          {pet.AddedDate ? `Added ${pet.AddedDate}` : "Available today"}
+                        </span>
+                      </div>
                     </div>
                   </div>
 
-                  {/* Companion Narrative */}
-                  <div className="p-6">
-                    <h3 className="text-2xl font-display font-semibold text-ink group-hover:text-accent-deep transition-colors mb-2">
-                      {pet.name}
-                    </h3>
-
-                    <p className="text-xs sm:text-sm text-ink-2 line-clamp-2 leading-relaxed mb-4">
-                      {pet.short_description ||
-                        "Affectionate companion waiting for a kind and loving forever home."}
-                    </p>
-
-                    <div className="flex items-center justify-between text-xs text-muted pt-3 border-t border-rule/70">
-                      <span className="inline-flex items-center gap-1 font-medium text-ink-2 truncate max-w-[170px]">
-                        <MdLocationPin className="text-accent-3 text-sm shrink-0" />
-                        <span className="truncate">{pet.pet_location}</span>
-                      </span>
-                      <span className="shrink-0 text-[11px]">
-                        {pet.AddedDate ? `Added ${pet.AddedDate}` : "Available today"}
-                      </span>
-                    </div>
+                  {/* Action Button */}
+                  <div className="p-6 pt-0">
+                    <Link
+                      to={`/pet-listing/${pet._id}`}
+                      className="w-full py-3 rounded-pill font-semibold text-xs text-accent-ink bg-accent hover:bg-accent-deep hover-lift press-down shadow-xs transition-colors flex items-center justify-center gap-2 group/btn"
+                    >
+                      <span>Meet {pet.name}</span>
+                      <FaArrowRight className="text-[10px] transition-transform group-hover/btn:translate-x-1" />
+                    </Link>
                   </div>
                 </div>
-
-                {/* Action Button */}
-                <div className="p-6 pt-0">
-                  <Link
-                    to={`/pet-listing/${pet._id}`}
-                    className="w-full py-3 rounded-pill font-semibold text-xs text-accent-ink bg-accent hover:bg-accent-deep hover-lift press-down shadow-xs transition-colors flex items-center justify-center gap-2 group/btn"
-                  >
-                    <span>Meet {pet.name}</span>
-                    <FaArrowRight className="text-[10px] transition-transform group-hover/btn:translate-x-1" />
-                  </Link>
-                </div>
-              </div>
-            </MotionReveal>
-          ))}
+              </MotionReveal>
+            );
+          })}
         </div>
       )}
 
