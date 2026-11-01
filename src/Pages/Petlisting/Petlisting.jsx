@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { MdLocationPin, MdSearch, MdClose } from "react-icons/md";
 import { FaPaw, FaCat, FaDog, FaFish, FaKiwiBird, FaShieldAlt, FaArrowRight } from "react-icons/fa";
 import useAxiosPublic from "../../Components/Hooks/useAxiosPublic";
+import MotionReveal from "../../Components/MotionReveal";
 
 const petCategories = [
   { value: "all", label: "All Companions", icon: FaPaw },
@@ -74,80 +75,84 @@ const Petlisting = () => {
     <div className="pt-28 pb-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       
       {/* Editorial Page Header */}
-      <div className="mb-10 text-center max-w-3xl mx-auto">
-        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-pill bg-paper-2 border border-rule text-xs font-semibold text-ink mb-4 shadow-xs">
-          <FaShieldAlt className="text-mint-deep text-xs" />
-          <span>Verified Shelter Network · Health Guarantee Included</span>
-        </div>
+      <MotionReveal direction="up" distance={16}>
+        <div className="mb-10 text-center max-w-3xl mx-auto">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-pill bg-paper-2 border border-rule text-xs font-semibold text-ink mb-4 shadow-xs">
+            <FaShieldAlt className="text-mint-deep text-xs" />
+            <span>Verified Shelter Network · Health Guarantee Included</span>
+          </div>
 
-        <h1 className="text-4xl sm:text-5xl font-display font-semibold text-ink tracking-tight">
-          Find your companion
-        </h1>
-        
-        <p className="text-base text-ink-2 mt-3 leading-relaxed">
-          Every companion animal below has completed clinical health clearances, behavior evaluations, and foster socialization. Filter by species or search by name.
-        </p>
-      </div>
+          <h1 className="text-4xl sm:text-5xl font-display font-semibold text-ink tracking-tight">
+            Find your companion
+          </h1>
+          
+          <p className="text-base text-ink-2 mt-3 leading-relaxed">
+            Every companion animal below has completed clinical health clearances, behavior evaluations, and foster socialization. Filter by species or search by name.
+          </p>
+        </div>
+      </MotionReveal>
 
       {/* Filter Chips & Interactive Search Toolbar */}
-      <div className="bg-card p-4 sm:p-5 rounded-card border border-rule shadow-sm mb-10 flex flex-col lg:flex-row items-center justify-between gap-5">
-        
-        {/* Category Pills */}
-        <div className="flex flex-wrap items-center gap-2 w-full lg:w-auto">
-          {petCategories.map((cat) => {
-            const Icon = cat.icon;
-            const isSelected = displayCategory === cat.value;
-            return (
-              <button
-                key={cat.value}
-                onClick={() => {
-                  setDisplayCategory(cat.value);
-                  setQuery("");
-                }}
-                className={`px-4 py-2 rounded-pill text-xs font-semibold transition-all duration-150 flex items-center gap-2 border ${
-                  isSelected
-                    ? "bg-ink text-paper border-ink shadow-xs"
-                    : "bg-paper-2 border-rule text-ink hover:bg-paper-3 hover:text-ink"
-                }`}
-              >
-                <Icon className={`text-xs ${isSelected ? "text-accent" : "text-muted"}`} />
-                <span>{cat.label}</span>
-              </button>
-            );
-          })}
-        </div>
-
-        {/* Search Input Form */}
-        <form onSubmit={handleSearch} className="flex items-center gap-2 w-full lg:w-88">
-          <div className="relative flex-1">
-            <MdSearch className="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted text-lg" />
-            <input
-              type="text"
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              placeholder="Search companion by name..."
-              className="w-full pl-10 pr-9 py-2.5 rounded-pill bg-paper-2 border border-rule text-xs sm:text-sm text-ink placeholder:text-muted focus:outline-none focus:border-ink transition-colors"
-            />
-            {query && (
-              <button
-                type="button"
-                onClick={handleClearSearch}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted hover:text-ink"
-                aria-label="Clear search"
-              >
-                <MdClose className="text-base" />
-              </button>
-            )}
+      <MotionReveal direction="up" delay={80} distance={16}>
+        <div className="bg-card p-4 sm:p-5 rounded-card border border-rule shadow-sm mb-10 flex flex-col lg:flex-row items-center justify-between gap-5">
+          
+          {/* Category Pills */}
+          <div className="flex flex-wrap items-center gap-2 w-full lg:w-auto">
+            {petCategories.map((cat) => {
+              const Icon = cat.icon;
+              const isSelected = displayCategory === cat.value;
+              return (
+                <button
+                  key={cat.value}
+                  onClick={() => {
+                    setDisplayCategory(cat.value);
+                    setQuery("");
+                  }}
+                  className={`px-4 py-2 rounded-pill text-xs font-semibold transition-all duration-150 flex items-center gap-2 border ${
+                    isSelected
+                      ? "bg-ink text-paper border-ink shadow-xs"
+                      : "bg-paper-2 border-rule text-ink hover:bg-paper-3 hover:text-ink"
+                  }`}
+                >
+                  <Icon className={`text-xs ${isSelected ? "text-accent" : "text-muted"}`} />
+                  <span>{cat.label}</span>
+                </button>
+              );
+            })}
           </div>
-          <button
-            type="submit"
-            className="px-5 py-2.5 rounded-pill bg-accent hover:bg-accent-deep text-accent-ink font-semibold text-xs transition-colors shrink-0 press-down shadow-xs"
-          >
-            {searching ? "..." : "Search"}
-          </button>
-        </form>
 
-      </div>
+          {/* Search Input Form */}
+          <form onSubmit={handleSearch} className="flex items-center gap-2 w-full lg:w-88">
+            <div className="relative flex-1">
+              <MdSearch className="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted text-lg" />
+              <input
+                type="text"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder="Search companion by name..."
+                className="w-full pl-10 pr-9 py-2.5 rounded-pill bg-paper-2 border border-rule text-xs sm:text-sm text-ink placeholder:text-muted focus:outline-none focus:border-ink transition-colors"
+              />
+              {query && (
+                <button
+                  type="button"
+                  onClick={handleClearSearch}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted hover:text-ink"
+                  aria-label="Clear search"
+                >
+                  <MdClose className="text-base" />
+                </button>
+              )}
+            </div>
+            <button
+              type="submit"
+              className="px-5 py-2.5 rounded-pill bg-accent hover:bg-accent-deep text-accent-ink font-semibold text-xs transition-colors shrink-0 press-down shadow-xs"
+            >
+              {searching ? "..." : "Search"}
+            </button>
+          </form>
+
+        </div>
+      </MotionReveal>
 
       {/* Live Results Counter Bar */}
       <div className="flex items-center justify-between mb-8 pb-3 border-b border-rule/70 text-xs text-muted">
@@ -181,74 +186,80 @@ const Petlisting = () => {
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {displayPets.map((pet) => (
-            <div
+          {displayPets.map((pet, idx) => (
+            <MotionReveal
               key={pet._id}
-              className="bg-card rounded-card border border-rule overflow-hidden shadow-sm hover-lift flex flex-col justify-between group transition-all hover:border-accent-deep/50 hover:shadow-card"
+              delay={(idx % 6) * 60}
+              distance={20}
+              direction="up"
             >
-              <div>
-                {/* Image Stage with Gradient Scrim and Badges */}
-                <div className="relative h-64 w-full overflow-hidden bg-paper-2">
-                  <img
-                    src={pet.image}
-                    alt={pet.name}
-                    className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-80 group-hover:opacity-60 transition-opacity"></div>
-                  
-                  {/* Top Species & Status Badges */}
-                  <div className="absolute top-3 left-3 right-3 flex items-center justify-between">
-                    <span className="bg-paper/95 backdrop-blur-md px-3 py-1 rounded-pill border border-rule text-[11px] font-semibold text-ink capitalize shadow-xs">
-                      {pet.category || "Companion"}
-                    </span>
-                    <span className="bg-paper/95 backdrop-blur-md px-2.5 py-1 rounded-pill border border-rule text-[11px] font-semibold text-mint-deep shadow-xs flex items-center gap-1">
-                      <span className="w-1.5 h-1.5 rounded-full bg-mint-deep"></span>
-                      <span>Ready</span>
-                    </span>
+              <div
+                className="bg-card rounded-card border border-rule overflow-hidden shadow-sm hover-lift flex flex-col justify-between group transition-all hover:border-accent-deep/50 hover:shadow-card h-full"
+              >
+                <div>
+                  {/* Image Stage with Gradient Scrim and Badges */}
+                  <div className="relative h-64 w-full overflow-hidden bg-paper-2">
+                    <img
+                      src={pet.image}
+                      alt={pet.name}
+                      className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-80 group-hover:opacity-60 transition-opacity"></div>
+                    
+                    {/* Top Species & Status Badges */}
+                    <div className="absolute top-3 left-3 right-3 flex items-center justify-between">
+                      <span className="bg-paper/95 backdrop-blur-md px-3 py-1 rounded-pill border border-rule text-[11px] font-semibold text-ink capitalize shadow-xs">
+                        {pet.category || "Companion"}
+                      </span>
+                      <span className="bg-paper/95 backdrop-blur-md px-2.5 py-1 rounded-pill border border-rule text-[11px] font-semibold text-mint-deep shadow-xs flex items-center gap-1">
+                        <span className="w-1.5 h-1.5 rounded-full bg-mint-deep animate-radar"></span>
+                        <span>Ready</span>
+                      </span>
+                    </div>
+
+                    {/* Bottom Image Overlay: Age */}
+                    <div className="absolute bottom-3 left-4">
+                      <span className="text-white text-xs font-semibold bg-black/40 backdrop-blur-sm px-2.5 py-0.5 rounded-pill border border-white/20">
+                        Age {pet.age} {pet.age === 1 ? "yr" : "yrs"}
+                      </span>
+                    </div>
                   </div>
 
-                  {/* Bottom Image Overlay: Age */}
-                  <div className="absolute bottom-3 left-4">
-                    <span className="text-white text-xs font-semibold bg-black/40 backdrop-blur-sm px-2.5 py-0.5 rounded-pill border border-white/20">
-                      Age {pet.age} {pet.age === 1 ? "yr" : "yrs"}
-                    </span>
+                  {/* Companion Narrative */}
+                  <div className="p-6">
+                    <h3 className="text-2xl font-display font-semibold text-ink group-hover:text-accent-deep transition-colors mb-2">
+                      {pet.name}
+                    </h3>
+
+                    <p className="text-xs sm:text-sm text-ink-2 line-clamp-2 leading-relaxed mb-4">
+                      {pet.short_description ||
+                        "Affectionate companion waiting for a kind and loving forever home."}
+                    </p>
+
+                    <div className="flex items-center justify-between text-xs text-muted pt-3 border-t border-rule/70">
+                      <span className="inline-flex items-center gap-1 font-medium text-ink-2 truncate max-w-[170px]">
+                        <MdLocationPin className="text-accent-3 text-sm shrink-0" />
+                        <span className="truncate">{pet.pet_location}</span>
+                      </span>
+                      <span className="shrink-0 text-[11px]">
+                        {pet.AddedDate ? `Added ${pet.AddedDate}` : "Available today"}
+                      </span>
+                    </div>
                   </div>
                 </div>
 
-                {/* Companion Narrative */}
-                <div className="p-6">
-                  <h3 className="text-2xl font-display font-semibold text-ink group-hover:text-accent-deep transition-colors mb-2">
-                    {pet.name}
-                  </h3>
-
-                  <p className="text-xs sm:text-sm text-ink-2 line-clamp-2 leading-relaxed mb-4">
-                    {pet.short_description ||
-                      "Affectionate companion waiting for a kind and loving forever home."}
-                  </p>
-
-                  <div className="flex items-center justify-between text-xs text-muted pt-3 border-t border-rule/70">
-                    <span className="inline-flex items-center gap-1 font-medium text-ink-2 truncate max-w-[170px]">
-                      <MdLocationPin className="text-accent-3 text-sm shrink-0" />
-                      <span className="truncate">{pet.pet_location}</span>
-                    </span>
-                    <span className="shrink-0 text-[11px]">
-                      {pet.AddedDate ? `Added ${pet.AddedDate}` : "Available today"}
-                    </span>
-                  </div>
+                {/* Action Button */}
+                <div className="p-6 pt-0">
+                  <Link
+                    to={`/pet-listing/${pet._id}`}
+                    className="w-full py-3 rounded-pill font-semibold text-xs text-accent-ink bg-accent hover:bg-accent-deep hover-lift press-down shadow-xs transition-colors flex items-center justify-center gap-2 group/btn"
+                  >
+                    <span>Meet {pet.name}</span>
+                    <FaArrowRight className="text-[10px] transition-transform group-hover/btn:translate-x-1" />
+                  </Link>
                 </div>
               </div>
-
-              {/* Action Button */}
-              <div className="p-6 pt-0">
-                <Link
-                  to={`/pet-listing/${pet._id}`}
-                  className="w-full py-3 rounded-pill font-semibold text-xs text-accent-ink bg-accent hover:bg-accent-deep hover-lift press-down shadow-xs transition-colors flex items-center justify-center gap-2 group/btn"
-                >
-                  <span>Meet {pet.name}</span>
-                  <FaArrowRight className="text-[10px] transition-transform group-hover/btn:translate-x-1" />
-                </Link>
-              </div>
-            </div>
+            </MotionReveal>
           ))}
         </div>
       )}
