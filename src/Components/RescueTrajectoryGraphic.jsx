@@ -8,9 +8,9 @@ const milestones = [
     tagline: "Safe Haven & Nutrition",
     detail: "Immediate medical triage, behavioral intake, and safe warm shelter upon rescue.",
     icon: FaShieldAlt,
-    color: "text-accent-deep",
-    bg: "bg-accent/20",
-    border: "border-accent/40",
+    color: "text-mint-deep",
+    bg: "bg-mint/20",
+    border: "border-mint/30",
   },
   {
     step: "02",
@@ -20,7 +20,7 @@ const milestones = [
     icon: FaStethoscope,
     color: "text-accent-3",
     bg: "bg-accent-3/20",
-    border: "border-accent-3/40",
+    border: "border-accent-3/30",
   },
   {
     step: "03",
@@ -29,8 +29,8 @@ const milestones = [
     detail: "Living with certified foster families to build trust, house manners, and confidence.",
     icon: FaHome,
     color: "text-mint-deep",
-    bg: "bg-mint/25",
-    border: "border-mint/40",
+    bg: "bg-mint/20",
+    border: "border-mint/30",
   },
   {
     step: "04",
@@ -38,9 +38,9 @@ const milestones = [
     tagline: "Lifelong Matching",
     detail: "Direct adopter introductions, trial sleepovers, and ongoing shelter post-care.",
     icon: FaHeart,
-    color: "text-accent-2",
-    bg: "bg-accent-2/20",
-    border: "border-accent-2/40",
+    color: "text-accent-ink",
+    bg: "bg-accent",
+    border: "border-accent-deep/50",
   },
 ];
 
