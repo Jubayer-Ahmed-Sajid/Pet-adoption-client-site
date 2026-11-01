@@ -146,21 +146,29 @@ const Featured = () => {
                   </div>
                 </div>
 
-                {/* Real-time Progress Bar & Stats (Thickened with AA High Contrast) */}
+                {/* Real-time Progress Bar & Stats (Thickened Track & High-Contrast Coral Fill) */}
                 <div className="p-6 space-y-4">
                   <div>
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="text-base font-bold text-ink">${projectedFunded.toLocaleString()} raised</span>
-                      <span className="text-xs font-bold text-accent-3 bg-accent-3/15 px-2.5 py-0.5 rounded-pill">{projectedPercent}% of $5,000</span>
+                    <div className="flex items-baseline justify-between mb-2.5">
+                      <div className="flex items-baseline gap-1.5">
+                        <span className="text-lg sm:text-xl font-bold text-ink">${projectedFunded.toLocaleString()}</span>
+                        <span className="text-xs font-semibold text-muted">raised of $5,000</span>
+                      </div>
+                      <span className="text-xs font-bold text-accent-3 bg-accent-3/15 border border-accent-3/30 px-3 py-1 rounded-pill">
+                        {projectedPercent}% funded
+                      </span>
                     </div>
 
-                    {/* Thicker Coral Thermometer Bar with Shimmer Animation */}
-                    <div className="w-full h-4 sm:h-4.5 bg-paper-2 rounded-pill overflow-hidden p-0.5 border border-rule relative">
+                    {/* Thickened Coral Thermometer Bar with High-Contrast Track */}
+                    <div className="w-full h-6 sm:h-7 bg-paper-3 dark:bg-paper-2 rounded-pill p-1 border border-rule/90 shadow-inner relative overflow-hidden">
                       <div
-                        className="h-full bg-accent-3 rounded-pill relative overflow-hidden transition-all duration-700 ease-out"
+                        className="h-full bg-accent-3 rounded-pill relative overflow-hidden transition-all duration-700 ease-out flex items-center justify-end pr-2.5 min-w-[3rem]"
                         style={{ width: `${projectedPercent}%` }}
                       >
-                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent animate-shimmer motion-reduce:hidden"></div>
+                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/35 to-transparent animate-shimmer motion-reduce:hidden"></div>
+                        <span className="text-[11px] font-extrabold text-white tracking-wide select-none drop-shadow-xs">
+                          {projectedPercent}%
+                        </span>
                       </div>
                     </div>
                   </div>
