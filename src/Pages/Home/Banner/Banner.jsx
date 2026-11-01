@@ -9,7 +9,6 @@ import {
   FaPause,
   FaPlay,
 } from "react-icons/fa";
-import AnimatedCounter from "../../../Components/AnimatedCounter";
 import MotionReveal from "../../../Components/MotionReveal";
 
 import goldenPuppy from "../../../assets/photos/golden-puppy.jpg";
@@ -117,7 +116,7 @@ const Banner = () => {
           
           {/* Left Column: Narrative, Counters & Primary CTAs */}
           <div className="lg:col-span-7">
-            <MotionReveal direction="up" distance={24} className="space-y-6">
+            <div className="space-y-6">
               {/* Live Status Pill with Radar Beacon Animation */}
               <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-pill bg-paper-2 border border-rule shadow-xs">
                 <span className="relative flex h-2.5 w-2.5">
@@ -155,11 +154,11 @@ const Banner = () => {
                 </Link>
               </div>
 
-              {/* Dynamic Animated Counters */}
+              {/* Credible Static Ground-Truth Metrics */}
               <div className="pt-8 border-t border-rule grid grid-cols-3 gap-6 max-w-lg">
                 <div>
                   <p className="font-display font-semibold text-2xl lg:text-3xl text-ink">
-                    <AnimatedCounter target={1480} suffix="+" duration={1400} />
+                    1,480+
                   </p>
                   <p className="text-xs sm:text-sm text-muted mt-0.5">
                     Pets rehomed
@@ -167,7 +166,7 @@ const Banner = () => {
                 </div>
                 <div>
                   <p className="font-display font-semibold text-2xl lg:text-3xl text-accent-3">
-                    <AnimatedCounter target={184} prefix="$" suffix="k" duration={1400} />
+                    $184k
                   </p>
                   <p className="text-xs sm:text-sm text-muted mt-0.5">
                     Raised for care
@@ -175,14 +174,14 @@ const Banner = () => {
                 </div>
                 <div>
                   <p className="font-display font-semibold text-2xl lg:text-3xl text-mint-deep">
-                    <AnimatedCounter target={100} suffix="%" duration={1400} />
+                    100%
                   </p>
                   <p className="text-xs sm:text-sm text-muted mt-0.5">
                     Health checked
                   </p>
                 </div>
               </div>
-            </MotionReveal>
+            </div>
           </div>
 
           {/* Right Column: Interactive Featured Companion Visual Stage */}
@@ -207,35 +206,45 @@ const Banner = () => {
                       key={activePet.id}
                       src={activePet.image}
                       alt={activePet.name}
+                      loading="eager"
+                      fetchPriority="high"
+                      decoding="sync"
                       className="w-full h-full object-cover object-center transition-transform duration-700 hover:scale-105"
                     />
                     
                     {/* Photo Gradient Scrim */}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/25 to-transparent"></div>
 
-                    {/* Status Pill on Image with Ping Indicator */}
-                    <div className="absolute top-4 left-4">
-                      <span className="px-3 py-1 rounded-pill text-xs font-semibold bg-paper/95 backdrop-blur-md text-ink border border-white/20 shadow-xs flex items-center gap-1.5">
-                        <FaCheck className="text-mint-deep text-[10px]" />
+                    {/* Vetted Health & Status Inset Badge Cluster (Tested Across Breakpoints) */}
+                    <div className="absolute top-4 left-4 z-20 flex flex-wrap items-center gap-2">
+                      <span className="px-3 py-1.5 rounded-pill text-xs font-semibold bg-paper text-ink border border-rule shadow-sm flex items-center gap-2">
+                        <span className="relative flex h-2 w-2">
+                          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-mint-deep opacity-75 motion-reduce:hidden"></span>
+                          <span className="relative inline-flex rounded-full h-2 w-2 bg-mint-deep"></span>
+                        </span>
+                        <FaShieldAlt className="text-mint-deep text-[11px]" />
+                        <span>100% Vetted Health</span>
+                      </span>
+                      <span className="hidden sm:inline-flex px-2.5 py-1.5 rounded-pill text-[11px] font-semibold bg-paper/90 backdrop-blur-md text-ink-2 border border-rule/80 shadow-xs">
                         {activePet.status}
                       </span>
                     </div>
 
                     {/* Pause / Resume Auto-rotate Button */}
-                    <div className="absolute top-4 right-4">
+                    <div className="absolute top-4 right-4 z-20">
                       <button
                         type="button"
                         onClick={() => setIsPaused(!isPaused)}
                         title={isPaused ? "Resume spotlight auto-rotation" : "Pause spotlight auto-rotation"}
                         aria-label={isPaused ? "Resume rotation" : "Pause rotation"}
-                        className="p-2 rounded-full bg-paper/90 backdrop-blur-md text-ink hover:bg-paper border border-white/20 text-xs shadow-xs transition-colors hover-lift press-down"
+                        className="p-2 rounded-full bg-paper/95 text-ink hover:bg-paper border border-rule text-xs shadow-xs transition-colors hover-lift press-down"
                       >
                         {isPaused ? <FaPlay className="text-[10px]" /> : <FaPause className="text-[10px]" />}
                       </button>
                     </div>
 
                     {/* Overlay Narrative */}
-                    <div className="absolute bottom-4 left-4 right-4 text-white space-y-1.5">
+                    <div className="absolute bottom-4 left-4 right-4 text-white space-y-1.5 z-10">
                       <div className="flex items-center justify-between">
                         <h3 className="text-2xl font-display font-semibold text-white">
                           {activePet.name}
@@ -298,22 +307,6 @@ const Banner = () => {
                       <span>{pet.name}</span>
                     </button>
                   ))}
-                </div>
-
-                {/* Floating Verified Badge (Hallmark Clean Style) */}
-                <div className="absolute -top-4 -left-4 sm:-left-6 bg-paper/95 backdrop-blur-md border border-rule p-3 rounded-card shadow-card animate-float-slow motion-reduce:animate-none hidden sm:flex items-center gap-3">
-                  <div className="p-2 rounded-full bg-mint/30 text-mint-deep relative">
-                    <FaShieldAlt className="text-base" />
-                    <span className="animate-ping absolute inset-0 rounded-full bg-mint/40 motion-reduce:hidden"></span>
-                  </div>
-                  <div>
-                    <p className="text-xs font-semibold text-ink">
-                      100% Vetted Health
-                    </p>
-                    <p className="text-[11px] text-muted">
-                      Vaccinated & microchipped
-                    </p>
-                  </div>
                 </div>
 
               </div>
