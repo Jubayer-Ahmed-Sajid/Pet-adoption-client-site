@@ -77,14 +77,14 @@ const About = () => {
               
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
 
-              {/* Verified Network Overlay Pill with Crisp AA Contrast */}
-              <div className="absolute bottom-5 left-5 right-5 bg-paper/98 backdrop-blur-md p-4 sm:p-5 rounded-card border border-rule shadow-md flex items-center justify-between">
+              {/* Verified Network Overlay Strip with Crisp AA Contrast */}
+              <div className="absolute bottom-5 left-5 right-5 bg-black/80 backdrop-blur-md p-4 sm:p-5 rounded-card border border-white/20 shadow-lg flex items-center justify-between">
                 <div>
-                  <p className="text-xs sm:text-sm font-semibold text-ink flex items-center gap-2">
-                    <FaCheckCircle className="text-mint-deep text-sm" />
+                  <p className="text-xs sm:text-sm font-semibold text-white flex items-center gap-2">
+                    <FaCheckCircle className="text-emerald-400 text-sm shrink-0" />
                     <span>Non-profit certified rescue network</span>
                   </p>
-                  <p className="text-xs text-ink-2 mt-1 leading-normal">
+                  <p className="text-xs text-white/90 mt-1 leading-normal">
                     Over 1,480 successful adoptions across 16 accredited regional shelters.
                   </p>
                 </div>
