@@ -42,6 +42,30 @@
   50% { transform: scale(1.05); opacity: 0.9; }
 }
 
+@keyframes pulseRadar {
+  0% { transform: scale(0.9); opacity: 0.8; }
+  70% { transform: scale(1.6); opacity: 0; }
+  100% { transform: scale(1.6); opacity: 0; }
+}
+
+@keyframes dashFlow {
+  0% { stroke-dashoffset: 48; }
+  100% { stroke-dashoffset: 0; }
+}
+
+@keyframes shimmerSweep {
+  0% { transform: translateX(-120%); }
+  100% { transform: translateX(250%); }
+}
+
+@keyframes heartPulse {
+  0%, 100% { transform: scale(1); }
+  12% { transform: scale(1.12); }
+  24% { transform: scale(1); }
+  36% { transform: scale(1.16); }
+  60% { transform: scale(1); }
+}
+
 .animate-float-slow {
   animation: floatSoft 5s ease-in-out infinite;
 }
@@ -64,11 +88,31 @@
   animation: pulseSubtle 3s ease-in-out infinite;
 }
 
+.animate-radar {
+  animation: pulseRadar 2.4s cubic-bezier(0.2, 0.8, 0.4, 1) infinite;
+}
+
+.animate-dash-flow {
+  animation: dashFlow 2.8s linear infinite;
+}
+
+.animate-shimmer {
+  animation: shimmerSweep 3.2s ease-in-out infinite;
+}
+
+.animate-heart-pulse {
+  animation: heartPulse 2.8s ease-in-out infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .animate-float-slow,
   .animate-float-delayed,
   .animate-marquee,
-  .animate-pulse-subtle {
+  .animate-pulse-subtle,
+  .animate-radar,
+  .animate-dash-flow,
+  .animate-shimmer,
+  .animate-heart-pulse {
     animation: none !important;
   }
 }
