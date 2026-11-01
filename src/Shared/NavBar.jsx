@@ -56,8 +56,9 @@ const NavBar = () => {
               className="h-10 w-10 sm:h-11 sm:w-11 rounded-full object-cover ring-2 ring-accent/60 group-hover:ring-accent transition-all duration-300 group-hover:scale-105"
               alt="Paws & Hearts platform emblem"
             />
-            <span className="absolute -bottom-0.5 -right-0.5 bg-mint-deep text-white rounded-full p-1 text-[9px] shadow-xs">
-              <FaShieldAlt />
+            <span className="absolute -bottom-0.5 -right-0.5 bg-mint-deep text-white rounded-full p-1 text-[9px] shadow-xs flex items-center justify-center">
+              <FaShieldAlt className="relative z-10" />
+              <span className="animate-radar absolute inset-0 rounded-full bg-mint-deep opacity-60 pointer-events-none motion-reduce:hidden"></span>
             </span>
           </div>
           <div>
