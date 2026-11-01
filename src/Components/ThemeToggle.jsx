@@ -59,7 +59,7 @@ export default function ThemeToggle({ showLabel = false, className = "" }) {
         )}
       </span>
       {showLabel && (
-        <span className="text-xs font-semibold tracking-wide">
+        <span className="text-xs font-semibold tracking-wide whitespace-nowrap">
           {isDark ? "Light Mode" : "Dark Mode"}
         </span>
       )}
