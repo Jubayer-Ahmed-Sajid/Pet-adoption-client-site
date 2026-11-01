@@ -58,6 +58,14 @@ const Banner = () => {
 
   // Fluid countdown rotation respecting user interaction and reduced-motion preferences
   useEffect(() => {
+    // Preload all spotlight photos for instantaneous, flicker-free swaps
+    spotlightPets.forEach((pet) => {
+      const img = new Image();
+      img.src = pet.image;
+    });
+  }, []);
+
+  useEffect(() => {
     if (isPaused) return;
 
     const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -86,10 +94,10 @@ const Banner = () => {
   };
 
   return (
-    <section className="relative min-h-[88vh] lg:min-h-[92vh] flex items-center pt-24 pb-16 lg:pt-28 lg:pb-20 overflow-hidden bg-paper">
+    <section className="relative min-h-[92vh] lg:min-h-screen flex items-center pt-24 pb-16 lg:pt-24 lg:pb-16 overflow-hidden bg-paper">
       
-      {/* Right-Bleed Cinematic Photography Stage with Warm Cream Mask */}
-      <div className="absolute top-0 right-0 bottom-0 w-full lg:w-7/12 pointer-events-none overflow-hidden z-0">
+      {/* Right-Bleed Cinematic Photography Stage with Warm Cream Mask (Option A: Sanctuary) */}
+      <div className="absolute top-0 right-0 bottom-0 w-full lg:w-3/5 pointer-events-none overflow-hidden z-0">
         <div className="relative w-full h-full">
           <img
             key={activePet.id}
@@ -100,10 +108,10 @@ const Banner = () => {
             decoding="sync"
             className="w-full h-full object-cover object-center lg:object-[60%_center] transition-transform duration-1000 ease-out"
           />
-          {/* Triple-directional organic blend into canvas */}
-          <div className="absolute inset-0 bg-gradient-to-r from-paper via-paper/85 lg:via-paper/50 to-transparent"></div>
-          <div className="absolute inset-0 bg-gradient-to-t from-paper via-transparent to-paper/30 lg:hidden"></div>
-          <div className="absolute inset-0 bg-gradient-to-b from-paper/70 via-transparent to-paper"></div>
+          {/* Organic warm cream mask into canvas */}
+          <div className="absolute inset-0 bg-gradient-to-r from-paper via-paper/90 lg:via-paper/35 to-transparent"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-paper via-paper/40 to-transparent lg:hidden"></div>
+          <div className="absolute inset-0 bg-gradient-to-b from-paper/60 via-transparent to-paper"></div>
         </div>
       </div>
 
@@ -196,9 +204,9 @@ const Banner = () => {
             </div>
           </div>
 
-          {/* Right Column: Floating Glass-Etched Inspection Capsule */}
+          {/* Right Column: Floating Solid Spotlight Card ON Photo */}
           <div className="lg:col-span-5 relative flex justify-center lg:justify-end">
-            <div className="w-full max-w-sm rounded-card bg-paper/95 dark:bg-card/95 backdrop-blur-md border border-rule/80 shadow-card p-5 space-y-4 hover-lift transition-all">
+            <div className="w-full max-w-sm rounded-card bg-card border border-rule shadow-xl p-5 space-y-4 hover-lift transition-all">
               
               {/* Continuous Countdown Progress Line */}
               <div className="w-full h-1 bg-paper-2 rounded-full overflow-hidden relative">
@@ -213,7 +221,7 @@ const Banner = () => {
                 <div className="flex items-center gap-2">
                   <span className="w-2 h-2 rounded-full bg-mint-deep animate-radar"></span>
                   <span className="text-xs font-semibold text-ink">Spotlight Companion</span>
-                  <span className="text-[11px] font-semibold text-mint-deep bg-mint/20 px-2 py-0.5 rounded-pill">
+                  <span className="text-[11px] font-semibold text-mint-deep bg-mint/20 px-2 py-0.5 rounded-pill border border-mint-deep/20">
                     {activePet.status}
                   </span>
                 </div>
@@ -229,7 +237,7 @@ const Banner = () => {
                 </button>
               </div>
 
-              {/* Companion Narrative & Age */}
+              {/* Companion Narrative & High-Contrast Species / Age */}
               <div>
                 <div className="flex items-center justify-between">
                   <h3 className="text-2xl font-display font-semibold text-ink">
@@ -240,7 +248,7 @@ const Banner = () => {
                   </span>
                 </div>
 
-                <p className="text-xs font-semibold text-accent-deep mt-0.5">
+                <p className="text-xs font-semibold text-ink-2 mt-1">
                   {activePet.species}
                 </p>
 
@@ -251,14 +259,14 @@ const Banner = () => {
 
               {/* Clinical Trait Badges */}
               <div className="flex flex-wrap gap-1.5 pt-1">
-                <span className="text-[10px] px-2.5 py-0.5 rounded-pill bg-mint/20 text-mint-deep font-semibold flex items-center gap-1">
+                <span className="text-[10px] px-2.5 py-0.5 rounded-pill bg-mint/20 text-mint-deep font-semibold flex items-center gap-1 border border-mint-deep/20">
                   <FaShieldAlt className="text-[9px]" />
                   <span>100% Vetted Health</span>
                 </span>
                 {activePet.tags.map((tag, tIdx) => (
                   <span
                     key={tIdx}
-                    className="text-[10px] px-2.5 py-0.5 rounded-pill bg-paper-2 border border-rule text-ink font-medium"
+                    className="text-[10px] px-2.5 py-0.5 rounded-pill bg-paper-2 border border-rule text-ink-2 font-medium"
                   >
                     {tag}
                   </span>
@@ -268,7 +276,7 @@ const Banner = () => {
               {/* Quick Location & Direct Meet CTA */}
               <div className="pt-3 border-t border-rule flex items-center justify-between text-xs">
                 <div className="flex items-center gap-1.5 text-muted text-[11px] truncate max-w-[170px]">
-                  <FaMapMarkerAlt className="text-accent-deep shrink-0" />
+                  <FaMapMarkerAlt className="text-accent-3 shrink-0" />
                   <span className="truncate">{activePet.location}</span>
                 </div>
                 <Link
