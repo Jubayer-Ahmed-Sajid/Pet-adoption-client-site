@@ -2,6 +2,7 @@ import { useRef, useState } from "react";
 import emailjs from "@emailjs/browser";
 import { FaWhatsapp, FaEnvelope, FaMapMarkerAlt } from "react-icons/fa";
 import { toast } from "sonner";
+import MotionReveal from "../../../Components/MotionReveal";
 
 const ContactUs = () => {
   const form = useRef();
@@ -33,7 +34,8 @@ const ContactUs = () => {
 
   return (
     <section id="contacts" className="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div className="bg-card rounded-card border border-rule p-8 sm:p-12 shadow-sm">
+      <MotionReveal direction="up" distance={24}>
+        <div className="bg-card rounded-card border border-rule p-8 sm:p-12 shadow-sm">
         <div className="max-w-2xl mb-10">
           <h2 className="text-3xl sm:text-4xl font-display font-semibold text-ink">
             Questions about adoption or donation campaigns?
@@ -137,7 +139,8 @@ const ContactUs = () => {
             </button>
           </form>
         </div>
-      </div>
+        </div>
+      </MotionReveal>
     </section>
   );
 };
