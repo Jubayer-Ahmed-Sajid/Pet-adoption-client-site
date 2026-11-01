@@ -94,7 +94,7 @@ const Banner = () => {
   };
 
   return (
-    <section className="relative min-h-[92vh] lg:min-h-screen flex items-center pt-24 pb-16 lg:pt-24 lg:pb-16 overflow-hidden bg-paper">
+    <section className="relative min-h-[85vh] lg:min-h-[88vh] flex items-center pt-20 pb-12 lg:pt-20 lg:pb-12 overflow-hidden bg-paper">
       
       {/* Right-Bleed Cinematic Photography Stage with Warm Cream Mask (Option A: Sanctuary) */}
       <div className="absolute top-0 right-0 bottom-0 w-full lg:w-3/5 pointer-events-none overflow-hidden z-0">
@@ -110,7 +110,8 @@ const Banner = () => {
           />
           {/* Organic warm cream mask into canvas */}
           <div className="absolute inset-0 bg-gradient-to-r from-paper via-paper/90 lg:via-paper/35 to-transparent"></div>
-          <div className="absolute inset-0 bg-gradient-to-t from-paper via-paper/40 to-transparent lg:hidden"></div>
+          <div className="absolute inset-0 bg-paper/70 sm:bg-paper/40 lg:bg-transparent"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-paper via-paper/60 to-transparent lg:hidden"></div>
           <div className="absolute inset-0 bg-gradient-to-b from-paper/60 via-transparent to-paper"></div>
         </div>
       </div>
