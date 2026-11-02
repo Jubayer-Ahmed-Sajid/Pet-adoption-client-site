@@ -214,7 +214,7 @@ const Petlisting = () => {
         <span>
           Showing <strong className="text-ink font-semibold">{displayPets.length}</strong> adoptable {displayPets.length === 1 ? "companion" : "companions"}
         </span>
-        <span className="hidden sm:inline">All listings vetted by 501(c)(3) sanctuaries</span>
+        <span className="hidden sm:inline">All listings vetted by accredited rescue sanctuaries</span>
       </div>
 
       {/* Pet Cards Grid */}

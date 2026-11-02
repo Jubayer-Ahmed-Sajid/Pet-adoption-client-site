@@ -12,14 +12,16 @@ import {
 import goldenPuppy from "../../../assets/photos/golden-puppy.jpg";
 import cuteKitten from "../../../assets/photos/cute-kitten.jpg";
 import heroDogHug from "../../../assets/photos/hero-dog-hug.jpg";
+import usePlatformStats from "../../../Components/Hooks/usePlatformStats";
 
 const spotlightPets = [
   {
     id: 1,
+    _id: "6ae81f7a343b9ae156c1c17d",
     name: "Callie",
     species: "Golden Retriever Puppy",
-    age: "3 months",
-    location: "Oakland Foster Shelter",
+    age: "1 year",
+    location: "Oakland Foster Shelter, CA",
     tags: ["Vaccinated", "Socialized", "Playful"],
     image: goldenPuppy,
     story: "Gentle, eager to learn, and ready for an active family home.",
@@ -27,10 +29,11 @@ const spotlightPets = [
   },
   {
     id: 2,
+    _id: "6ae81f7a343b9ae156c1c17e",
     name: "Luna",
     species: "Domestic Shorthair Kitten",
-    age: "4 months",
-    location: "Bay Area Rescue Center",
+    age: "1 year",
+    location: "Bay Area Rescue Center, CA",
     tags: ["Litter Box Trained", "Microchipped", "Cuddle Bug"],
     image: cuteKitten,
     story: "Sweet, purrs endlessly, and loves sunny window perches.",
@@ -38,33 +41,35 @@ const spotlightPets = [
   },
   {
     id: 3,
+    _id: "6ae81f7a343b9ae156c1c17f",
     name: "Barley & Maya",
     species: "Rescue Shepherd Mix",
-    age: "1.5 years",
-    location: "Pacific Companion Foundation",
+    age: "2 years",
+    location: "Pacific Companion Foundation, CA",
     tags: ["Obedience Trained", "Great with Kids", "Gentle"],
     image: heroDogHug,
     story: "Loyal companion with a heart of gold who loves long trail walks.",
-    status: "In Foster Care",
+    status: "Ready for Adoption",
   },
 ];
 
 const Banner = () => {
+  const { stats } = usePlatformStats();
   const [activeIdx, setActiveIdx] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const [progress, setProgress] = useState(0);
 
   const activePet = spotlightPets[activeIdx];
 
-  // Fluid countdown rotation respecting user interaction and reduced-motion preferences
+  // Preload rotation photos for instantaneous swap
   useEffect(() => {
-    // Preload all spotlight photos for instantaneous, flicker-free swaps
     spotlightPets.forEach((pet) => {
       const img = new Image();
       img.src = pet.image;
     });
   }, []);
 
+  // Fluid countdown rotation respecting user interaction and reduced-motion preferences
   useEffect(() => {
     if (isPaused) return;
 
@@ -146,7 +151,7 @@ const Banner = () => {
                 <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-mint-deep"></span>
               </span>
               <span className="text-xs font-semibold text-ink">
-                28 companions ready for homes today
+                {stats?.totalAvailable ?? 12} companions ready for homes today
               </span>
             </div>
 
@@ -281,7 +286,7 @@ const Banner = () => {
                   <span className="truncate">{activePet.location}</span>
                 </div>
                 <Link
-                  to="/pet-listing"
+                  to={`/pet-listing/${activePet._id}`}
                   className="font-semibold text-ink hover:text-accent-deep flex items-center gap-1 group"
                 >
                   <span>Meet {activePet.name}</span>

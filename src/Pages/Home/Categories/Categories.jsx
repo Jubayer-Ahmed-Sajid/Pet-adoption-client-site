@@ -1,18 +1,18 @@
 import { FaCat, FaDog, FaFish, FaKiwiBird, FaArrowRight } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import MotionReveal from "../../../Components/MotionReveal";
+import usePlatformStats from "../../../Components/Hooks/usePlatformStats";
 
 import goldenPuppy from "../../../assets/photos/golden-puppy.jpg";
 import tabbyCat from "../../../assets/photos/tabby-cat.jpg";
 import vibrantBird from "../../../assets/photos/vibrant-bird.jpg";
 import aquaticBetta from "../../../assets/photos/aquatic-betta.jpg";
 
-const categories = [
+const categoryConfigs = [
   {
     name: "Dogs",
     slug: "dog",
     icon: FaDog,
-    count: "34 adoptable",
     description: "Loyal companions for daily walks, family games, and outdoor adventures.",
     image: goldenPuppy,
   },
@@ -20,7 +20,6 @@ const categories = [
     name: "Cats",
     slug: "cat",
     icon: FaCat,
-    count: "26 adoptable",
     description: "Gentle, independent purring companions perfect for cozy indoor living.",
     image: tabbyCat,
   },
@@ -28,7 +27,6 @@ const categories = [
     name: "Birds",
     slug: "bird",
     icon: FaKiwiBird,
-    count: "12 adoptable",
     description: "Vibrant songbirds and cheerful feathered friends with endless curiosity.",
     image: vibrantBird,
   },
@@ -36,13 +34,14 @@ const categories = [
     name: "Aquatic",
     slug: "fish",
     icon: FaFish,
-    count: "18 adoptable",
     description: "Tranquil freshwater and marine fish that bring peace to any room.",
     image: aquaticBetta,
   },
 ];
 
 const Categories = () => {
+  const { stats } = usePlatformStats();
+
   return (
     <section className="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       {/* Header with Motion Reveal */}
@@ -68,8 +67,10 @@ const Categories = () => {
 
       {/* 4-Species Visual Cards with Staggered Motion Reveal */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        {categories.map((cat, idx) => {
+        {categoryConfigs.map((cat, idx) => {
           const Icon = cat.icon;
+          const count = stats?.categories?.[cat.slug] ?? 0;
+
           return (
             <MotionReveal key={cat.slug} direction="up" delay={idx * 80} distance={24}>
               <Link
@@ -87,10 +88,10 @@ const Categories = () => {
                   {/* Gradient Scrim */}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
 
-                  {/* Top Badge: Count */}
+                  {/* Top Badge: Dynamic Computed Count */}
                   <div className="absolute top-3 right-3">
                     <span className="text-[11px] font-semibold px-2.5 py-1 rounded-pill bg-paper/95 backdrop-blur-md text-ink shadow-xs transition-transform group-hover:-translate-y-0.5">
-                      {cat.count}
+                      {count} adoptable
                     </span>
                   </div>
 

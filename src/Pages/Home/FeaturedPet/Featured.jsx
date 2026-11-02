@@ -103,11 +103,11 @@ const Featured = () => {
               {/* Actions */}
               <div className="pt-2 flex flex-wrap items-center gap-4">
                 <Link
-                  to="/donation-campaign"
+                  to="/donation-campaign/6ae81f7a343b9ae156c1c189"
                   className="px-7 py-3.5 rounded-pill font-semibold text-white bg-accent-3 hover:bg-accent-3/90 hover-lift press-down shadow-card transition-colors inline-flex items-center gap-2 text-sm"
                 >
                   <FaHandHoldingHeart className="text-base" />
-                  <span>Sponsor Care with {selectedTier.label}</span>
+                  <span>Sponsor Archie with {selectedTier.label}</span>
                 </Link>
                 <Link
                   to="/pet-listing"
@@ -123,7 +123,10 @@ const Featured = () => {
           {/* Right Column: Visual Thermometer Card */}
           <div className="lg:col-span-5 relative flex justify-center">
             <MotionReveal direction="up" delay={150} distance={24} className="w-full max-w-md">
-              <div className="w-full rounded-card overflow-hidden border border-rule bg-paper text-ink shadow-card hover-lift transition-transform">
+              <Link
+                to="/donation-campaign/6ae81f7a343b9ae156c1c189"
+                className="block w-full rounded-card overflow-hidden border border-rule bg-paper text-ink shadow-card hover-lift transition-transform"
+              >
                 
                 {/* Photo with Overlay */}
                 <div className="relative h-64 sm:h-72 w-full overflow-hidden bg-paper-2">
@@ -184,7 +187,7 @@ const Featured = () => {
                     </span>
                   </div>
                 </div>
-              </div>
+              </Link>
             </MotionReveal>
           </div>
 

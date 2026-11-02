@@ -11,7 +11,7 @@ const commitments = [
   {
     icon: FaAward,
     title: "Zero Fees for Certified Shelters",
-    description: "501(c)(3) rescue sanctuaries and foster organizations list completely free with zero platform cut.",
+    description: "Accredited rescue sanctuaries and community foster networks list completely free with zero platform cut.",
   },
   {
     icon: FaHeart,
