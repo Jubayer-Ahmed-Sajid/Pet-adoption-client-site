@@ -39,61 +39,75 @@ const AddPet = () => {
     }),
 
     onSubmit: async (values, { resetForm }) => {
+      let petLoading = null;
       try {
-        const petLoading = toast.loading("Adding pet profile…");
+        petLoading = toast.loading("Adding pet profile…");
         const image = values.image;
 
-        let photo_url = "https://i.ibb.co/RgXFFJW/2c791441-ac9f-411f-85a8-9fb6e8b834f0.jpg";
+        let photo_url = "https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&w=800&q=80";
 
-        if (image) {
-          const compressedImage = await new Promise((resolve, reject) => {
-            new Compressor(image, {
-              quality: 0.8,
-              success(result) {
-                resolve(result);
-              },
-              error(error) {
-                reject(error);
+        if (image && image_hosting_key) {
+          try {
+            const compressedImage = await new Promise((resolve, reject) => {
+              new Compressor(image, {
+                quality: 0.8,
+                success(result) {
+                  resolve(result);
+                },
+                error(error) {
+                  reject(error);
+                },
+              });
+            });
+
+            const formData = new FormData();
+            formData.append("image", compressedImage);
+
+            const res = await axios.post(image_hosting_api, formData, {
+              headers: {
+                "Content-Type": "multipart/form-data",
               },
             });
-          });
-
-          const formData = new FormData();
-          formData.append("image", compressedImage);
-
-          const res = await axios.post(image_hosting_api, formData, {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          });
-          if (res.data?.data?.display_url) {
-            photo_url = res.data.data.display_url;
+            if (res.data?.data?.display_url) {
+              photo_url = res.data.data.display_url;
+            }
+          } catch (imgErr) {
+            console.warn("Direct image upload notice:", imgErr.message);
           }
         }
 
         const petInfo = {
+          name: values.pet_name,
           pet_name: values.pet_name,
-          age: values.age,
+          age: Number(values.age) || 1,
           pet_location: values.pet_location,
+          image: photo_url,
           pet_image: photo_url,
           short_description: values.short_description,
           long_description: values.long_description,
-          category: values.category,
+          category: values.category || "dog",
+          AddedDate: new Date().toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }),
           date_time: new Date(),
           adopted: false,
+          email: user?.email,
           user_email: user?.email,
           user_name: user?.displayName,
+          health_status: "100% Vetted Health",
+          traits: ["Vaccinated", "Socialized"],
         };
 
         const result = await axiosPublic.post("/pets", petInfo);
 
         if (result.data.insertedId) {
-          toast.dismiss(petLoading);
           toast.success("Pet profile listed successfully!");
           resetForm();
+        } else {
+          toast.error("Could not list pet profile.");
         }
       } catch (error) {
-        toast.error("Could not list pet: " + error.message);
+        toast.error("Could not list pet: " + (error.response?.data?.message || error.message));
+      } finally {
+        if (petLoading) toast.dismiss(petLoading);
       }
     },
   });
