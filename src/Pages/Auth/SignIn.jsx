@@ -3,13 +3,17 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import useAuth from "../../Components/Hooks/useAuth";
 import Swal from "sweetalert2";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import { FaGithub, FaGoogle, FaUserShield } from "react-icons/fa";
+import { Link, useLocation, useNavigate, Navigate } from "react-router-dom";
+import { FaGithub, FaGoogle } from "react-icons/fa";
 
 const SignIn = () => {
   const navigate = useNavigate();
-  const { Signin, googleSignin, gitHubSignin } = useAuth();
+  const { user, Signin, googleSignin, gitHubSignin, resetPassword } = useAuth();
   const location = useLocation();
+
+  if (user) {
+    return <Navigate to={location?.state ? location.state : "/"} replace />;
+  }
 
   const formik = useFormik({
     initialValues: {
@@ -26,6 +30,7 @@ const SignIn = () => {
       Signin(values.email, values.password)
         .then(() => {
           Swal.fire({
+            toast: true,
             position: "top-end",
             icon: "success",
             title: "Signed in successfully!",
@@ -38,17 +43,39 @@ const SignIn = () => {
           Swal.fire({
             icon: "error",
             title: "Sign in failed",
-            text: error.message,
+            text: error.message || "Invalid email or password",
           });
         });
     },
   });
 
-  const handleFillDemoAdmin = () => {
-    formik.setValues({
-      email: "sajid661azxcca@gmail.com",
-      password: "1234aA!",
+  const handleForgotPassword = async () => {
+    const { value: email } = await Swal.fire({
+      title: "Reset Password",
+      input: "email",
+      inputLabel: "Enter your account email address",
+      inputPlaceholder: "you@example.com",
+      inputValue: formik.values.email,
+      showCancelButton: true,
+      confirmButtonText: "Send Reset Link",
     });
+
+    if (email) {
+      try {
+        await resetPassword(email);
+        Swal.fire({
+          icon: "success",
+          title: "Reset email sent",
+          text: `Check your inbox at ${email} for instructions to reset your password.`,
+        });
+      } catch (err) {
+        Swal.fire({
+          icon: "error",
+          title: "Could not send reset email",
+          text: err.message,
+        });
+      }
+    }
   };
 
   const handleGoogleSignin = () => {
@@ -87,21 +114,6 @@ const SignIn = () => {
           </p>
         </div>
 
-        {/* Demo Account Callout for Evaluators */}
-        <div className="mb-6 p-3.5 rounded-stock bg-paper-2 border border-rule flex items-center justify-between gap-3">
-          <div className="flex items-center gap-2.5 text-xs text-ink-2">
-            <FaUserShield className="text-accent-3 text-base shrink-0" />
-            <span>Evaluating as recruiter?</span>
-          </div>
-          <button
-            type="button"
-            onClick={handleFillDemoAdmin}
-            className="px-3 py-1.5 rounded-pill bg-accent text-accent-ink font-semibold text-xs hover:bg-accent-deep transition-colors shrink-0"
-          >
-            Fill Demo Admin
-          </button>
-        </div>
-
         {/* Credentials Form */}
         <form onSubmit={formik.handleSubmit} className="space-y-4">
           <div>
@@ -124,9 +136,18 @@ const SignIn = () => {
           </div>
 
           <div>
-            <label htmlFor="password" className="block text-xs font-semibold text-ink-2 mb-1.5">
-              Password
-            </label>
+            <div className="flex items-center justify-between mb-1.5">
+              <label htmlFor="password" className="block text-xs font-semibold text-ink-2">
+                Password
+              </label>
+              <button
+                type="button"
+                onClick={handleForgotPassword}
+                className="text-xs text-accent-3 hover:underline"
+              >
+                Forgot password?
+              </button>
+            </div>
             <input
               id="password"
               name="password"
@@ -144,46 +165,39 @@ const SignIn = () => {
 
           <button
             type="submit"
-            className="w-full py-3 rounded-pill font-semibold text-accent-ink bg-accent hover:bg-accent-deep hover-lift press-down shadow-sm text-sm transition-colors mt-2"
+            className="w-full py-3 rounded-pill bg-accent hover:bg-accent-deep text-accent-ink font-semibold text-sm transition-colors hover-lift press-down shadow-xs mt-2"
           >
-            Sign In to Account
+            Sign In
           </button>
         </form>
 
-        {/* Divider */}
-        <div className="relative my-6">
-          <div className="absolute inset-0 flex items-center">
-            <div className="w-full border-t border-rule"></div>
-          </div>
-          <div className="relative flex justify-center text-xs uppercase">
-            <span className="bg-card px-2 text-muted">Or continue with</span>
+        {/* Social Logins */}
+        <div className="mt-6 pt-6 border-t border-rule">
+          <p className="text-center text-xs text-muted mb-4">Or continue with</p>
+          <div className="grid grid-cols-2 gap-3">
+            <button
+              type="button"
+              onClick={handleGoogleSignin}
+              className="flex items-center justify-center gap-2 py-2.5 px-4 rounded-pill bg-paper-2 hover:bg-paper-3 border border-rule text-xs font-semibold text-ink transition-colors press-down"
+            >
+              <FaGoogle className="text-red-500" />
+              <span>Google</span>
+            </button>
+            <button
+              type="button"
+              onClick={handleGitHubSignin}
+              className="flex items-center justify-center gap-2 py-2.5 px-4 rounded-pill bg-paper-2 hover:bg-paper-3 border border-rule text-xs font-semibold text-ink transition-colors press-down"
+            >
+              <FaGithub />
+              <span>GitHub</span>
+            </button>
           </div>
         </div>
 
-        {/* OAuth Buttons */}
-        <div className="grid grid-cols-2 gap-3">
-          <button
-            type="button"
-            onClick={handleGoogleSignin}
-            className="py-2.5 px-3 rounded-input bg-paper-2 hover:bg-paper-3 border border-rule text-xs font-semibold text-ink inline-flex items-center justify-center gap-2 transition-colors"
-          >
-            <FaGoogle />
-            <span>Google</span>
-          </button>
-          <button
-            type="button"
-            onClick={handleGitHubSignin}
-            className="py-2.5 px-3 rounded-input bg-paper-2 hover:bg-paper-3 border border-rule text-xs font-semibold text-ink inline-flex items-center justify-center gap-2 transition-colors"
-          >
-            <FaGithub />
-            <span>GitHub</span>
-          </button>
-        </div>
-
-        {/* Sign Up Redirect */}
-        <p className="text-xs text-center text-muted mt-6">
-          Don't have an account yet?{" "}
-          <Link to="/signUp" className="text-ink font-semibold hover:text-accent-3 underline">
+        {/* Link to Sign Up */}
+        <p className="text-center text-xs text-muted mt-6">
+          Don't have an account?{" "}
+          <Link to="/signUp" className="font-semibold text-ink hover:underline">
             Create an account
           </Link>
         </p>
