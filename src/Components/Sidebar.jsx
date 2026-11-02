@@ -60,6 +60,11 @@ const Sidebar = () => {
 
         {/* Navigation Section */}
         <nav className="space-y-1.5">
+          <NavLink to="/dashboard" end className={navItemClass}>
+            <FaHome className="text-base shrink-0" />
+            <span>Dashboard overview</span>
+          </NavLink>
+
           {isAdmin ? (
             <>
               <span className="text-xs font-medium text-muted px-3 block mb-1">

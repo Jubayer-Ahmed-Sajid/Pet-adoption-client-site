@@ -54,6 +54,12 @@ const DropDownMenu = () => {
             <p className="text-[11px] text-muted truncate">{data?.email}</p>
           </div>
 
+          <MenuItem className="p-0">
+            <NavLink to="/dashboard" end className={itemClass}>
+              <FaHome /> Dashboard Overview
+            </NavLink>
+          </MenuItem>
+
           {isAdmin ? (
             <>
               <MenuItem className="p-0">

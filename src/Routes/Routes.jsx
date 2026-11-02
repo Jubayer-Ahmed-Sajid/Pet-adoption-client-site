@@ -27,6 +27,7 @@ import CategoryPets from "../Pages/Home/Categories/CategoryPets";
 import PrivacyPolicy from "../Pages/Legal/PrivacyPolicy";
 import TermsOfService from "../Pages/Legal/TermsOfService";
 import NotFound from "../Pages/NotFound/NotFound";
+import DashboardHome from "../Pages/Dashboard/DashboardHome";
 
 const router = createBrowserRouter([
     {
@@ -103,6 +104,10 @@ const router = createBrowserRouter([
         path: '/dashboard',
         element: <DashBoard></DashBoard>,
         children: [
+            {
+                index: true,
+                element: <PrivateRoutes><DashboardHome /></PrivateRoutes>
+            },
             {
                 path: 'all-users',
                 element: <AdminRoutes><Users></Users></AdminRoutes>

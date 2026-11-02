@@ -6,6 +6,7 @@ import axios from 'axios';
 import useAxiosPublic from '../../../Components/Hooks/useAxiosPublic';
 import useAuth from '../../../Components/Hooks/useAuth';
 import Swal from 'sweetalert2';
+import ImageDropzone from '../../../Components/ImageDropzone';
 
 const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
@@ -38,16 +39,28 @@ const AddDonationCampaign = () => {
         }),
 
         onSubmit: async (values, { resetForm }) => {
-            let photo_url = "https://i.ibb.co/RgXFFJW/2c791441-ac9f-411f-85a8-9fb6e8b834f0.jpg";
+            let photo_url = "https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&w=800&q=80";
             const image = values.image;
             if (image) {
-                const formData = new FormData();
-                formData.append('image', image);
-                const res = await axios.post(image_hosting_api, formData, {
-                    headers: { 'Content-Type': 'multipart/form-data' },
-                });
-                if (res.data?.data?.display_url) {
-                    photo_url = res.data.data.display_url;
+                if (image_hosting_key) {
+                    try {
+                        const formData = new FormData();
+                        formData.append('image', image);
+                        const res = await axios.post(image_hosting_api, formData, {
+                            headers: { 'Content-Type': 'multipart/form-data' },
+                        });
+                        if (res.data?.data?.display_url) {
+                            photo_url = res.data.data.display_url;
+                        }
+                    } catch (e) {
+                        console.warn("ImgBB upload fallback notice:", e.message);
+                    }
+                } else {
+                    const reader = new FileReader();
+                    photo_url = await new Promise((resolve) => {
+                        reader.onloadend = () => resolve(reader.result);
+                        reader.readAsDataURL(image);
+                    });
                 }
             }
 
@@ -195,23 +208,12 @@ const AddDonationCampaign = () => {
                     </div>
                 </div>
 
-                <div>
-                    <label htmlFor="image" className='block text-xs font-semibold text-ink-2 mb-1.5'>
-                        Patient / Companion Photo
-                    </label>
-                    <input
-                        id="image"
-                        name="image"
-                        type="file"
-                        accept="image/*"
-                        onChange={(event) => {
-                            const file = event.target.files[0];
-                            formik.setFieldValue('image', file);
-                        }}
-                        onBlur={formik.handleBlur}
-                        className="w-full text-xs text-muted file:mr-3 file:py-2 file:px-3 file:rounded-pill file:border-0 file:text-xs file:font-semibold file:bg-paper-2 file:text-ink hover:file:bg-paper-3"
-                    />
-                </div>
+                <ImageDropzone
+                    label="Patient / Companion Photo"
+                    placeholder="Drag & drop companion photo here, or click to browse"
+                    value={formik.values.image}
+                    onChange={(file) => formik.setFieldValue('image', file)}
+                />
 
                 <div>
                     <label htmlFor="short_description" className='block text-xs font-semibold text-ink-2 mb-1.5'>

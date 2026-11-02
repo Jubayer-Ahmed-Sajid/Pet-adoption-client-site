@@ -7,6 +7,7 @@ import useAxiosPublic from "../../../Components/Hooks/useAxiosPublic";
 import useAuth from "../../../Components/Hooks/useAuth";
 import Compressor from "compressorjs";
 import { toast } from "sonner";
+import ImageDropzone from "../../../Components/ImageDropzone";
 
 const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
@@ -46,30 +47,33 @@ const AddPet = () => {
 
         let photo_url = "https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&w=800&q=80";
 
-        if (image && image_hosting_key) {
+        if (image) {
           try {
             const compressedImage = await new Promise((resolve, reject) => {
               new Compressor(image, {
-                quality: 0.8,
-                success(result) {
-                  resolve(result);
-                },
-                error(error) {
-                  reject(error);
-                },
+                quality: 0.7,
+                maxWidth: 1000,
+                maxHeight: 1000,
+                success: resolve,
+                error: reject,
               });
             });
 
-            const formData = new FormData();
-            formData.append("image", compressedImage);
-
-            const res = await axios.post(image_hosting_api, formData, {
-              headers: {
-                "Content-Type": "multipart/form-data",
-              },
-            });
-            if (res.data?.data?.display_url) {
-              photo_url = res.data.data.display_url;
+            if (image_hosting_key) {
+              const formData = new FormData();
+              formData.append("image", compressedImage);
+              const res = await axios.post(image_hosting_api, formData, {
+                headers: { "Content-Type": "multipart/form-data" },
+              });
+              if (res.data?.data?.display_url) {
+                photo_url = res.data.data.display_url;
+              }
+            } else {
+              const reader = new FileReader();
+              photo_url = await new Promise((resolve) => {
+                reader.onloadend = () => resolve(reader.result);
+                reader.readAsDataURL(compressedImage);
+              });
             }
           } catch (imgErr) {
             console.warn("Direct image upload notice:", imgErr.message);
@@ -232,23 +236,12 @@ const AddPet = () => {
           </div>
         </div>
 
-        <div>
-          <label htmlFor="image" className="block text-xs font-semibold text-ink-2 mb-1.5">
-            Companion Photo
-          </label>
-          <input
-            id="image"
-            name="image"
-            type="file"
-            accept="image/*"
-            onChange={(event) => {
-              const file = event.target.files[0];
-              formik.setFieldValue("image", file);
-            }}
-            onBlur={formik.handleBlur}
-            className="w-full text-xs text-muted file:mr-3 file:py-2 file:px-3 file:rounded-pill file:border-0 file:text-xs file:font-semibold file:bg-paper-2 file:text-ink hover:file:bg-paper-3"
-          />
-        </div>
+        <ImageDropzone
+          label="Companion Photo"
+          placeholder="Drag & drop companion photo here, or click to browse"
+          value={formik.values.image}
+          onChange={(file) => formik.setFieldValue("image", file)}
+        />
 
         <div>
           <label htmlFor="short_description" className="block text-xs font-semibold text-ink-2 mb-1.5">
