@@ -24,6 +24,9 @@ import Favorites from "../Pages/Favorites/Favorites";
 import EventCard from "../Pages/Events/Events";
 import ConditionalRender from "../Components/PetDetails/conditionalRender";
 import CategoryPets from "../Pages/Home/Categories/CategoryPets";
+import PrivacyPolicy from "../Pages/Legal/PrivacyPolicy";
+import TermsOfService from "../Pages/Legal/TermsOfService";
+import NotFound from "../Pages/NotFound/NotFound";
 
 const router = createBrowserRouter([
     {
@@ -81,6 +84,18 @@ const router = createBrowserRouter([
             {
                 path: 'events',
                 element: <PrivateRoutes><EventCard></EventCard></PrivateRoutes>
+            },
+            {
+                path: 'privacy',
+                element: <PrivacyPolicy></PrivacyPolicy>
+            },
+            {
+                path: 'terms',
+                element: <TermsOfService></TermsOfService>
+            },
+            {
+                path: '*',
+                element: <NotFound></NotFound>
             }
         ],
     },

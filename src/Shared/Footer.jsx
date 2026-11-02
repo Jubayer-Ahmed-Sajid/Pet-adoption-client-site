@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { FaPaw, FaHeart } from "react-icons/fa";
+import { FaHeart } from "react-icons/fa";
 import logo from "../assets/Gemini_Generated_Image (3).jpg";
 import ThemeToggle from "../Components/ThemeToggle";
 
@@ -88,7 +88,7 @@ const Footer = () => {
               </li>
               <li>
                 <Link to="/signin" className="hover:text-paper transition-colors duration-150">
-                  Sign in or demo login
+                  Sign in to account
                 </Link>
               </li>
             </ul>
@@ -102,12 +102,16 @@ const Footer = () => {
             <ThemeToggle showLabel className="px-2.5 py-1 text-[11px] bg-paper-2 text-ink border-rule" />
           </div>
           <p className="text-[11px] text-paper-3" data-credits>
-            Photographs: Basile Morin, Alvesgaspar, Charles J. Sharp (CC BY-SA, Wikimedia Commons)
+            Photographs: Unsplash & Wikimedia Commons (CC BY-SA accredited)
           </p>
           <div className="flex items-center gap-6 text-paper-2">
-            <span>Non-profit registered platform</span>
-            <span>Privacy policy</span>
-            <span>Terms of adoption</span>
+            <span>Ethical Rescue Platform</span>
+            <Link to="/privacy" className="hover:text-paper hover:underline transition-colors">
+              Privacy policy
+            </Link>
+            <Link to="/terms" className="hover:text-paper hover:underline transition-colors">
+              Terms of adoption
+            </Link>
           </div>
         </div>
       </div>
