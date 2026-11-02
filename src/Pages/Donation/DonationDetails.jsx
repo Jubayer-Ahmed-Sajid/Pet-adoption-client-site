@@ -110,7 +110,7 @@ const DonationDetails = () => {
                 </span>
                 <span className="bg-paper/95 backdrop-blur-md px-3 py-1 rounded-pill border border-rule text-xs font-semibold text-mint-deep inline-flex items-center gap-1 shadow-xs">
                   <FaShieldAlt className="text-mint-deep text-[11px]" />
-                  <span>Verified 501(c)(3)</span>
+                  <span>Accredited Clinic Partner</span>
                 </span>
               </div>
 

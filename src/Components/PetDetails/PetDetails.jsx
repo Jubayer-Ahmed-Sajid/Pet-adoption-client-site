@@ -266,7 +266,7 @@ const PetDetails = () => {
               <div className="absolute bottom-4 left-4 right-4 text-white">
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-pill bg-black/40 backdrop-blur-md border border-white/20 text-xs mb-2">
                   <FaShieldAlt className="text-mint text-[11px]" />
-                  <span>501(c)(3) Verified Sanctuary Intake</span>
+                  <span>Accredited Sanctuary Intake</span>
                 </div>
                 <p className="text-xs text-white/80">
                   Rescued in healthy foster care · Complete medical clearance

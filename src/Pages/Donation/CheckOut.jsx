@@ -167,7 +167,7 @@ const CheckOut = ({ id, onSuccess }) => {
           </div>
           <div className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-pill bg-mint/20 text-mint-deep border border-rule text-[11px] font-semibold">
             <FaShieldAlt className="text-[10px]" />
-            <span>501(c)(3) Verified</span>
+            <span>Accredited Clinic Partner</span>
           </div>
         </div>
 
